@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: default_database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+#=======================================================================================================================
+  backend:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/dev/django/Dockerfile
+    container_name: backend
+    working_dir: /usr/src/app
+    volumes:
+      - ./core:/usr/src/app
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_NAME: ${PG_NAME}
+      PG_HOST: ${PG_HOST}
+      PG_PORT: ${PG_PORT}
+      DEBUG: ${DEBUG}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+#=======================================================================================================================
+volumes:
+  postgres_data:
+#=======================================================================================================================
