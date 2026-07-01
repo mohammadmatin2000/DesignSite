@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "captcha",
     "accounts",
+    "contacts",
+
 
 ]
 
