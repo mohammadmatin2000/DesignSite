@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import ContactMessageModel
+from .models import ContactMessageModel, NewsletterSubscriberModel
 # ======================================================================================================================
-# سفارشی‌سازی نمایش پیام‌های تماس در پنل مدیریت
+# مدیریت پیام‌های تماس در پنل ادمین
 @admin.register(ContactMessageModel)
 class ContactMessageAdmin(admin.ModelAdmin):
 
-    # فیلدهای قابل نمایش در لیست پیام‌ها
+    # نمایش ستون‌ها در لیست پیام‌ها
     list_display = (
         'name',
         'email',
@@ -14,9 +14,25 @@ class ContactMessageAdmin(admin.ModelAdmin):
         'created_date'
     )
 
-    # فیلدهای قابل جستجو در پنل مدیریت
-    search_fields = [
+    # امکان جستجو بر اساس این فیلدها
+    search_fields = (
         'name',
         'email',
-    ]
+        'phone_number',
+    )
+# ======================================================================================================================
+# مدیریت اعضای خبرنامه در پنل ادمین
+@admin.register(NewsletterSubscriberModel)
+class NewsletterSubscriberAdmin(admin.ModelAdmin):
+
+    # نمایش ایمیل و تاریخ عضویت
+    list_display = (
+        'email',
+        'subscribed_date',
+    )
+
+    # جستجو بر اساس ایمیل
+    search_fields = (
+        'email',
+    )
 # ======================================================================================================================

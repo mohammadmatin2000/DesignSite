@@ -28,3 +28,16 @@ class ContactMessageModel(models.Model):
     def __str__(self):
         return self.name
 # ======================================================================================================================
+# ذخیره ایمیل کاربران عضو خبرنامه
+class NewsletterSubscriberModel(models.Model):
+
+    # ایمیل کاربر (باید یکتا باشد)
+    email = models.EmailField(unique=True)
+
+    # تاریخ عضویت در خبرنامه
+    subscribed_date = models.DateTimeField(auto_now_add=True)
+
+    # نمایش ایمیل در پنل ادمین
+    def __str__(self):
+        return self.email
+# ======================================================================================================================

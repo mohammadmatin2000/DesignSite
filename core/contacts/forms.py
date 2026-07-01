@@ -1,6 +1,6 @@
 from django import forms
 from captcha.fields import CaptchaField
-from .models import ContactMessageModel
+from .models import ContactMessageModel,NewsletterSubscriberModel
 # ======================================================================================================================
 # فرم ثبت و ارسال پیام کاربران همراه با کد امنیتی
 class ContactForm(forms.ModelForm):
@@ -25,4 +25,9 @@ class ContactForm(forms.ModelForm):
             # تنظیم تعداد سطرهای فیلد پیام
             "message": forms.Textarea(attrs={'rows': 5}),
         }
+# ======================================================================================================================
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = NewsletterSubscriberModel
+        fields = ["email"]
 # ======================================================================================================================

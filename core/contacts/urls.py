@@ -1,14 +1,18 @@
 from django.urls import path
-from .views import ContactView
+from .views import ContactView, NewsletterSubscribeView
+
 # ======================================================================================================================
 # نام فضای آدرس‌دهی اپلیکیشن تماس
 app_name = 'contact'
 
-# تعریف مسیرهای مربوط به صفحه تماس با ما
+# ======================================================================================================================
+# مسیرهای مربوط به فرم تماس و خبرنامه
 urlpatterns = [
 
-    # نمایش و پردازش فرم تماس با ما
-    path('contact-us', ContactView.as_view(), name='contact'),
-]
+    # صفحه تماس با ما (نمایش + ارسال فرم)
+    path('contact-us/', ContactView.as_view(), name='contact-us'),
 
+    # عضویت در خبرنامه
+    path('newsletter/', NewsletterSubscribeView.as_view(), name='newsletter'),
+]
 # ======================================================================================================================
