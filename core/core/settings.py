@@ -29,8 +29,8 @@ INSTALLED_APPS = [
     "captcha",
     "accounts",
     "contacts",
-    "projects"
-
+    "projects",
+    "services",
 
 ]
 
