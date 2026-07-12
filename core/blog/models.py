@@ -45,7 +45,7 @@ class BlogModels(models.Model):
 
     # تصویر شاخص مقاله
     image = models.ImageField(
-        upload_to="blog/",
+        upload_to="image/",
         verbose_name="تصویر"
     )
 
