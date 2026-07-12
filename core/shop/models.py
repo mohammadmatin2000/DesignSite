@@ -73,7 +73,7 @@ class ProductModels(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["-created_date"]
         verbose_name = "محصول"
         verbose_name_plural = "محصولات"
 
