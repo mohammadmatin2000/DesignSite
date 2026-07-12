@@ -6,14 +6,14 @@ urlpatterns = [
 
     # صفحه لیست مقالات
     path(
-        "blog_list/",
+        "blog-list/",
         BlogListView.as_view(),
         name="blog_list"
     ),
 
     # صفحه جزئیات مقاله
     path(
-        "blog_detail/<slug:slug>/",
+        "blog-detail/<slug:slug>/",
         BlogDetailView.as_view(),
         name="blog_detail"
     ),

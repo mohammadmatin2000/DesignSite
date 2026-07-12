@@ -14,6 +14,7 @@ urlpatterns = [
     path("services/", include("services.urls")),
     path("blog/", include("blog.urls")),
     path("team/", include("team.urls")),
+    path("shop/", include("shop.urls")),
 
 ]
 # ======================================================================================================================

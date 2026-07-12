@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     "projects",
     "services",
     "blog",
-    "team"
+    "team",
+    "shop",
 
 ]
 
