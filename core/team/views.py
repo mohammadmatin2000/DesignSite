@@ -18,7 +18,7 @@ class TeamDetailView(DetailView):
 
     model = TeamModels
 
-    template_name = "team/team_detail.html"
+    template_name = "team/team-detail.html"
 
     context_object_name = "team"
 # ======================================================================================================================

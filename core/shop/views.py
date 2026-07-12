@@ -1,7 +1,5 @@
 from django.views.generic import ListView, DetailView
 from .models import ProductModels
-
-
 # ======================================================================================================================
 # نمایش لیست محصولات
 class ProductListView(ListView):
@@ -31,7 +29,7 @@ class ProductDetailView(DetailView):
     model = ProductModels
 
     # قالب
-    template_name = "shop/shop_detail.html"
+    template_name = "shop/shop-detail.html"
 
     # نام متغیر
     context_object_name = "product"

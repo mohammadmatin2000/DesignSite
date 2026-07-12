@@ -8,7 +8,7 @@ class BlogListView(ListView):
     model = BlogModels
 
     # قالب صفحه
-    template_name = "blog/blog_list.html"
+    template_name = "blog/blog-list.html"
 
     # نام متغیر ارسالی به قالب
     context_object_name = "blogs"
@@ -27,7 +27,7 @@ class BlogDetailView(DetailView):
     model = BlogModels
 
     # قالب صفحه
-    template_name = "blog/blog_detail.html"
+    template_name = "blog/blog-detail.html"
 
     # نام متغیر ارسالی به قالب
     context_object_name = "blog_detail"
