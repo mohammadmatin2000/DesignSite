@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html class="no-js" lang="fa"  dir="rtl">
  <head>
@@ -10,17 +11,17 @@
    Antra - قالب HTML معماری و طراحی داخلی
   </title>
   <!-- Place favicon.ico in the root directory -->
-  <link href="assets\img\favicon.png" rel="shortcut icon" type="image/x-icon"/>
+  <link href="{% static 'img/favicon.png' %}" rel="shortcut icon" type="image/x-icon"/>
   <!-- CSS here -->
-  <link href="assets\css\bootstrap.min.css" rel="stylesheet"/>
-  <link href="assets\css\fontawesome.min.css" rel="stylesheet"/>
-  <link href="assets\css\venobox.min.css" rel="stylesheet"/>
-  <link href="assets\css\odometer.min.css" rel="stylesheet"/>
-  <link href="assets\css\nice-select.css" rel="stylesheet"/>
-  <link href="assets\css\carouselTicker.css" rel="stylesheet"/>
-  <link href="assets\css\animation.css" rel="stylesheet"/>
-  <link href="assets\css\swiper.min.css" rel="stylesheet"/>
-  <link href="assets\css\main.css" rel="stylesheet"/>
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/fontawesome.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/venobox.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/odometer.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/nice-select.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/carouselTicker.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/animation.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/swiper.min.css' %}" rel="stylesheet"/>
+  <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
  </head>
  <body>
   <!-- preloader -->
@@ -74,7 +75,7 @@
       <div class="header-left-wrap">
        <div class="header-logo d-lg-block">
         <a href="index.html">
-         <img alt="لوگو" src="assets\img\logo\logo-2.png"/>
+         <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
         </a>
        </div>
        <div class="header-menu-wrap">
@@ -236,7 +237,7 @@
               سوالات متداول
              </a>
             </li>
-            
+
             <li>
              <a href="coming-soon.html">
               به زودی
@@ -358,10 +359,10 @@
    <div class="side-menu-content">
     <div class="side-menu-logo">
      <a class="dark-img" href="index.html">
-      <img alt="لوگو" src="assets\img\logo\logo-2.png"/>
+      <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
      </a>
      <a class="light-img" href="index.html">
-      <img alt="لوگو" src="assets\img\logo\logo-1.png"/>
+      <img alt="لوگو" src="{% static 'img/logo/logo-1.png' %}"/>
      </a>
     </div>
     <div class="side-menu-wrap">
@@ -373,33 +374,33 @@
     </div>
     <div class="side-menu-gallary">
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-1.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-1.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-1.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-1.png' %}"/>
       </a>
      </div>
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-2.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-2.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-2.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-2.png' %}"/>
       </a>
      </div>
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-3.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-3.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-3.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-3.png' %}"/>
       </a>
      </div>
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-4.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-4.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-4.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-4.png' %}"/>
       </a>
      </div>
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-5.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-5.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-5.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-5.png' %}"/>
       </a>
      </div>
      <div class="side-menu-gallary-item">
-      <a class="venobox" data-gall="gallary1" href="assets\img\project\sidebar-gallary-6.png">
-       <img alt="img" src="assets\img\project\sidebar-gallary-6.png"/>
+      <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-6.png' %}">
+       <img alt="img" src="{% static 'img/project/sidebar-gallary-6.png' %}"/>
       </a>
      </div>
     </div>
@@ -455,7 +456,7 @@
    <div class="side-menu-content">
     <div class="side-menu-head">
      <a href="index.html">
-      <img alt="لوگو" src="assets\img\logo\logo-2.png"/>
+      <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
      </a>
      <button class="mobile-side-menu-close">
       <i class="fa-regular fa-xmark">
@@ -528,7 +529,7 @@
   <div id="antra-smooth-wrapper">
    <div id="antra-smooth-content">
     <section class="page-header">
-     <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
      </div>
      <div class="overlay">
      </div>
@@ -558,7 +559,7 @@
        <div class="col-lg-8 col-md-6">
         <div class="post-card inner-post">
          <div class="post-thumb">
-          <img alt="پست" src="assets\img\blog\post-inner-1.png"/>
+          <img alt="پست" src="{% static 'img/blog/post-inner-1.png' %}"/>
          </div>
          <div class="post-content">
           <ul class="post-meta">
@@ -591,7 +592,7 @@
         <div class="post-card-wrap post-card-wrap-inner">
          <div class="post-card">
           <div class="post-thumb">
-           <img alt="پست" src="assets\img\blog\post-6.png"/>
+           <img alt="پست" src="{% static 'img/blog/post-6.png' %}"/>
           </div>
           <div class="post-content">
            <ul class="post-meta">
@@ -623,7 +624,7 @@
          </div>
          <div class="post-card">
           <div class="post-thumb">
-           <img alt="پست" src="assets\img\blog\post-5.png"/>
+           <img alt="پست" src="{% static 'img/blog/post-5.png' %}"/>
           </div>
           <div class="post-content">
            <ul class="post-meta">
@@ -655,7 +656,7 @@
          </div>
          <div class="post-card">
           <div class="post-thumb">
-           <img alt="پست" src="assets\img\blog\post-4.png"/>
+           <img alt="پست" src="{% static 'img/blog/post-4.png' %}"/>
           </div>
           <div class="post-content">
            <ul class="post-meta">
@@ -687,7 +688,7 @@
          </div>
          <div class="post-card">
           <div class="post-thumb">
-           <img alt="پست" src="assets\img\blog\post-3.png"/>
+           <img alt="پست" src="{% static 'img/blog/post-3.png' %}"/>
           </div>
           <div class="post-content">
            <ul class="post-meta">
@@ -719,7 +720,7 @@
          </div>
          <div class="post-card">
           <div class="post-thumb">
-           <img alt="پست" src="assets\img\blog\post-2.png"/>
+           <img alt="پست" src="{% static 'img/blog/post-2.png' %}"/>
           </div>
           <div class="post-content">
            <ul class="post-meta">
@@ -832,7 +833,7 @@
           پست اخیر
          </h3>
          <div class="sidebar-post">
-          <img alt="پست" src="assets\img\blog\sidebar-post-1.png"/>
+          <img alt="پست" src="{% static 'img/blog/sidebar-post-1.png' %}"/>
           <div class="post-content">
            <ul class="post-meta">
             <li>
@@ -847,7 +848,7 @@
           </div>
          </div>
          <div class="sidebar-post">
-          <img alt="پست" src="assets\img\blog\sidebar-post-2.png"/>
+          <img alt="پست" src="{% static 'img/blog/sidebar-post-2.png' %}"/>
           <div class="post-content">
            <ul class="post-meta">
             <li>
@@ -862,7 +863,7 @@
           </div>
          </div>
          <div class="sidebar-post">
-          <img alt="پست" src="assets\img\blog\sidebar-post-3.png"/>
+          <img alt="پست" src="{% static 'img/blog/sidebar-post-3.png' %}"/>
           <div class="post-content">
            <ul class="post-meta">
             <li>
@@ -877,7 +878,7 @@
           </div>
          </div>
          <div class="sidebar-post">
-          <img alt="پست" src="assets\img\blog\sidebar-post-4.png"/>
+          <img alt="پست" src="{% static 'img/blog/sidebar-post-4.png' %}"/>
           <div class="post-content">
            <ul class="post-meta">
             <li>
@@ -950,7 +951,7 @@
     </section>
     <!-- ./ blog-section -->
     <footer class="footer-section overflow-hidden">
-     <div class="footer-bg" data-background="assets/img/bg-img/footer-bg.png">
+     <div class="footer-bg" data-background="{% static 'img/bg-img/footer-bg.png' %}">
      </div>
      <div class="footer-shade">
      </div>
@@ -961,7 +962,7 @@
          <div class="widget-header">
           <div class="footer-logo">
            <a href="index.html">
-            <img alt="لوگو" src="assets\img\logo\logo-2.png"/>
+            <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
            </a>
           </div>
          </div>
@@ -1109,49 +1110,49 @@
   </div>
   <!--scrollup-->
   <!-- JS here -->
-  <script src="assets\js\vendor\jquary-3.7.1.min.js">
+  <script src="{% static 'js/vendor/jquary-3.7.1.min.js' %}">
   </script>
-  <script src="assets\js\vendor\bootstrap-bundle.js">
+  <script src="{% static 'js/vendor/bootstrap-bundle.js' %}">
   </script>
-  <script src="assets\js\vendor\imagesloaded-pkgd.js">
+  <script src="{% static 'js/vendor/imagesloaded-pkgd.js' %}">
   </script>
-  <script src="assets\js\vendor\waypoints.min.js">
+  <script src="{% static 'js/vendor/waypoints.min.js' %}">
   </script>
-  <script src="assets\js\vendor\venobox.min.js">
+  <script src="{% static 'js/vendor/venobox.min.js' %}">
   </script>
-  <script src="assets\js\vendor\odometer.min.js">
+  <script src="{% static 'js/vendor/odometer.min.js' %}">
   </script>
-  <script src="assets\js\vendor\meanmenu.js">
+  <script src="{% static 'js/vendor/meanmenu.js' %}">
   </script>
-  <script src="assets\js\vendor\jquery.isotope.js">
+  <script src="{% static 'js/vendor/jquery.isotope.js' %}">
   </script>
-  <script src="assets\js\vendor\swiper.min.js">
+  <script src="{% static 'js/vendor/swiper.min.js' %}">
   </script>
-  <script src="assets\js\vendor\split-type.min.js">
+  <script src="{% static 'js/vendor/split-type.min.js' %}">
   </script>
-  <script src="assets\js\vendor\gsap.min.js">
+  <script src="{% static 'js/vendor/gsap.min.js' %}">
   </script>
-  <script src="assets\js\vendor\scroll-trigger.min.js">
+  <script src="{% static 'js/vendor/scroll-trigger.min.js' %}">
   </script>
-  <script src="assets\js\vendor\scroll-smoother.js">
+  <script src="{% static 'js/vendor/scroll-smoother.js' %}">
   </script>
-  <script src="assets\js\vendor\jquery.carouselTicker.js">
+  <script src="{% static 'js/vendor/jquery.carouselTicker.js' %}">
   </script>
-  <script src="assets\js\vendor\nice-select.js">
+  <script src="{% static 'js/vendor/nice-select.js' %}">
   </script>
-  <script src="assets\js\vendor\three.min.js">
+  <script src="{% static 'js/vendor/three.min.js' %}">
   </script>
-  <script src="assets\js\vendor\panolens.min.js">
+  <script src="{% static 'js/vendor/panolens.min.js' %}">
   </script>
-  <script src="assets\js\vendor\jquery.event.move.min.js">
+  <script src="{% static 'js/vendor/jquery.event.move.min.js' %}">
   </script>
-  <script src="assets\js\vendor\jquery.twentytwenty.min.js">
+  <script src="{% static 'js/vendor/jquery.twentytwenty.min.js' %}">
   </script>
-  <script src="assets\js\slider.js">
+  <script src="{% static 'js/slider.js' %}">
   </script>
-  <script src="assets\js\contact.js">
+  <script src="{% static 'js/contact.js' %}">
   </script>
-  <script src="assets\js\main.js">
+  <script src="{% static 'js/main.js' %}">
   </script>
  </body>
 </html>
