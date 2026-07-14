@@ -8,13 +8,13 @@ urlpatterns = [
     path(
         "team/",
         TeamListView.as_view(),
-        name="team"
+        name="team-list"
     ),
 
     path(
         "team/<int:pk>/",
         TeamDetailView.as_view(),
-        name="team_detail"
+        name="team-detail"
     ),
 
 ]

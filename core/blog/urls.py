@@ -8,14 +8,14 @@ urlpatterns = [
     path(
         "blog-list/",
         BlogListView.as_view(),
-        name="blog_list"
+        name="blog-list"
     ),
 
     # صفحه جزئیات مقاله
     path(
         "blog-detail/<slug:slug>/",
         BlogDetailView.as_view(),
-        name="blog_detail"
+        name="blog-detail"
     ),
 
 ]

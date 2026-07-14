@@ -9,14 +9,14 @@ urlpatterns = [
     path(
         "products/",
         ProductListView.as_view(),
-        name="shop"
+        name="shop-list"
     ),
 
     # جزئیات محصول
     path(
         "products-detail/<slug:slug>/",
         ProductDetailView.as_view(),
-        name="shop_detail"
+        name="shop-detail"
     ),
 
 ]

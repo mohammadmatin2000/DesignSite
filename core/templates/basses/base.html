@@ -84,179 +84,48 @@
                         <div class="header-menu-wrap">
                             <div class="mobile-menu-items">
                                 <ul>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">
+                                    <li>
+                                        <a href="{% url 'index:index' %}">
                                             صفحه اصلی
                                         </a>
-                                        <ul>
-                                            <li>
-                                                <a href="index.html">
-                                                    صفحه اصلی یک
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-2.html">
-                                                    صفحه اصلی دو
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-3.html">
-                                                    صفحه اصلی سه
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-4.html">
-                                                    صفحه اصلی چهار
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-5.html">
-                                                    صفحه اصلی پنج
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-6.html">
-                                                    صفحه اصلی شش
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-7.html">
-                                                    صفحه اصلی هفت
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-8.html">
-                                                    صفحه اصلی هشت
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="index-9.html">
-                                                    صفحه اصلی نه
-                                                </a>
-                                            </li>
-                                        </ul>
+
                                     </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="service.html">
+                                    <li>
+                                        <a href="{% url 'services:service-list' %}">
                                             خدمات
                                         </a>
-                                        <ul>
-                                            <li>
-                                                <a href="service.html">
-                                                    سبک خدمات 1
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="service-2.html">
-                                                    سبک خدمات 2
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="service-3.html">
-                                                    سبک خدمات 3
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="service-details.html">
-                                                    جزئیات خدمات
-                                                </a>
-                                            </li>
-                                        </ul>
+
                                     </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="service.html">
+                                    <li>
+                                        <a href="{% url 'projects:project-list' %}">
                                             نمونه کارها
                                         </a>
-                                        <ul>
-                                            <li>
-                                                <a href="portfolio.html">
-                                                    سبک نمونه کارها 1
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="portfolio-2.html">
-                                                    سبک نمونه کارها 2
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="portfolio-3.html">
-                                                    سبک نمونه کارها 3
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="portfolio-details.html">
-                                                    جزئیات نمونه کارها
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu-item-has-children">
-                                        <a href="#">
-                                            صفحات
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="about.html">
-                                                    درباره ما
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="team.html">
-                                                    تیم
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="team-details.html">
-                                                    جزئیات تیم
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="pricing.html">
-                                                    طرح های قیمت گذاری
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="gallary-1.html">
-                                                    گالری استایل 1
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="gallary-2.html">
-                                                    گالری استایل 2
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="shop.html">
-                                                    صفحه محصول
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="shop-details.html">
-                                                    تکی محصول
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="faq.html">
-                                                    سوالات متداول
-                                                </a>
-                                            </li>
 
-                                            <li>
-                                                <a href="coming-soon.html">
-                                                    به زودی
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </li>
-                                    <li class="active">
-                                        <a href="blog-grid.html">
+                                    <li>
+                                        <a href="{% url 'team:team-list' %}">
+                                            تیم
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'shop:shop-list' %}">
+                                            محصولات
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'blog:blog-list' %}">
                                             وبلاگ
                                         </a>
 
                                     </li>
                                     <li>
-                                        <a href="contact.html">
+                                        <a href="{% url 'contact:contact-us' %}">
                                             تماس با ما
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'contact:about-us' %}">
+                                            درباره ما
                                         </a>
                                     </li>
                                 </ul>
@@ -265,26 +134,8 @@
                         <!-- /.header-menu-wrap -->
                     </div>
                     <div class="header-right-wrap">
-                        <a class="header-contact" href="tel:02112345678">
-            <span class="icon">
-             <i class="fa-regular fa-phone">
-             </i>
-            </span>
-                            <span class="content">
-             <span class="call-text">
-              تماس با ما
-             </span>
-             <span class="call-number">
-              02112345678
-             </span>
-            </span>
-                        </a>
-                        <div class="header-btn-wrap">
-                            <a class="tl-primary-btn header-btn"
-                               href="https://www.rtl-theme.com/author/hogondesign/products/">
-                                خرید قالب
-                            </a>
-                        </div>
+
+
                         <div class="search-icon dl-search-icon">
                             <i class="fa-solid fa-magnifying-glass">
                             </i>
