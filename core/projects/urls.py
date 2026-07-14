@@ -12,7 +12,7 @@ urlpatterns = [
 
     # نمایش لیست پروژه‌ها
     path(
-        "projects/list/",
+        "projects-list/",
         ProjectListView.as_view(),
         name="project-list"
     ),

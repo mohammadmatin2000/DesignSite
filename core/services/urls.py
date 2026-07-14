@@ -12,7 +12,7 @@ urlpatterns = [
 
     # صفحه لیست خدمات
     path(
-        "services/list/",
+        "services-list/",
         ServiceListView.as_view(),
         name="service-list",
     ),
