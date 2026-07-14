@@ -26,165 +26,165 @@
 {% block extra_css %} {% endblock extra_css %}
 
 {% block extra_css_no_compress %} {% endblock extra_css_no_compress %}
-    <!-- preloader -->
-    <div class="preloader overflow-hidden">
-        <div class="site-name">
+<!-- preloader -->
+<div class="preloader overflow-hidden">
+    <div class="site-name">
         <span>
          ANTRA
         </span>
+    </div>
+    <div class="preloader-gutters">
+        <div class="bar">
+            <div class="inner-bar">
+            </div>
         </div>
-        <div class="preloader-gutters">
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
-            </div>
-            <div class="bar">
-                <div class="inner-bar">
-                </div>
+        </div>
+        <div class="bar">
+            <div class="inner-bar">
             </div>
         </div>
     </div>
-    <!-- /.preloader -->
+</div>
+<!-- /.preloader -->
 
-    <!-- header-area-start -->
-    <header class="header sticky-active">
-        <div class="primary-header">
-            <div class="container">
-                <div class="primary-header-inner">
-                    <div class="header-left-wrap">
-                        <div class="header-logo d-lg-block">
-                            <a href="index.html">
-                                <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
-                            </a>
-                        </div>
-                        <div class="header-menu-wrap">
-                            <div class="mobile-menu-items">
-                                <ul>
-                                    <li>
-                                        <a href="{% url 'index:index' %}">
-                                            صفحه اصلی
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'services:service-list' %}">
-                                            خدمات
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'projects:project-list' %}">
-                                            نمونه کارها
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'team:team-list' %}">
-                                            تیم
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'shop:shop-list' %}">
-                                            محصولات
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'blog:blog-list' %}">
-                                            وبلاگ
-                                        </a>
-
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'contact:contact-us' %}">
-                                            تماس با ما
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'contact:about-us' %}">
-                                            درباره ما
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- /.header-menu-wrap -->
+<!-- header-area-start -->
+<header class="header sticky-active">
+    <div class="primary-header">
+        <div class="container">
+            <div class="primary-header-inner">
+                <div class="header-left-wrap">
+                    <div class="header-logo d-lg-block">
+                        <a href="index.html">
+                            <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+                        </a>
                     </div>
-                    <div class="header-right-wrap">
+                    <div class="header-menu-wrap">
+                        <div class="mobile-menu-items">
+                            <ul>
+                                <li>
+                                    <a href="{% url 'index:index' %}">
+                                        صفحه اصلی
+                                    </a>
 
+                                </li>
+                                <li>
+                                    <a href="{% url 'services:service-list' %}">
+                                        خدمات
+                                    </a>
 
-                        <div class="search-icon dl-search-icon">
-                            <i class="fa-solid fa-magnifying-glass">
-                            </i>
+                                </li>
+                                <li>
+                                    <a href="{% url 'projects:project-list' %}">
+                                        نمونه کارها
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="{% url 'team:team-list' %}">
+                                        تیم
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'shop:shop-list' %}">
+                                        محصولات
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'blog:blog-list' %}">
+                                        وبلاگ
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="{% url 'contact:contact-us' %}">
+                                        تماس با ما
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'contact:about-us' %}">
+                                        درباره ما
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="sidebar-icon">
-                            <button class="sidebar-trigger open">
-                                <svg fill="none" height="16" viewbox="0 0 16 16" width="16"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11 2C11 0.89543 11.8954 0 13 0H14C15.1046 0 16 0.895431 16 2V3C16 4.10457 15.1046 5 14 5H13C11.8954 5 11 4.10457 11 3V2Z"
-                                          fill="white">
-                                    </path>
-                                    <path d="M0 2C0 0.89543 0.895431 0 2 0H3C4.10457 0 5 0.895431 5 2V3C5 4.10457 4.10457 5 3 5H2C0.89543 5 0 4.10457 0 3V2Z"
-                                          fill="white">
-                                    </path>
-                                    <path d="M0 13C0 11.8954 0.895431 11 2 11H3C4.10457 11 5 11.8954 5 13V14C5 15.1046 4.10457 16 3 16H2C0.89543 16 0 15.1046 0 14V13Z"
-                                          fill="white">
-                                    </path>
-                                    <path d="M11 13C11 11.8954 11.8954 11 13 11H14C15.1046 11 16 11.8954 16 13V14C16 15.1046 15.1046 16 14 16H13C11.8954 16 11 15.1046 11 14V13Z"
-                                          fill="white">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- /.header-right -->
                     </div>
+                    <!-- /.header-menu-wrap -->
                 </div>
-                <!-- /.primary-header-inner -->
-            </div>
-        </div>
-    </header>
+                <div class="header-right-wrap">
 
-    <!-- /.Main Header -->
-    <div id="popup-search-box">
-        <div class="box-inner-wrap d-flex align-items-center">
-            <form action="#" id="form" method="get" role="search">
-                <input id="popup-search" name="s" placeholder="کلمات کلیدی را اینجا تایپ کنید..." type="text"/>
-            </form>
-            <div class="search-close">
-                <i class="fa-sharp fa-regular fa-xmark">
-                </i>
+
+                    <div class="search-icon dl-search-icon">
+                        <i class="fa-solid fa-magnifying-glass">
+                        </i>
+                    </div>
+                    <div class="sidebar-icon">
+                        <button class="sidebar-trigger open">
+                            <svg fill="none" height="16" viewbox="0 0 16 16" width="16"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 2C11 0.89543 11.8954 0 13 0H14C15.1046 0 16 0.895431 16 2V3C16 4.10457 15.1046 5 14 5H13C11.8954 5 11 4.10457 11 3V2Z"
+                                      fill="white">
+                                </path>
+                                <path d="M0 2C0 0.89543 0.895431 0 2 0H3C4.10457 0 5 0.895431 5 2V3C5 4.10457 4.10457 5 3 5H2C0.89543 5 0 4.10457 0 3V2Z"
+                                      fill="white">
+                                </path>
+                                <path d="M0 13C0 11.8954 0.895431 11 2 11H3C4.10457 11 5 11.8954 5 13V14C5 15.1046 4.10457 16 3 16H2C0.89543 16 0 15.1046 0 14V13Z"
+                                      fill="white">
+                                </path>
+                                <path d="M11 13C11 11.8954 11.8954 11 13 11H14C15.1046 11 16 11.8954 16 13V14C16 15.1046 15.1046 16 14 16H13C11.8954 16 11 15.1046 11 14V13Z"
+                                      fill="white">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- /.header-right -->
+                </div>
             </div>
+            <!-- /.primary-header-inner -->
         </div>
     </div>
-    <!-- /#popup-search-box -->
-    <div class="sidebar-area" id="sidebar-area">
-        <button class="sidebar-trigger close">
-            <svg class="sidebar-close" height="12.7px" style="enable-background: new 0 0 16 12.7" viewbox="0 0 16 12.7"
-                 width="16px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
+</header>
+
+<!-- /.Main Header -->
+<div id="popup-search-box">
+    <div class="box-inner-wrap d-flex align-items-center">
+        <form action="#" id="form" method="get" role="search">
+            <input id="popup-search" name="s" placeholder="کلمات کلیدی را اینجا تایپ کنید..." type="text"/>
+        </form>
+        <div class="search-close">
+            <i class="fa-sharp fa-regular fa-xmark">
+            </i>
+        </div>
+    </div>
+</div>
+<!-- /#popup-search-box -->
+<div class="sidebar-area" id="sidebar-area">
+    <button class="sidebar-trigger close">
+        <svg class="sidebar-close" height="12.7px" style="enable-background: new 0 0 16 12.7" viewbox="0 0 16 12.7"
+             width="16px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
          <g>
           <rect height="2" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -2.1569 7.5208)" width="16" x="0" y="5.4">
           </rect>
@@ -192,178 +192,177 @@
           </rect>
          </g>
         </svg>
-        </button>
-        <div class="side-menu-content">
-            <div class="side-menu-logo">
-                <a class="dark-img" href="index.html">
-                    <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+    </button>
+    <div class="side-menu-content">
+        <div class="side-menu-logo">
+            <a class="dark-img" href="index.html">
+                <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+            </a>
+            <a class="light-img" href="index.html">
+                <img alt="لوگو" src="{% static 'img/logo/logo-1.png' %}"/>
+            </a>
+        </div>
+        <div class="side-menu-wrap">
+        </div>
+        <div class="side-menu-about">
+            <h4 class="title">
+                ما طرح های داخلی را شکل می دهیم، فضاهای بی زمان و الهام بخش می سازیم
+            </h4>
+        </div>
+        <div class="side-menu-gallary">
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-1.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-1.png' %}"/>
                 </a>
-                <a class="light-img" href="index.html">
-                    <img alt="لوگو" src="{% static 'img/logo/logo-1.png' %}"/>
+            </div>
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-2.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-2.png' %}"/>
                 </a>
             </div>
-            <div class="side-menu-wrap">
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-3.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-3.png' %}"/>
+                </a>
             </div>
-            <div class="side-menu-about">
-                <h4 class="title">
-                    ما طرح های داخلی را شکل می دهیم، فضاهای بی زمان و الهام بخش می سازیم
-                </h4>
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-4.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-4.png' %}"/>
+                </a>
             </div>
-            <div class="side-menu-gallary">
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-1.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-1.png' %}"/>
-                    </a>
-                </div>
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-2.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-2.png' %}"/>
-                    </a>
-                </div>
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-3.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-3.png' %}"/>
-                    </a>
-                </div>
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-4.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-4.png' %}"/>
-                    </a>
-                </div>
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-5.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-5.png' %}"/>
-                    </a>
-                </div>
-                <div class="side-menu-gallary-item">
-                    <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-6.png' %}">
-                        <img alt="img" src="{% static 'img/project/sidebar-gallary-6.png' %}"/>
-                    </a>
-                </div>
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-5.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-5.png' %}"/>
+                </a>
             </div>
-            <div class="side-menu-contact">
-                <ul class="side-menu-list">
-                    <li>
-                        ایران
-                        <br/>
-                        اصفهان
-                    </li>
-                    <li>
-                        <a href="tel:02112345678">
-                            02112345678
-                        </a>
-                    </li>
-                    <li>
-                        <a class="mail" href="mailto:support@example.com">
-                            support@example.com
-                        </a>
-                    </li>
-                </ul>
+            <div class="side-menu-gallary-item">
+                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-6.png' %}">
+                    <img alt="img" src="{% static 'img/project/sidebar-gallary-6.png' %}"/>
+                </a>
             </div>
-            <ul class="side-menu-social">
-                <li class="facebook">
-                    <a href="#">
-                        <i class="fab fa-facebook-f">
-                        </i>
+        </div>
+        <div class="side-menu-contact">
+            <ul class="side-menu-list">
+                <li>
+                    ایران
+                    <br/>
+                    اصفهان
+                </li>
+                <li>
+                    <a href="tel:02112345678">
+                        02112345678
                     </a>
                 </li>
-                <li class="instagram">
-                    <a href="#">
-                        <i class="fab fa-instagram">
-                        </i>
-                    </a>
-                </li>
-                <li class="twitter">
-                    <a href="#">
-                        <i class="fab fa-twitter">
-                        </i>
-                    </a>
-                </li>
-                <li class="g-plus">
-                    <a href="#">
-                        <i class="fab fa-fab fa-google-plus">
-                        </i>
+                <li>
+                    <a class="mail" href="mailto:support@example.com">
+                        support@example.com
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
-    <!--/.sidebar-area-->
-    <div class="mobile-side-menu">
-        <div class="side-menu-content">
-            <div class="side-menu-head">
-                <a href="index.html">
-                    <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
-                </a>
-                <button class="mobile-side-menu-close">
-                    <i class="fa-regular fa-xmark">
+        <ul class="side-menu-social">
+            <li class="facebook">
+                <a href="#">
+                    <i class="fab fa-facebook-f">
                     </i>
-                </button>
+                </a>
+            </li>
+            <li class="instagram">
+                <a href="#">
+                    <i class="fab fa-instagram">
+                    </i>
+                </a>
+            </li>
+            <li class="twitter">
+                <a href="#">
+                    <i class="fab fa-twitter">
+                    </i>
+                </a>
+            </li>
+            <li class="g-plus">
+                <a href="#">
+                    <i class="fab fa-fab fa-google-plus">
+                    </i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--/.sidebar-area-->
+<div class="mobile-side-menu">
+    <div class="side-menu-content">
+        <div class="side-menu-head">
+            <a href="index.html">
+                <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+            </a>
+            <button class="mobile-side-menu-close">
+                <i class="fa-regular fa-xmark">
+                </i>
+            </button>
+        </div>
+        <div class="side-menu-wrap">
+        </div>
+        <div class="side-menu-contact">
+            <div class="side-menu-header">
+                <h3>
+                    تماس با ما
+                </h3>
             </div>
-            <div class="side-menu-wrap">
-            </div>
-            <div class="side-menu-contact">
-                <div class="side-menu-header">
-                    <h3>
-                        تماس با ما
-                    </h3>
-                </div>
-                <ul class="side-menu-list">
-                    <li>
-                        <i class="fas fa-map-marker-alt">
-                        </i>
-                        <p>
-                            والنتین، خیابان خیابان 24، نیویورک،
-                        </p>
-                    </li>
-                    <li>
-                        <i class="fas fa-phone">
-                        </i>
-                        <a href="tel:+000123456789">
-                            +000 123 (456) 789
-                        </a>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope-open-text">
-                        </i>
-                        <a href="mailto:antra@gmail.com">
-                            antra@gmail.com
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <ul class="side-menu-social">
-                <li class="facebook">
-                    <a href="#">
-                        <i class="fab fa-facebook-f">
-                        </i>
+            <ul class="side-menu-list">
+                <li>
+                    <i class="fas fa-map-marker-alt">
+                    </i>
+                    <p>
+                        والنتین، خیابان خیابان 24، نیویورک،
+                    </p>
+                </li>
+                <li>
+                    <i class="fas fa-phone">
+                    </i>
+                    <a href="tel:+000123456789">
+                        +000 123 (456) 789
                     </a>
                 </li>
-                <li class="instagram">
-                    <a href="#">
-                        <i class="fab fa-instagram">
-                        </i>
-                    </a>
-                </li>
-                <li class="twitter">
-                    <a href="#">
-                        <i class="fab fa-twitter">
-                        </i>
-                    </a>
-                </li>
-                <li class="g-plus">
-                    <a href="#">
-                        <i class="fab fa-fab fa-google-plus">
-                        </i>
+                <li>
+                    <i class="fas fa-envelope-open-text">
+                    </i>
+                    <a href="mailto:antra@gmail.com">
+                        antra@gmail.com
                     </a>
                 </li>
             </ul>
         </div>
+        <ul class="side-menu-social">
+            <li class="facebook">
+                <a href="#">
+                    <i class="fab fa-facebook-f">
+                    </i>
+                </a>
+            </li>
+            <li class="instagram">
+                <a href="#">
+                    <i class="fab fa-instagram">
+                    </i>
+                </a>
+            </li>
+            <li class="twitter">
+                <a href="#">
+                    <i class="fab fa-twitter">
+                    </i>
+                </a>
+            </li>
+            <li class="g-plus">
+                <a href="#">
+                    <i class="fab fa-fab fa-google-plus">
+                    </i>
+                </a>
+            </li>
+        </ul>
     </div>
-    <!-- /.mobile-side-menu -->
-    <div class="mobile-side-menu-overlay">
-    </div>
-
+</div>
+<!-- /.mobile-side-menu -->
+<div class="mobile-side-menu-overlay">
+</div>
 
 
 <!-- ========== END HEADER ========== -->
@@ -374,209 +373,180 @@
 
 {% block extra_js %}
 <!-- JS here -->
-    <script src="{% static 'js/vendor/jquary-3.7.1.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/bootstrap-bundle.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/imagesloaded-pkgd.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/waypoints.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/venobox.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/odometer.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/meanmenu.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/jquery.isotope.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/swiper.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/split-type.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/gsap.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/scroll-trigger.min.js' %}">
-    </script>
+<script src="{% static 'js/vendor/jquary-3.7.1.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/bootstrap-bundle.js' %}">
+</script>
+<script src="{% static 'js/vendor/imagesloaded-pkgd.js' %}">
+</script>
+<script src="{% static 'js/vendor/waypoints.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/venobox.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/odometer.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/meanmenu.js' %}">
+</script>
+<script src="{% static 'js/vendor/jquery.isotope.js' %}">
+</script>
+<script src="{% static 'js/vendor/swiper.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/split-type.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/gsap.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/scroll-trigger.min.js' %}">
+</script>
 <!--    <script src="{% static 'js/vendor/scroll-smoother.js' %}">-->
 <!--    </script>-->
-    <script src="{% static 'js/vendor/jquery.carouselTicker.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/nice-select.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/three.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/panolens.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/jquery.event.move.min.js' %}">
-    </script>
-    <script src="{% static 'js/vendor/jquery.twentytwenty.min.js' %}">
-    </script>
-    <script src="{% static 'js/slider.js' %}">
-    </script>
-    <script src="{% static 'js/contact.js' %}">
-    </script>
-    <script src="{% static 'js/main.js' %}">
+<script src="{% static 'js/vendor/jquery.carouselTicker.js' %}">
+</script>
+<script src="{% static 'js/vendor/nice-select.js' %}">
+</script>
+<script src="{% static 'js/vendor/three.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/panolens.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/jquery.event.move.min.js' %}">
+</script>
+<script src="{% static 'js/vendor/jquery.twentytwenty.min.js' %}">
+</script>
+<script src="{% static 'js/slider.js' %}">
+</script>
+<script src="{% static 'js/contact.js' %}">
+</script>
+<script src="{% static 'js/main.js' %}">
 </script>
 {% endblock extra_js %}
 {% block extra_js_no_compress %} {% endblock extra_js_no_compress %}
-    <!-- ./ footer-section -->
-    <footer class="footer-section overflow-hidden">
-     <div class="footer-bg" data-background="{% static 'img/bg-img/footer-bg.png' %}">
-     </div>
-     <div class="footer-shade">
-     </div>
-     <div class="container container-2">
-      <div class="row footer-wrap">
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget">
-         <div class="widget-header">
-          <div class="footer-logo">
-           <a href="index.html">
-            <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
-           </a>
-          </div>
-         </div>
-         <p class="mb-10">
-          ما دید شما را به زیبایی تبدیل می کنیم
-          <br/>
-          شرکت آنترا
-         </p>
-         <p class="mb-0">
-          ایران
-          <br/>
-          تهران
-         </p>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget footer-col-2">
-         <ul class="footer-list">
-          <li>
-           <a href="about.html">
-            درباره ما
-           </a>
-          </li>
-          <li>
-           <a href="service.html">
-            خدمات
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            مشاغل
-           </a>
-          </li>
-          <li>
-           <a href="team.html">
-            تیم ما
-           </a>
-          </li>
-          <li>
-           <a href="blog-grid.html">
-            وبلاگ
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            تماس با ما
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget footer-col-2 pl-0">
-         <ul class="footer-list">
-          <li>
-           <a href="portfolio-details.html">
-            پروژه های ما
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            شرکا
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            برنامه شرکا
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            برنامه وابسته
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            شرایط و ضوابط
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            مرکز پشتیبانی
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget">
-         <div class="footer-address">
-          <a class="number" href="tel:02112345678">
-           02112345678
-          </a>
-          <a class="mail" href="tel:">
-           support@example.com
-          </a>
-          <ul class="social-list">
-           <li>
-            <a href="#">
-             فیس بوک
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             اینستاگرام
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             یوتیوب
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             توییتر
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="copyright-area">
-      <div class="container">
-       <div class="copyright-content">
-        <p>
-         © 2026 antra تمامی حقوق محفوظ است.
-        </p>
-       </div>
-      </div>
-     </div>
-     <div class="footer-text">
-      <span>
-       antra
-      </span>
-     </div>
-    </footer>
+<!-- ./ footer-section -->
+<footer class="footer-section overflow-hidden">
+    <div class="footer-bg" data-background="{% static 'img/bg-img/footer-bg.png' %}">
+    </div>
+    <div class="footer-shade">
+    </div>
+    <div class="container container-2">
+        <div class="row footer-wrap">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <div class="widget-header">
+                        <div class="footer-logo">
+                            <a href="index.html">
+                                <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-10">
+                        ما دید شما را به زیبایی تبدیل می کنیم
+                        <br/>
+                        شرکت آنترا
+                    </p>
+                    <p class="mb-0">
+                        ایران
+                        <br/>
+                        تهران
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget footer-col-2">
+                    <ul class="footer-list">
+                        <li>
+                            <a href="{% url 'blog:blog-list' %}">
+                                وبلاگ
+                            </a>
+                        </li>
 
-    <div id="scroll-percentage">
+                        <li>
+                            <a href="{% url 'services:service-list' %}">
+                                خدمات
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'team:team-list' %}">
+                                تیم ما
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget footer-col-2 pl-0">
+                    <ul class="footer-list">
+                        <li>
+                            <a href="{% url 'contact:about-us' %}">
+                                درباره ما
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="{% url 'contact:contact-us' %}">
+                                تماس با ما
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'projects:project-list' %}">
+                                پروژه های ما
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-widget">
+                    <div class="footer-address">
+                        <a class="number">
+                            09336807260
+                        </a>
+                        <a class="mail" href="tel:">
+                            mohammadmatin13872008@gmail.com
+                        </a>
+                        <ul class="social-list">
+                            <li>
+                                <a href="#">
+                                    فیس بوک
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    اینستاگرام
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    یوتیوب
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    توییتر
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright-area">
+        <div class="container">
+            <div class="copyright-content">
+                <p>
+                    © 2026 antra تمامی حقوق محفوظ است.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<div id="scroll-percentage">
        <span id="scroll-percentage-value">
        </span>
-    </div>
+</div>
 </body>
 
 </html>
