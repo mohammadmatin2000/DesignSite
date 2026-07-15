@@ -16,6 +16,7 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     path("team/", include("team.urls")),
     path("shop/", include("shop.urls")),
+    path('captcha/', include('captcha.urls')),
 ]
 # ======================================================================================================================
 if settings.DEBUG:

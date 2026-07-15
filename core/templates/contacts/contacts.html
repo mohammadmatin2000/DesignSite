@@ -1,156 +1,194 @@
 {% extends 'basses/base.html' %}
 {% load static %}
 {% block content %}
-  <div id="antra-smooth-wrapper">
-   <div id="antra-smooth-content">
-    <section class="page-header">
-     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
-     </div>
-     <div class="overlay">
-     </div>
-     <div class="container">
-      <div class="page-header-content">
-       <h1 class="title">
-        تماس با ما
-       </h1>
-       <h4 class="sub-title">
-        <a class="home" href="service.html">
-         صفحه اصلی
-        </a>
-        <span class="icon">
-         -
-        </span>
-        <a class="inner-page" href="blog-details.html">
-         تماس با ما
-        </a>
-       </h4>
-      </div>
-     </div>
-    </section>
-    <!-- ./ page-header -->
-    <section class="contact-section pt-150 pb-150">
-     <div class="container container-2">
-      <div class="row section-heading-wrap w-100 ml-0">
-       <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
-       </div>
-       <div class="col-lg-4 col-md-12">
-        <div class="section-heading mb-0">
-         <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03" data-text-animation="fade-in-right">
-          تماس با ما
-         </h4>
+<div id="antra-smooth-wrapper">
+    <div id="antra-smooth-content">
+
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}"></div>
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="page-header-content">
+                    <h1 class="title">تماس با ما</h1>
+                    <h4 class="sub-title">
+                        <a class="home" href="service.html">صفحه اصلی</a>
+                        <span class="icon"> - </span>
+                        <a class="inner-page" href="blog-details.html">تماس با ما</a>
+                    </h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section pt-150 pb-150">
+            <div class="container container-2">
+
+                <div class="row section-heading-wrap w-100 ml-0">
+                    <div class="shape">
+                        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03"
+                                data-text-animation="fade-in-right">
+                                تماس با ما
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2"><span>پروژه دارید؟</span></h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row request-wrap contact-page-area">
+
+                    <!-- Contact Info -->
+                    <div class="col-lg-6">
+                        <div class="request-content">
+                            <div class="request-item-wrap">
+                                <div class="request-item white-content">
+                                    <span>آدرس</span>
+                                    <p>ایران، تهران</p>
+                                </div>
+                                <div class="request-item white-content">
+                                    <span>پشتیبانی کنید</span>
+                                    <a href="tel:+0844560789">09336807260</a>
+                                    <a href="mailto:support@example.com">mohammadmatin13872008@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-img">
+                                <img alt="img" src="{% static 'img/images/contact-img-1.png' %}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="col-lg-6">
+                        <div class="request-form-wrap">
+                            <form action="{% url 'contact:contact-us' %}" class="form-horizontal" id="ajax_contact"
+                                  method="post">
+                                {% csrf_token %}
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">نام کامل *</h4>
+                                            <input class="form-control" id="name" name="name" type="text"
+                                                   placeholder="نام کامل شما" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">تلفن *</h4>
+                                            <input class="form-control" id="phone_number" name="phone_number"
+                                                   type="text" placeholder="02112345678" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">آدرس ایمیل *</h4>
+                                            <input class="form-control" id="email" name="email" type="email"
+                                                   placeholder="support@example.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">خدمات *</h4>
+                                            <input class="form-control" id="service" name="service" type="text"
+                                                   placeholder="خدمت مورد نظر" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-item message-item">
+                                            <h4 class="form-title">پیام بنویس *</h4>
+                                            <textarea class="form-control address" id="message" name="message" rows="5"
+                                                      placeholder="پیام شما..." required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Captcha -->
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-item">
+                                            <h4 class="form-title">کد امنیتی *</h4>
+                                            {{ form.captcha }}
+                                            {% if form.captcha.errors %}
+                                            <small style="color:red;">{{ form.captcha.errors|striptags }}</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="submit-btn">
+                                    <button class="tl-primary-btn" id="submit" type="submit">
+                                        ارسال پیام
+                                        <span class="icon"><i class="fa-regular fa-arrow-right"></i></span>
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Map -->
+        <div class="map-wrapper pb-150">
+            <div class="container">
+                <iframe
+                        allowfullscreen=""
+                        frameborder="0"
+                        height="620"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51696.11!2d51.389!3d35.6892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e02ce8bff2ff1%3A0x1c34e0eb2c6c58a9!2sTehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                        style="border:0;"
+                        width="100%">
+                </iframe>
+            </div>
         </div>
-       </div>
-       <div class="col-lg-8 col-md-12">
-        <div class="section-heading section-heading-2 mb-0">
-         <h2 class="section-title title-2">
-          <span>
-            پروژه دارید؟
-          </span>
-         </h2>
-        </div>
-       </div>
-      </div>
-      <div class="row request-wrap contact-page-area">
-       <div class="col-lg-6">
-        <div class="request-content">
-         <div class="request-item-wrap">
-          <div class="request-item white-content">
-           <span>
-            آدرس
-           </span>
-           <p>
-           ایران، تهران
-           </p>
-          </div>
-          <div class="request-item white-content">
-           <span>
-            پشتیبانی کنید
-           </span>
-           <a href="tel:+0844560789">
-            02112345678
-           </a>
-           <a href="mailto:support@example.com">
-            support@example.com
-           </a>
-          </div>
-         </div>
-         <div class="contact-img">
-          <img alt="img" src="{% static 'img/images/contact-img-1.png' %}"/>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-6">
-        <div class="request-form-wrap">
-         <form action="mail.php" class="form-horizontal" id="ajax_contact" method="post">
-          <div class="form-group row">
-           <div class="col-md-6">
-            <div class="form-item">
-             <h4 class="form-title">
-              نام کامل *
-             </h4>
-             <input class="form-control" id="fullname" name="fullname" placeholder="طراح" type="text"/>
-            </div>
-           </div>
-           <div class="col-md-6">
-            <div class="form-item">
-             <h4 class="form-title">
-              تلفن *
-             </h4>
-             <input class="form-control" id="phone" name="phone" placeholder="02112345678" type="text"/>
-            </div>
-           </div>
-          </div>
-          <div class="form-group row">
-           <div class="col-md-6">
-            <div class="form-item">
-             <h4 class="form-title">
-              آدرس ایمیل *
-             </h4>
-             <input class="form-control" id="email" name="email" placeholder="support@example.com" type="text"/>
-            </div>
-           </div>
-           <div class="col-md-6">
-            <div class="form-item">
-             <h4 class="form-title">
-              خدمات *
-             </h4>
-             <input class="form-control" id="service" name="service" placeholder="من می خواهم" type="text"/>
-            </div>
-           </div>
-          </div>
-          <div class="form-group row">
-           <div class="col-md-12">
-            <div class="form-item message-item">
-             <h4 class="form-title">
-              پیام بنویس *
-             </h4>
-             <textarea class="form-control address" cols="30" id="message" name="message" placeholder="پیام شما.." rows="5"></textarea>
-            </div>
-           </div>
-          </div>
-          <div class="submit-btn">
-           <button class="tl-primary-btn" id="submit" type="submit">
-            ارسال پیام
-            <span class="icon">
-             <i class="fa-regular fa-arrow-right">
-             </i>
-            </span>
-           </button>
-          </div>
-         </form>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ contact-section -->
-    <div class="map-wrapper pb-150">
-     <div class="container">
-      <iframe allowfullscreen="" frameborder="0" height="620" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8826.923787362664!2d-118.27754354757262!3d34.03471770929568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20California%2C%20Hoa%20K%E1%BB%B3!5e0!3m2!1svi!2s!4v1566525118697!5m2!1svi!2s" style="border:0;" width="100%">
-      </iframe>
-     </div>
+
     </div>
-   </div>
-  </div>
+</div>
+
+<script>
+    (function () {
+        const captchaEl = document.getElementById('captcha-code');
+        const inputEl = document.getElementById('captcha');
+        const errorEl = document.getElementById('captcha-error');
+        const refreshBtn = document.getElementById('refresh-captcha');
+        const form = document.getElementById('ajax_contact');
+        let currentCode = '';
+
+        function generateCaptcha() {
+            currentCode = Math.floor(1000 + Math.random() * 9000).toString();
+            captchaEl.textContent = currentCode;
+            inputEl.value = '';
+            errorEl.style.display = 'none';
+        }
+
+        refreshBtn.addEventListener('click', generateCaptcha);
+
+        form.addEventListener('submit', function (e) {
+            if (inputEl.value.trim() !== currentCode) {
+                e.preventDefault();
+                errorEl.style.display = 'inline-block';
+                generateCaptcha();
+            }
+        });
+
+        generateCaptcha();
+    })();
+</script>
+
 {% endblock content %}

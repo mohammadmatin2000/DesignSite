@@ -2,580 +2,497 @@
 {% load static %}
 {% block content %}
 
-   <div id="antra-smooth-wrapper">
+<div id="antra-smooth-wrapper">
     <div id="antra-smooth-content">
-    <section class="page-header">
-     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
-     </div>
-     <div class="overlay">
-     </div>
-     <div class="container">
-      <div class="page-header-content">
-       <h1 class="title">
-        جزئیات وبلاگ
-       </h1>
-       <h4 class="sub-title">
-        <a class="home" href="service.html">
-         صفحه اصلی
-        </a>
-        <span class="icon">
+        <section class="page-header">
+            <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+            </div>
+            <div class="overlay">
+            </div>
+            <div class="container">
+                <div class="page-header-content">
+                    <h1 class="title">
+                        جزئیات وبلاگ
+                    </h1>
+                    <h4 class="sub-title">
+                        <a class="home" href="{% url 'index:index' %}">
+                            صفحه اصلی
+                        </a>
+                        <span class="icon">
          -
         </span>
-        <a class="inner-page" href="blog-details.html">
-         جزئیات وبلاگ
-        </a>
-       </h4>
-      </div>
-     </div>
-    </section>
-    <!-- ./ page-header -->
-    <section class="blog-details pt-150 pb-150 overflow-hidden">
-     <div class="container container-2">
-      <div class="row gy-5">
-       <div class="col-lg-8 col-md-12">
-        <div class="blog-details-wrap">
-         <div class="post-card post-card-2 inner-post">
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
+                        <a class="inner-page" href="{% url 'blog:blog-detail' blog.slug %}">
+                            جزئیات وبلاگ
+                        </a>
+                    </h4>
+                </div>
+            </div>
+        </section>
+        <!-- ./ page-header -->
+        <section class="blog-detail pt-150 pb-150 overflow-hidden">
+            <div class="container container-2">
+                <div class="row gy-5">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="blog-detail-wrap">
+                            <div class="post-card post-card-2 inner-post">
+                                <div class="post-content">
+                                    <ul class="post-meta">
+                                        {% if blog.category %}
+                                        <li class="category">
+                                            {{ blog.category.title }}
+                                        </li>
+                                        {% endif %}
+                                        <li>
+                                            {{ blog.created_date|date:"d/m/Y" }}
+                                        </li>
+                                        <li>
+                                            توسط
+                                            <span>
               مدیر
              </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            خانه خود را با نکات طراحی داخلی مدرن متحول کنید
-           </h3>
-          </div>
-         </div>
-         <div class="blog-details-img mb-30">
-          <img alt="وبلاگ" src="{% static 'img/blog/blog-details-img.png' %}"/>
-         </div>
-         <div class="blog-details-content">
-          <p class="mb-30">
-           طراحی داخلی مدرن همه چیز در مورد ایجاد فضایی براق، کاربردی و از نظر زیبایی شناسی دلپذیر است که زندگی معاصر را منعکس می کند. چه در حال به روز رسانی یک اتاق یک نفره یا طراحی مجدد کل خانه خود باشید، ترکیب اصول طراحی داخلی مدرن می تواند فضایی تازه، پیچیده و ظریف را به ارمغان بیاورد. با تاکید بر مینیمالیسم، خطوط تمیز، فضاهای باز و عملکرد هوشمند، طراحی داخلی مدرن.
-          </p>
-          <h3 class="details-title-2">
-           درک اصول
-          </h3>
-          <p class="mb-40">
-           با حذف موارد غیر ضروری و پذیرش رویکرد "کمتر، بیشتر" شروع کنید. به جای اینکه هر گوشه ای را با مبلمان و دکوراسیون پر کنید، چند تکه بیانی را انتخاب کنید که زیبایی اتاق را افزایش می دهد. رنگ های خنثی، پالت های تک رنگ و مبلمان شیک و ساده به ظاهر تمیز و بی نظم یک خانه مدرن کمک می کند. این سبک اغلب شامل نور طبیعی، مواد خلاقانه و تعادل هماهنگ بین فرم و عملکرد است.
-          </p>
-          <div class="details-img-wrap mt-40 mb-40">
-           <img alt="وبلاگ" src="{% static 'img/blog/blog-details-img-1.png' %}"/>
-           <img alt="وبلاگ" src="{% static 'img/blog/blog-details-img-2.png' %}"/>
-          </div>
-          <h3 class="details-title-2">
-           کاوش در سبک های طراحی
-          </h3>
-          <p class="mb-40">
-           طراحی داخلی مدرن مبلمانی را در اولویت قرار می‌دهد که هم از نظر زیبایی‌شناختی دلپذیر و هم بسیار کاربردی باشد. به دنبال مبلمان چند منظوره مانند میزهای ناهار خوری قابل افزایش، مبل تختخواب شو، یا واحدهای قفسه بندی مدولار باشید که در عین حفظ ظاهری براق، راه حل های ذخیره سازی را ارائه می دهند. علاوه بر این، سرمایه‌گذاری در صندلی‌ها و فضاهای کاری ارگونومیک باعث افزایش راحتی و کاربردی می‌شود، به‌ویژه برای دفاتر خانگی.
-          </p>
-          <blockquote class="mb-40">
-           <div class="shape">
-            <img alt="نماد" src="{% static 'img/icon/blog-details-1.png' %}"/>
-           </div>
-           <div class="icon">
-            <img alt="نقل قول" src="{% static 'img/icon/quote-2.png' %}"/>
-           </div>
-           <div class="content">
-            <p>
-             "طراحی داخلی مدرن، فضاهای معمولی را تبدیل به محیط های خارق العاده ای می کند. اصل اصلی طراحی مدرن "کمتر، بیشتر" است، تمرکز بر سادگی و حذف درهم و برهمی."
-            </p>
-            <h4 class="author">
-             عالیه براون
-            </h4>
-           </div>
-          </blockquote>
-          <h3 class="details-title-2">
-           آوردن طراحی داخلی مدرن
-          </h3>
-          <p>
-           با ترکیب این نکات طراحی داخلی مدرن، می توانید خانه خود را به یک پناهگاه شیک، کاربردی و راحت تبدیل کنید. چه به‌روزرسانی‌های کوچک انجام دهید یا به‌دنبال بازسازی کامل باشید، با تمرکز بر مینیمالیسم، فناوری هوشمند، عناصر طبیعی، و ظاهر مدرن و کاربردی.
-          </p>
-         </div>
-         <div class="tags">
-          <ul class="tag-list">
-           <li>
-            <a href="#">
-             مبلمان
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             طراحی
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             داخلی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="comments-area">
-          <div class="section-heading">
-           <h2 class="section-title">
-            نظرات مشتریان
-           </h2>
-          </div>
-          <div class="comment-item">
-           <div class="comment-thumb">
-            <img alt="نویسنده" src="{% static 'img/blog/comment-thumb-1.png' %}"/>
-           </div>
-           <div class="comment-info">
-            <div class="comment-top">
-             <h3 class="author">
-              روبرتو مایلز
-             </h3>
-             <div class="comments-meta">
-              <span>
-               10 خرداد 1405
-              </span>
-             </div>
-            </div>
-            <p>
-             پیاده سازی استراتژی های یکپارچه سازی شبکه پیشرفته برای ادغام یکپارچه انرژی خورشیدی در شبکه های برق موجود. این شامل استقرار اینورترهای سازگار با شبکه است
-            </p>
-            <button class="reply">
-             <img alt="فلش" src="{% static 'img/icon/arrow-left.png' %}"/>
-             پاسخ دهید
-            </button>
-           </div>
-          </div>
-          <div class="comment-item item-2">
-           <div class="comment-thumb">
-            <img alt="نویسنده" src="{% static 'img/blog/comment-thumb-2.png' %}"/>
-           </div>
-           <div class="comment-info">
-            <div class="comment-top">
-             <h3 class="author">
-              جنی ویلسون
-             </h3>
-             <div class="comments-meta">
-              <span>
-               10 خرداد 1405
-              </span>
-             </div>
-            </div>
-            <p>
-             پیاده سازی استراتژی های یکپارچه سازی شبکه پیشرفته برای ادغام یکپارچه انرژی خورشیدی در شبکه های برق موجود. این شامل استقرار اینورترهای سازگار با شبکه است
-            </p>
-            <button class="reply">
-             <img alt="فلش" src="{% static 'img/icon/arrow-left.png' %}"/>
-             پاسخ دهید
-            </button>
-           </div>
-          </div>
-          <div class="comment-item">
-           <div class="comment-thumb">
-            <img alt="نویسنده" src="{% static 'img/blog/comment-thumb-3.png' %}"/>
-           </div>
-           <div class="comment-info">
-            <div class="comment-top">
-             <h3 class="author">
-              جنی ویلسون
-             </h3>
-             <div class="comments-meta">
-              <span>
-               10 خرداد 1405
-              </span>
-             </div>
-            </div>
-            <p>
-             پیاده سازی استراتژی های یکپارچه سازی شبکه پیشرفته برای ادغام یکپارچه انرژی خورشیدی در شبکه های برق موجود. این شامل استقرار اینورترهای سازگار با شبکه است
-            </p>
-            <button class="reply">
-             <img alt="فلش" src="{% static 'img/icon/arrow-left.png' %}"/>
-             پاسخ دهید
-            </button>
-           </div>
-          </div>
-         </div>
-         <!-- ./ comments-area -->
-         <div class="form-wrap pt-70">
-          <div class="blog-contact-form">
-           <h2 class="title">
-            ارسال نظر
-           </h2>
-           <div class="request-form">
-            <form action="mail.php" class="form-horizontal" id="ajax_contact" method="post">
-             <div class="form-group row">
-              <div class="col-md-4">
-               <div class="form-item">
-                <input class="form-control" id="fullname" name="fullname" placeholder="نام*" type="text"/>
-               </div>
-              </div>
-              <div class="col-md-4">
-               <div class="form-item">
-                <input class="form-control" id="email" name="email" placeholder="ایمیل*" type="email"/>
-               </div>
-              </div>
-              <div class="col-md-4">
-               <div class="form-item">
-                <input class="form-control" id="website" name="website" placeholder="وب سایت*" type="website"/>
-               </div>
-              </div>
-             </div>
-             <div class="form-group row">
-              <div class="col-md-12">
-               <div class="form-item message-item">
-                <textarea class="form-control address" cols="30" id="message" name="message" placeholder="نظر*" rows="8"></textarea>
-               </div>
-              </div>
-             </div>
-             <div class="submit-btn">
-              <button class="tl-primary-btn" id="submit" type="submit">
-               ارسال نظر
-               <span class="icon">
+                                        </li>
+                                    </ul>
+                                    <h3 class="title">
+                                        {{ blog.title }}
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="blog-detail-img mb-30">
+                                <img alt="{{ blog.title }}" src="{{ blog.image.url }}"/>
+                            </div>
+                            <div class="blog-detail-content">
+                                <p class="mb-30">
+                                    {{ blog.short_description }}
+                                </p>
+                                {{ blog.content|linebreaks }}
+                            </div>
+
+                            <!-- برچسب‌های مقاله -->
+                            <div class="tags">
+                                <ul class="tag-list">
+                                    {% for tag in blog.tags.all %}
+                                    <li>
+                                        <a href="#">
+                                            {{ tag.title }}
+                                        </a>
+                                    </li>
+                                    {% empty %}
+                                    <li>
+                                        <span>بدون برچسب</span>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <!-- نظرات -->
+                            <div class="comments-area">
+                                <div class="section-heading">
+                                    <h2 class="section-title">
+                                        نظرات مشتریان {{ comments|length }}
+                                    </h2>
+                                </div>
+
+                                {% for comment in comments %}
+                                <div class="comment-item {% cycle '' 'item-2' %}">
+                                    <div class="comment-thumb">
+                                        <img alt="نویسنده" src="{% static 'img/blog/comment-thumb-1.png' %}"/>
+                                    </div>
+                                    <div class="comment-info">
+                                        <div class="comment-top">
+                                            <h3 class="author">
+                                                {{ comment.fullname }}
+                                            </h3>
+                                            <div class="comments-meta">
+               <span>
+                {{ comment.created_date|date:"d/m/Y" }}
+               </span>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            {{ comment.message }}
+                                        </p>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p>هنوز نظری برای این مقاله ثبت نشده است.</p>
+                                {% endfor %}
+
+                            </div>
+                            <!-- ./ comments-area -->
+
+                            <!-- فرم ارسال نظر -->
+                            <div class="form-wrap pt-70">
+                                <div class="blog-contact-form">
+                                    <h2 class="title">
+                                        ارسال نظر
+                                    </h2>
+
+                                    {% if form.non_field_errors %}
+                                    <p style="color:red;">{{ form.non_field_errors }}</p>
+                                    {% endif %}
+
+                                    <div class="request-form">
+                                        <form action="" class="form-horizontal" id="ajax_contact" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group row">
+                                                <div class="col-md-4">
+                                                    <div class="form-item">
+                                                        {{ form.fullname }}
+                                                        {% if form.fullname.errors %}
+                                                        <small style="color:red;">{{ form.fullname.errors|striptags
+                                                            }}</small>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-item">
+                                                        {{ form.email }}
+                                                        {% if form.email.errors %}
+                                                        <small style="color:red;">{{ form.email.errors|striptags
+                                                            }}</small>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-item">
+                                                        {{ form.website }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="form-item message-item">
+                                                        {{ form.message }}
+                                                        {% if form.message.errors %}
+                                                        <small style="color:red;">{{ form.message.errors|striptags
+                                                            }}</small>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- کپچا -->
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="form-item">
+                                                        <h4 class="form-title">
+                                                            کد امنیتی *
+                                                        </h4>
+                                                        <div class="captcha-wrap d-flex align-items-center"
+                                                             style="gap: 12px;">
+                                                            {{ form.captcha }}
+                                                            <button type="button" id="captcha-refresh-btn"
+                                                                    class="tl-primary-btn" style="padding: 6px 14px;">
+                                                                <i class="fa-solid fa-rotate"></i>
+                                                                کد جدید
+                                                            </button>
+                                                        </div>
+
+                                                        {% if form.captcha.errors %}
+                                                        <small style="color:red;">{{ form.captcha.errors|striptags
+                                                            }}</small>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="submit-btn">
+                                                <button class="tl-primary-btn" id="submit" type="submit">
+                                                    ارسال نظر
+                                                    <span class="icon">
                 <i class="fa-regular fa-arrow-right">
                 </i>
                </span>
-              </button>
-             </div>
-            </form>
-           </div>
-          </div>
-         </div>
-         <!-- ./ form-wrap -->
-        </div>
-       </div>
-       <!-- Sidebar Widgets -->
-       <div class="col-lg-4">
-        <div class="sidebar-widget">
-         <h3 class="widget-title">
-          جستجو کنید
-         </h3>
-         <div class="search-box">
-          <form action="contact.php" class="search-form">
-           <input class="form-control" placeholder="جستجو کنید" type="text"/>
-           <button class="search-btn" type="button">
-            <i class="fa-regular fa-magnifying-glass">
-            </i>
-           </button>
-          </form>
-         </div>
-        </div>
-        <div class="sidebar-widget">
-         <h3 class="widget-title">
-          دسته بندی ها
-         </h3>
-         <ul class="category-list">
-          <li>
-           <a href="#">
-            لوازم جانبی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            برق و روشنایی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            لوازم خانگی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ابزار قدرت
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            دسته بندی نشده
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            لوازم جانبی ظروف
-           </a>
-          </li>
-         </ul>
-        </div>
-        <div class="sidebar-widget">
-         <h3 class="widget-title">
-          پست اخیر
-         </h3>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-1.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 تیر 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             فضای مینیمالیستی خود را با راه حل های هوشمند به حداکثر برسانید
-            </a>
-           </h3>
-          </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-2.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 تیر 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             بررسی روندها و تکنیک های طراحی داخلی
-            </a>
-           </h3>
-          </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-3.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 تیر 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             دستور کار زیبایی شناسی: تعریف مجدد ظرافت داخلی
-            </a>
-           </h3>
-          </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-4.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 تیر 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             تبدیل فضاها به خانه های رویایی
-            </a>
-           </h3>
-          </div>
-         </div>
-        </div>
-        <div class="sidebar-widget sticky-widget">
-         <h3 class="widget-title">
-          برچسب ها
-         </h3>
-         <ul class="tags">
-          <li>
-           <a href="#">
-            معماری
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ساخت و ساز
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            مبلمان
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            طراحی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            داخلی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            آشپزخانه
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            اتاق نشیمن
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ساختمان
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            برنامه ریزی
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ Blog Details -->
-    <footer class="footer-section overflow-hidden">
-     <div class="footer-bg" data-background="{% static 'img/bg-img/footer-bg.png' %}">
-     </div>
-     <div class="footer-shade">
-     </div>
-     <div class="container container-2">
-      <div class="row footer-wrap">
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget">
-         <div class="widget-header">
-          <div class="footer-logo">
-           <a href="index.html">
-            <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
-           </a>
-          </div>
-         </div>
-         <p class="mb-10">
-          ما دید شما را به زیبایی تبدیل می کنیم
-          <br/>
-          شرکت آنترا
-         </p>
-         <p class="mb-0">
-          ایران
-          <br/>
-          تهران
-         </p>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget footer-col-2">
-         <ul class="footer-list">
-          <li>
-           <a href="about.html">
-            درباره ما
-           </a>
-          </li>
-          <li>
-           <a href="service.html">
-            خدمات
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            مشاغل
-           </a>
-          </li>
-          <li>
-           <a href="team.html">
-            تیم ما
-           </a>
-          </li>
-          <li>
-           <a href="blog-grid.html">
-            وبلاگ
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            تماس با ما
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget footer-col-2 pl-0">
-         <ul class="footer-list">
-          <li>
-           <a href="portfolio-details.html">
-            پروژه های ما
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            شرکا
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            برنامه شرکا
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            برنامه وابسته
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            شرایط و ضوابط
-           </a>
-          </li>
-          <li>
-           <a href="contact.html">
-            مرکز پشتیبانی
-           </a>
-          </li>
-         </ul>
-        </div>
-       </div>
-       <div class="col-lg-3 col-md-6">
-        <div class="footer-widget">
-         <div class="footer-address">
-          <a class="number" href="tel:02112345678">
-           02112345678
-          </a>
-          <a class="mail" href="tel:">
-           support@example.com
-          </a>
-          <ul class="social-list">
-           <li>
-            <a href="#">
-             فیس بوک
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             اینستاگرام
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             یوتیوب
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             توییتر
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-     <div class="copyright-area">
-      <div class="container">
-       <div class="copyright-content">
-        <p>
-         © 2026 antra تمامی حقوق محفوظ است.
-        </p>
-       </div>
-      </div>
-     </div>
-     <div class="footer-text">
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ./ form-wrap -->
+                        </div>
+                    </div>
+                    <!-- Sidebar Widgets -->
+                    <div class="col-lg-4">
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">
+                                جستجو کنید
+                            </h3>
+                            <div class="search-box">
+                                <form action="{% url 'blog:blog-list' %}" class="search-form" method="get">
+                                    <input class="form-control" name="q" placeholder="جستجو کنید" type="text"/>
+                                    <button class="search-btn" type="submit">
+                                        <i class="fa-regular fa-magnifying-glass">
+                                        </i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">
+                                دسته بندی ها
+                            </h3>
+                            <ul class="category-list">
+                                {% for category in categories %}
+                                <li>
+                                    <a href="{% url 'blog:blog-list' %}?category={{ category.id }}">
+                                        {{ category.title }}
+                                    </a>
+                                </li>
+                                {% empty %}
+                                <li>
+                                    <a href="#">
+                                        دسته بندی نشده
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="sidebar-widget">
+                            <h3 class="widget-title">
+                                پست اخیر
+                            </h3>
+                            {% for post in recent_posts %}
+                            <div class="sidebar-post">
+                                <img alt="{{ post.title }}" src="{{ post.image.url }}"/>
+                                <div class="post-content">
+                                    <ul class="post-meta">
+                                        <li>
+                                            {{ post.created_date|date:"d/m/Y" }}
+                                        </li>
+                                    </ul>
+                                    <h3 class="title">
+                                        <a href="{% url 'blog:blog-detail' post.slug %}">
+                                            {{ post.title }}
+                                        </a>
+                                    </h3>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- برچسب‌ها (سایدبار) -->
+                        <div class="sidebar-widget sticky-widget">
+                            <h3 class="widget-title">
+                                برچسب ها
+                            </h3>
+                            <ul class="tags">
+                                {% for tag in all_tags %}
+                                <li>
+                                    <a href="#">
+                                        {{ tag.title }}
+                                    </a>
+                                </li>
+                                {% empty %}
+                                <li>
+                                    <span>برچسبی ثبت نشده</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ Blog detail -->
+        <footer class="footer-section overflow-hidden">
+            <div class="footer-bg" data-background="{% static 'img/bg-img/footer-bg.png' %}">
+            </div>
+            <div class="footer-shade">
+            </div>
+            <div class="container container-2">
+                <div class="row footer-wrap">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <div class="widget-header">
+                                <div class="footer-logo">
+                                    <a href="{% url 'index:index' %}">
+                                        <img alt="لوگو" src="{% static 'img/logo/logo-2.png' %}"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <p class="mb-10">
+                                ما دید شما را به زیبایی تبدیل می کنیم
+                                <br/>
+                                شرکت آنترا
+                            </p>
+                            <p class="mb-0">
+                                ایران
+                                <br/>
+                                تهران
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget footer-col-2">
+                            <ul class="footer-list">
+                                <li>
+                                    <a href="about.html">
+                                        درباره ما
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="service.html">
+                                        خدمات
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        مشاغل
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="team.html">
+                                        تیم ما
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'blog:blog-list' %}">
+                                        وبلاگ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        تماس با ما
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget footer-col-2 pl-0">
+                            <ul class="footer-list">
+                                <li>
+                                    <a href="portfolio-detail.html">
+                                        پروژه های ما
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        شرکا
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        برنامه شرکا
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        برنامه وابسته
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        شرایط و ضوابط
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="contact.html">
+                                        مرکز پشتیبانی
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <div class="footer-address">
+                                <a class="number" href="tel:02112345678">
+                                    02112345678
+                                </a>
+                                <a class="mail" href="tel:">
+                                    support@example.com
+                                </a>
+                                <ul class="social-list">
+                                    <li>
+                                        <a href="#">
+                                            فیس بوک
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            اینستاگرام
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            یوتیوب
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            توییتر
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-area">
+                <div class="container">
+                    <div class="copyright-content">
+                        <p>
+                            © 2026 antra تمامی حقوق محفوظ است.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-text">
       <span>
        antra
       </span>
-     </div>
-    </footer>
-    <!-- ./ footer-section -->
-   </div>
-   </div>
+            </div>
+        </footer>
+        <!-- ./ footer-section -->
+    </div>
+</div>
+<script>
+    (function () {
+        function refreshCaptcha() {
+            fetch('/captcha/refresh/', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    // آپدیت کردن تصویر کپچا
+                    var img = document.querySelector('.captcha-wrap img');
+                    if (img) {
+                        img.src = data.image_url;
+                    }
 
+                    // آپدیت کردن کد مخفی (hidden key) که باید با تصویر جدید هماهنگ باشه
+                    var hiddenInput = document.querySelector('input[name="captcha_0"]');
+                    if (hiddenInput) {
+                        hiddenInput.value = data.key;
+                    }
+
+                    // خالی کردن اینپوتی که کاربر باید کد رو توش تایپ کنه
+                    var textInput = document.querySelector('input[name="captcha_1"]');
+                    if (textInput) {
+                        textInput.value = '';
+                    }
+                })
+                .catch(function (error) {
+                    console.error('خطا در دریافت کپچای جدید:', error);
+                });
+        }
+
+        var refreshBtn = document.getElementById('captcha-refresh-btn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                refreshCaptcha();
+            });
+        }
+    })();
+</script>
 
 {% endblock content %}

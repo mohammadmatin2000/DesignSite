@@ -14,13 +14,13 @@
         وبلاگ
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="service.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="blog-grid.html">
+        <a class="inner-page" href="{% url 'blog:blog-list' %}">
          وبلاگ
         </a>
        </h4>
@@ -32,223 +32,137 @@
      <div class="container container-2">
       <div class="row">
        <div class="col-lg-8 col-md-6">
-        <div class="post-card inner-post">
-         <div class="post-thumb">
-          <img alt="پست" src="{% static 'img/blog/post-inner-1.png' %}"/>
+
+        {% if query %}
+         <p class="mb-4">نتایج جستجو برای: «{{ query }}»</p>
+        {% endif %}
+
+        {% if blogs %}
+
+         {% for blog in blogs %}
+
+          {% if forloop.first and not query %}
+           <!-- پست ویژه (اولین پست، فقط در حالت بدون جستجو) -->
+           <div class="post-card inner-post">
+            <div class="post-thumb">
+             <a href="{% url 'blog:blog-detail' blog.slug %}">
+              <img alt="{{ blog.title }}" src="{{ blog.image.url }}"/>
+             </a>
+            </div>
+            <div class="post-content">
+             <ul class="post-meta">
+              {% if blog.category %}
+               <li class="category">
+                {{ blog.category.title }}
+               </li>
+              {% endif %}
+              <li>
+               {{ blog.created_date|date:"d/m/Y" }}
+              </li>
+              <li>
+               توسط
+               <span>
+                مدیر
+               </span>
+              </li>
+             </ul>
+             <h3 class="title">
+              <a href="{% url 'blog:blog-detail' blog.slug %}">
+               {{ blog.title }}
+              </a>
+             </h3>
+             <p>
+              {{ blog.short_description }}
+             </p>
+             <a class="read-more" href="{% url 'blog:blog-detail' blog.slug %}">
+              ادامه مطلب
+             </a>
+            </div>
+           </div>
+          {% endif %}
+
+         {% endfor %}
+
+         <!-- بقیه پست‌ها در قالب گرید -->
+         <div class="post-card-wrap post-card-wrap-inner">
+          {% for blog in blogs %}
+           {% if not forloop.first or query %}
+            <div class="post-card">
+             <div class="post-thumb">
+              <a href="{% url 'blog:blog-detail' blog.slug %}">
+               <img alt="{{ blog.title }}" src="{{ blog.image.url }}"/>
+              </a>
+             </div>
+             <div class="post-content">
+              <ul class="post-meta">
+               {% if blog.category %}
+                <li class="category">
+                 {{ blog.category.title }}
+                </li>
+               {% endif %}
+               <li>
+                {{ blog.created_date|date:"d/m/Y" }}
+               </li>
+               <li>
+                توسط
+                <span>
+                 مدیر
+                </span>
+               </li>
+              </ul>
+              <h3 class="title">
+               <a href="{% url 'blog:blog-detail' blog.slug %}">
+                {{ blog.title }}
+               </a>
+              </h3>
+              <p>
+               {{ blog.short_description|truncatewords:20 }}
+              </p>
+              <a class="read-more" href="{% url 'blog:blog-detail' blog.slug %}">
+               ادامه مطلب
+              </a>
+             </div>
+            </div>
+           {% endif %}
+          {% endfor %}
          </div>
-         <div class="post-content">
-          <ul class="post-meta">
-           <li class="category">
-            بیرونی
-           </li>
+
+        {% else %}
+         <p>هیچ مقاله‌ای یافت نشد.</p>
+        {% endif %}
+
+        <!-- صفحه‌بندی -->
+        {% if is_paginated %}
+         <ul class="pagination-wrap mt-100 justify-content-center">
+
+          {% if page_obj.has_previous %}
            <li>
-            25 خرداد 1405
+            <a href="?{% if query %}q={{ query }}&{% endif %}page={{ page_obj.previous_page_number }}">
+             <i class="fa-regular fa-arrow-left"></i>
+            </a>
            </li>
+          {% endif %}
+
+          {% for num in paginator.page_range %}
            <li>
-            توسط
-            <span>
-             مدیر
-            </span>
+            <a class="{% if num == page_obj.number %}active{% endif %}"
+               href="?{% if query %}q={{ query }}&{% endif %}page={{ num }}">
+             {{ num }}
+            </a>
            </li>
-          </ul>
-          <h3 class="title">
-           <a href="blog-details.html">
-            خانه خود را با نکات طراحی داخلی مدرن متحول کنید
-           </a>
-          </h3>
-          <p>
-           طراحی داخلی مدرن همه چیز در مورد ایجاد فضایی براق، کاربردی و از نظر زیبایی شناسی دلپذیر است که زندگی معاصر را منعکس می کند. چه در حال به روز رسانی یک اتاق یک نفره یا طراحی مجدد کل خانه خود باشید، ترکیب اصول طراحی داخلی مدرن می تواند تازگی را به ارمغان بیاورد.
-          </p>
-          <a class="read-more" href="blog-details.html">
-           ادامه مطلب
-          </a>
-         </div>
-        </div>
-        <div class="post-card-wrap post-card-wrap-inner">
-         <div class="post-card">
-          <div class="post-thumb">
-           <img alt="پست" src="{% static 'img/blog/post-6.png' %}"/>
-          </div>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
-              مدیر
-             </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="blog-details.html">
-             فضای مینیمالیستی خود را با راه حل های هوشمند به حداکثر برسانید
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+           <li>
+            <a href="?{% if query %}q={{ query }}&{% endif %}page={{ page_obj.next_page_number }}">
+             <i class="fa-regular fa-arrow-right"></i>
             </a>
-           </h3>
-           <p>
-            یک شرکت ساده و به تازگی تاسیس شده در طراحی داخلی که به دنبال پرداختن به موضوعات مختلف از جمله…
-           </p>
-           <a class="read-more" href="blog-details.html">
-            ادامه مطلب
-           </a>
-          </div>
-         </div>
-         <div class="post-card">
-          <div class="post-thumb">
-           <img alt="پست" src="{% static 'img/blog/post-5.png' %}"/>
-          </div>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
-              مدیر
-             </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="blog-details.html">
-             بازتعریف کامل فضاهای داخلی برای سبک زندگی مدرن
-            </a>
-           </h3>
-           <p>
-            یک شرکت ساده و به تازگی تاسیس شده در طراحی داخلی که به دنبال پرداختن به موضوعات مختلف از جمله…
-           </p>
-           <a class="read-more" href="blog-details.html">
-            ادامه مطلب
-           </a>
-          </div>
-         </div>
-         <div class="post-card">
-          <div class="post-thumb">
-           <img alt="پست" src="{% static 'img/blog/post-4.png' %}"/>
-          </div>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
-              مدیر
-             </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="blog-details.html">
-             مواد مدرنی که عملکرد خانه شما را بالا می برند
-            </a>
-           </h3>
-           <p>
-            یک شرکت ساده و به تازگی تاسیس شده در طراحی داخلی که به دنبال پرداختن به موضوعات مختلف از جمله…
-           </p>
-           <a class="read-more" href="blog-details.html">
-            ادامه مطلب
-           </a>
-          </div>
-         </div>
-         <div class="post-card">
-          <div class="post-thumb">
-           <img alt="پست" src="{% static 'img/blog/post-3.png' %}"/>
-          </div>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
-              مدیر
-             </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="blog-details.html">
-             اتاق های مدرن فضاهای زیبا برای آرامش ایجاد می کنند
-            </a>
-           </h3>
-           <p>
-            یک شرکت ساده و به تازگی تاسیس شده در طراحی داخلی که به دنبال پرداختن به موضوعات مختلف از جمله…
-           </p>
-           <a class="read-more" href="blog-details.html">
-            ادامه مطلب
-           </a>
-          </div>
-         </div>
-         <div class="post-card">
-          <div class="post-thumb">
-           <img alt="پست" src="{% static 'img/blog/post-2.png' %}"/>
-          </div>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li class="category">
-             بیرونی
-            </li>
-            <li>
-             25 خرداد 1405
-            </li>
-            <li>
-             توسط
-             <span>
-              مدیر
-             </span>
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="blog-details.html">
-             زندگی لوکس و زیبا برای خانه مدرن
-            </a>
-           </h3>
-           <p>
-            یک شرکت ساده و به تازگی تاسیس شده در طراحی داخلی که به دنبال پرداختن به موضوعات مختلف از جمله…
-           </p>
-           <a class="read-more" href="blog-details.html">
-            ادامه مطلب
-           </a>
-          </div>
-         </div>
-        </div>
-        <ul class="pagination-wrap mt-100 justify-content-center">
-         <li>
-          <a href="#">
-           1
-          </a>
-         </li>
-         <li>
-          <a class="active" href="#">
-           2
-          </a>
-         </li>
-         <li>
-          <a href="#">
-           3
-          </a>
-         </li>
-         <li>
-          <a href="#">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </li>
-        </ul>
+           </li>
+          {% endif %}
+
+         </ul>
+        {% endif %}
+
        </div>
        <!-- Sidebar Widgets -->
        <div class="col-lg-4">
@@ -257,9 +171,9 @@
           جستجو کنید
          </h3>
          <div class="search-box">
-          <form action="contact.php" class="search-form">
-           <input class="form-control" placeholder="جستجو کنید" type="text"/>
-           <button class="search-btn" type="button">
+          <form action="{% url 'blog:blog-list' %}" class="search-form" method="get">
+           <input class="form-control" name="q" value="{{ query }}" placeholder="جستجو کنید" type="text"/>
+           <button class="search-btn" type="submit">
             <i class="fa-regular fa-magnifying-glass">
             </i>
            </button>
@@ -271,102 +185,42 @@
           دسته بندی ها
          </h3>
          <ul class="category-list">
-          <li>
-           <a href="#">
-            لوازم جانبی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            برق و روشنایی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            لوازم خانگی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ابزار قدرت
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            دسته بندی نشده
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            لوازم جانبی ظروف
-           </a>
-          </li>
+          {% for category in categories %}
+           <li>
+            <a href="{% url 'blog:blog-list' %}?category={{ category.id }}">
+             {{ category.title }}
+            </a>
+           </li>
+          {% empty %}
+           <li>
+            <a href="#">
+             دسته بندی نشده
+            </a>
+           </li>
+          {% endfor %}
          </ul>
         </div>
         <div class="sidebar-widget">
          <h3 class="widget-title">
           پست اخیر
          </h3>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-1.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 خرداد 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             فضای مینیمالیستی خود را با راه حل های هوشمند به حداکثر برسانید
-            </a>
-           </h3>
+         {% for post in recent_posts %}
+          <div class="sidebar-post">
+           <img alt="{{ post.title }}" src="{{ post.image.url }}"/>
+           <div class="post-content">
+            <ul class="post-meta">
+             <li>
+              {{ post.created_date|date:"d/m/Y" }}
+             </li>
+            </ul>
+            <h3 class="title">
+             <a href="{% url 'blog:blog-detail' post.slug %}">
+              {{ post.title }}
+             </a>
+            </h3>
+           </div>
           </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-2.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 خرداد 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             بررسی روندها و تکنیک های طراحی داخلی
-            </a>
-           </h3>
-          </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-3.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 خرداد 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             دستور کار زیبایی شناسی: تعریف مجدد ظرافت داخلی
-            </a>
-           </h3>
-          </div>
-         </div>
-         <div class="sidebar-post">
-          <img alt="پست" src="{% static 'img/blog/sidebar-post-4.png' %}"/>
-          <div class="post-content">
-           <ul class="post-meta">
-            <li>
-             10 خرداد 1405
-            </li>
-           </ul>
-           <h3 class="title">
-            <a href="#">
-             تبدیل فضاها به خانه های رویایی
-            </a>
-           </h3>
-          </div>
-         </div>
+         {% endfor %}
         </div>
         <div class="sidebar-widget sticky-widget">
          <h3 class="widget-title">

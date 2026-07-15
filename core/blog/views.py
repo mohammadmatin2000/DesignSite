@@ -1,5 +1,9 @@
 from django.views.generic import ListView, DetailView
-from .models import BlogModels
+from django.views.generic.edit import FormMixin
+from django.db.models import Q
+from django.urls import reverse
+from .models import BlogModels, CategoryModels
+from .forms import CommentForm
 # ======================================================================================================================
 # نمایش لیست مقالات
 class BlogListView(ListView):
@@ -16,27 +20,105 @@ class BlogListView(ListView):
     # تعداد مقالات در هر صفحه
     paginate_by = 6
 
-    # فقط مقالات منتشر شده
+    # فقط مقالات منتشر شده + پشتیبانی از جستجو
     def get_queryset(self):
-        return BlogModels.objects.filter(status="published")
+        queryset = BlogModels.objects.filter(status="published")
+
+        # دریافت عبارت جستجو از پارامتر q در URL
+        query = self.request.GET.get("q")
+
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(short_description__icontains=query) |
+                Q(content__icontains=query)
+            )
+
+        return queryset
+
+    # اضافه کردن داده‌های اضافی به قالب (دسته‌بندی‌ها، عبارت جستجو، پست‌های اخیر)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # ارسال دسته‌بندی‌ها به سایدبار
+        context["categories"] = CategoryModels.objects.all()
+
+        # حفظ عبارت جستجو در اینپوت بعد از ارسال فرم
+        context["query"] = self.request.GET.get("q", "")
+
+        # پنج پست اخیر برای سایدبار
+        context["recent_posts"] = BlogModels.objects.filter(
+            status="published"
+        ).order_by("-created_date")[:4]
+
+        return context
 # ======================================================================================================================
-# نمایش جزئیات مقاله
-class BlogDetailView(DetailView):
+# نمایش جزئیات یک مقاله + دریافت و ثبت نظر کاربران
+class BlogDetailView(FormMixin, DetailView):
 
-    # مدل مورد استفاده
     model = BlogModels
-
-    # قالب صفحه
     template_name = "blog/blog-detail.html"
-
-    # نام متغیر ارسالی به قالب
-    context_object_name = "blog_detail"
-
-    # پیدا کردن مقاله بر اساس اسلاگ
+    context_object_name = "blog"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
-    # فقط مقالات منتشر شده
+    # فرم مورد استفاده برای ثبت نظر
+    form_class = CommentForm
+
+    # فقط مقالات منتشر شده قابل مشاهده باشند
     def get_queryset(self):
         return BlogModels.objects.filter(status="published")
+
+    # افزایش تعداد بازدید هر بار که صفحه باز میشه
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.views += 1
+        obj.save(update_fields=["views"])
+        return obj
+
+    # آدرس بازگشت بعد از ثبت موفق نظر (همان صفحه‌ی مقاله)
+    def get_success_url(self):
+        return reverse("blog:blog-details", kwargs={"slug": self.object.slug})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["categories"] = CategoryModels.objects.all()
+
+        context["recent_posts"] = BlogModels.objects.filter(
+            status="published"
+        ).order_by("-created_date")[:4]
+
+        # فقط نظرات تایید شده به کاربر نمایش داده شود
+        context["comments"] = self.object.comments.filter(is_approved=True)
+
+        # اگر فرم از قبل در context نیامده (مثلاً در حالت GET) بسازش
+        if "form" not in kwargs:
+            context["form"] = self.get_form()
+
+        return context
+
+    # مدیریت درخواست POST (زمانی که کاربر فرم نظر را ارسال می‌کند)
+    def post(self, request, *args, **kwargs):
+        # چون در DetailView معمولی self.object در post تنظیم نمی‌شود، خودمان تنظیمش می‌کنیم
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    # وقتی فرم معتبر است، نظر را با اتصال به مقاله‌ی جاری ذخیره کن
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.blog = self.object
+        comment.save()
+        return super().form_valid(form)
+
+    # اگر فرم نامعتبر بود، همان صفحه را با خطاها دوباره نمایش بده
+    def form_invalid(self, form):
+        print(form.errors)
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
 # ======================================================================================================================

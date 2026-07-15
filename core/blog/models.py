@@ -15,6 +15,33 @@ class CategoryModels(models.Model):
     def __str__(self):
         return self.title
 # ======================================================================================================================
+# مدل برچسب‌های مقالات
+class TagModel(models.Model):
+
+    # عنوان برچسب
+    title = models.CharField(max_length=100)
+
+    # اسلاگ برچسب (برای لینک صفحه‌ی فیلتر بر اساس برچسب)
+    slug = models.SlugField(
+        max_length=100,
+        unique=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
+
+    # نمایش عنوان برچسب
+    def __str__(self):
+        return self.title
+
+    # ساخت خودکار اسلاگ از روی عنوان، اگر خالی باشد
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+# ======================================================================================================================
 # مدل مقالات وبلاگ
 class BlogModels(models.Model):
 
@@ -41,6 +68,14 @@ class BlogModels(models.Model):
         null=True,
         blank=True,
         related_name="blogs"
+    )
+
+    # برچسب‌های مقاله (هر مقاله می‌تواند چند برچسب داشته باشد)
+    tags = models.ManyToManyField(
+        TagModel,
+        blank=True,
+        related_name="blogs",
+        verbose_name="برچسب ها"
     )
 
     # تصویر شاخص مقاله
@@ -92,8 +127,70 @@ class BlogModels(models.Model):
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
 
-
     # نمایش عنوان مقاله
     def __str__(self):
         return self.title
+
+    # ساخت خودکار اسلاگ از روی عنوان، اگر کاربر خودش وارد نکرده باشد
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+# ======================================================================================================================
+# مدل نظرات کاربران روی مقالات
+class CommentModel(models.Model):
+
+    # مقاله‌ای که این نظر برای آن ثبت شده است
+    blog = models.ForeignKey(
+        BlogModels,
+        on_delete=models.CASCADE,
+        related_name="comments",
+        verbose_name="مقاله"
+    )
+
+    # نام کامل نویسنده‌ی نظر
+    fullname = models.CharField(
+        max_length=150,
+        verbose_name="نام کامل"
+    )
+
+    # ایمیل نویسنده‌ی نظر
+    email = models.EmailField(
+        verbose_name="ایمیل"
+    )
+
+    # وب‌سایت نویسنده‌ی نظر (اختیاری)
+    website = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name="وب سایت"
+    )
+
+    # متن نظر
+    message = models.TextField(
+        verbose_name="متن نظر"
+    )
+
+    # آیا نظر توسط مدیر تایید شده و قابل نمایش در سایت است؟
+    is_approved = models.BooleanField(
+        default=False,
+        verbose_name="تایید شده"
+    )
+
+    # تاریخ ثبت نظر
+    created_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="تاریخ ثبت"
+    )
+
+    class Meta:
+        # نمایش جدیدترین نظرات در ابتدا
+        ordering = ["-created_date"]
+
+        verbose_name = "نظر"
+        verbose_name_plural = "نظرات"
+
+    # نمایش نام نویسنده و مقاله مرتبط
+    def __str__(self):
+        return f"{self.fullname} - {self.blog.title}"
 # ======================================================================================================================
