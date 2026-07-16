@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
 from django.db.models import Q
 from django.urls import reverse
-from .models import BlogModels, CategoryModels
+from .models import BlogModels, CategoryModels, TagModel
 from .forms import CommentForm
 # ======================================================================================================================
 # نمایش لیست مقالات
@@ -27,6 +27,12 @@ class BlogListView(ListView):
         # دریافت عبارت جستجو از پارامتر q در URL
         query = self.request.GET.get("q")
 
+        # دریافت پارامتر دسته‌بندی
+        category_id = self.request.GET.get("category")
+
+        # دریافت پارامتر برچسب
+        tag_slug = self.request.GET.get("tag")
+
         if query:
             queryset = queryset.filter(
                 Q(title__icontains=query) |
@@ -34,9 +40,15 @@ class BlogListView(ListView):
                 Q(content__icontains=query)
             )
 
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+
+        if tag_slug:
+            queryset = queryset.filter(tags__slug=tag_slug)
+
         return queryset
 
-    # اضافه کردن داده‌های اضافی به قالب (دسته‌بندی‌ها، عبارت جستجو، پست‌های اخیر)
+    # اضافه کردن داده‌های اضافی به قالب (دسته‌بندی‌ها، عبارت جستجو، پست‌های اخیر، برچسب‌ها)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -50,6 +62,9 @@ class BlogListView(ListView):
         context["recent_posts"] = BlogModels.objects.filter(
             status="published"
         ).order_by("-created_date")[:4]
+
+        # همه‌ی برچسب‌های موجود برای سایدبار
+        context["all_tags"] = TagModel.objects.all()
 
         return context
 # ======================================================================================================================
@@ -78,7 +93,7 @@ class BlogDetailView(FormMixin, DetailView):
 
     # آدرس بازگشت بعد از ثبت موفق نظر (همان صفحه‌ی مقاله)
     def get_success_url(self):
-        return reverse("blog:blog-details", kwargs={"slug": self.object.slug})
+        return reverse("blog:blog-detail", kwargs={"slug": self.object.slug})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -91,6 +106,9 @@ class BlogDetailView(FormMixin, DetailView):
 
         # فقط نظرات تایید شده به کاربر نمایش داده شود
         context["comments"] = self.object.comments.filter(is_approved=True)
+
+        # همه‌ی برچسب‌های موجود برای سایدبار
+        context["all_tags"] = TagModel.objects.all()
 
         # اگر فرم از قبل در context نیامده (مثلاً در حالت GET) بسازش
         if "form" not in kwargs:

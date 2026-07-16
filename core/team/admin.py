@@ -11,6 +11,7 @@ class TeamModelsAdmin(admin.ModelAdmin):
         "position",
         "phone",
         "is_active",
+        "is_manager",
     )
 
     search_fields = (

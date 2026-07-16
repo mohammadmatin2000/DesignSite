@@ -222,58 +222,27 @@
           </div>
          {% endfor %}
         </div>
+
+        <!-- برچسب‌ها (داینامیک) -->
         <div class="sidebar-widget sticky-widget">
          <h3 class="widget-title">
           برچسب ها
          </h3>
          <ul class="tags">
-          <li>
-           <a href="#">
-            معماری
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ساخت و ساز
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            مبلمان
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            طراحی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            داخلی
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            آشپزخانه
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            اتاق نشیمن
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            ساختمان
-           </a>
-          </li>
-          <li>
-           <a href="#">
-            برنامه ریزی
-           </a>
-          </li>
+          {% for tag in all_tags %}
+           <li>
+            <a href="{% url 'blog:blog-list' %}?tag={{ tag.slug }}">
+             {{ tag.title }}
+            </a>
+           </li>
+          {% empty %}
+           <li>
+            <span>برچسبی ثبت نشده</span>
+           </li>
+          {% endfor %}
          </ul>
         </div>
+
        </div>
       </div>
      </div>

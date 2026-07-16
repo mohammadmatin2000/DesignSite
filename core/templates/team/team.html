@@ -14,13 +14,13 @@
         تیم ما
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="index.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="team.html">
+        <a class="inner-page" href="{% url 'team:team-list' %}">
          تیم
         </a>
        </h4>
@@ -31,264 +31,51 @@
     <section class="team-section pt-130 pb-130">
      <div class="container container-2">
       <div class="row gy-5" data-masonry='{"percentPosition": true }'>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-6.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            مارک جکسون
-           </a>
-          </h3>
-          <span>
-           طراح نمایشگاه
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
+
+       {% for member in teams %}
+        <div class="col-lg-4 col-md-6">
+         <div class="team-item-2 {% cycle '' 'item-1' '' '' '' '' %}">
+          <div class="team-thumb">
+           <img alt="{{ member.full_name }}" src="{{ member.image.url }}"/>
+          </div>
+          <div class="team-content">
+           <h3 class="title">
+            <a href="{% url 'team:team-detail' member.pk %}">
+             {{ member.full_name }}
             </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
+           </h3>
+           <span>
+            {{ member.position }}
+           </span>
+           <ul class="team-social">
+            <li>
+             <a href="#">
+              <i class="fa-brands fa-facebook-f">
+              </i>
+             </a>
+            </li>
+            <li>
+             <a href="#">
+              <i class="fa-brands fa-instagram">
+              </i>
+             </a>
+            </li>
+            <li>
+             <a href="#">
+              <i class="fa-brands fa-linkedin-in">
+              </i>
+             </a>
+            </li>
+           </ul>
+          </div>
          </div>
         </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2 item-1">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-7.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            هلن ریوز
-           </a>
-          </h3>
-          <span>
-           طراح تولید
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
-         </div>
+       {% empty %}
+        <div class="col-12 text-center">
+         <p>عضوی برای نمایش ثبت نشده است.</p>
         </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-8.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            الکس پودزمسکی
-           </a>
-          </h3>
-          <span>
-           طراح گرافیک
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-2.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            مارک جکسون
-           </a>
-          </h3>
-          <span>
-           طراح نمایشگاه
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-4.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            الکس پودزمسکی
-           </a>
-          </h3>
-          <span>
-           طراح گرافیک
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="team-item-2">
-         <div class="team-thumb">
-          <img alt="تیم" src="{% static 'img/team/team-img-5.png' %}"/>
-         </div>
-         <div class="team-content">
-          <h3 class="title">
-           <a href="team-details.html">
-            هلن ریوز
-           </a>
-          </h3>
-          <span>
-           طراح تولید
-          </span>
-          <ul class="team-social">
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
-            </a>
-           </li>
-          </ul>
-         </div>
-        </div>
-       </div>
+       {% endfor %}
+
       </div>
      </div>
     </section>
@@ -301,31 +88,41 @@
       <div class="testi-carousel-wrap">
        <div class="testi-carousel testi-carousel-2">
         <div class="swiper-wrapper">
-         <div class="swiper-slide">
-          <div class="testi-item-2 text-center">
-           <div class="icon">
-            <img alt="نماد" src="{% static 'img/icon/quote.png' %}"/>
-           </div>
-           <div class="content">
-            <p>
-             "من کاملاً اتاق نشیمن مدرن جدید خود را دوست دارم! خطوط تمیز، رنگ های خنثی و فضای داخلی مینیمالیستی چنین فضای آرام و شیکی را ایجاد می کند. خدمات طراحی داخلی مدرن آنها را به شدت توصیه می کنیم!"
-            </p>
-            <div class="testi-author">
-             <div class="author-img">
-              <img alt="بیضه" src="{% static 'img/testi/testi-author-1.png' %}"/>
-             </div>
-             <div class="author-content">
-              <h4 class="name">
-               علی صادقی
-              </h4>
-              <span>
-               مالک شرکت
-              </span>
+
+         {% for manager in managers %}
+          <div class="swiper-slide">
+           <div class="testi-item-2 text-center">
+            <div class="icon">
+             <img alt="نماد" src="{% static 'img/icon/quote.png' %}"/>
+            </div>
+            <div class="content">
+             <p>
+              "{{ manager.manager_quote }}"
+             </p>
+             <div class="testi-author">
+              <div class="author-img">
+               <img alt="{{ manager.full_name }}" src="{{ manager.image.url }}"/>
+              </div>
+              <div class="author-content">
+               <h4 class="name">
+                {{ manager.full_name }}
+               </h4>
+               <span>
+                مالک شرکت
+               </span>
+              </div>
              </div>
             </div>
            </div>
           </div>
-         </div>
+         {% empty %}
+          <div class="swiper-slide">
+           <div class="testi-item-2 text-center">
+            <p>نظری برای نمایش ثبت نشده است.</p>
+           </div>
+          </div>
+         {% endfor %}
+
         </div>
        </div>
       </div>

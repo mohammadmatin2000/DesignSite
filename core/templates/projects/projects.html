@@ -14,13 +14,13 @@
         پروژه های ما
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="service.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="about.html">
+        <a class="inner-page" href="{% url 'projects:project-list' %}">
          پروژه ها
         </a>
        </h4>
@@ -31,303 +31,47 @@
     <section class="project-section-inner pt-130 pb-130">
      <div class="container container-2">
       <div class="row gy-5">
+       {% for project in projects %}
        <div class="col-lg-4 col-md-6">
         <div class="project-item antra-hover-view">
          <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-1.png' %}"/>
+          <a class="d-block p-relative z-1" href="{% url 'projects:project-detail' project.slug %}">
+           <img alt="{{ project.title }}" src="{{ project.image.url }}"/>
           </a>
           <ul>
            <li>
-            <a href="project-detail.html">
-             مسکونی
+            <a href="{% url 'projects:project-detail' project.slug %}">
+             {{ project.category.title }}
             </a>
            </li>
+           {% for extra in project.extra_categories.all %}
            <li>
-            <a href="project-detail.html">
-             خانه مجردی
+            <a href="{% url 'projects:project-detail' project.slug %}">
+             {{ extra.title }}
             </a>
            </li>
+           {% endfor %}
           </ul>
          </div>
          <div class="project-content">
           <h3 class="title">
-           <a href="project-detail.html">
-            خط افق لوکس
+           <a href="{% url 'projects:project-detail' project.slug %}">
+            {{ project.title }}
            </a>
           </h3>
           <span>
-           برلین، آلمان
+           {{ project.location }}
            <br/>
-           1405
+           {{ project.year }}
           </span>
          </div>
         </div>
        </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-2.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            راپسودی بوهمی
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
+       {% empty %}
+       <div class="col-12">
+        <p class="text-center">هنوز پروژه‌ای ثبت نشده است.</p>
        </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-3.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            پرنعمت زرق و برق
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-4.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            خط افق لوکس
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-5.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            راپسودی بوهمی
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-6.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            پرنعمت زرق و برق
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-7.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            خط افق لوکس
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-8.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            راپسودی بوهمی
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-4 col-md-6">
-        <div class="project-item antra-hover-view">
-         <div class="project-img">
-          <a class="d-block p-relative z-1" href="project-detail.html">
-           <img alt="پروژه" src="{% static 'img/project/project-img-9.png' %}"/>
-          </a>
-          <ul>
-           <li>
-            <a href="project-detail.html">
-             مسکونی
-            </a>
-           </li>
-           <li>
-            <a href="project-detail.html">
-             خانه مجردی
-            </a>
-           </li>
-          </ul>
-         </div>
-         <div class="project-content">
-          <h3 class="title">
-           <a href="project-detail.html">
-            پرنعمت زرق و برق
-           </a>
-          </h3>
-          <span>
-           برلین، آلمان
-           <br/>
-           1405
-          </span>
-         </div>
-        </div>
-       </div>
+       {% endfor %}
       </div>
      </div>
     </section>

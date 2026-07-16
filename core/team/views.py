@@ -12,6 +12,15 @@ class TeamListView(ListView):
 
     def get_queryset(self):
         return TeamModels.objects.filter(is_active=True)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # اعضایی که is_manager روشونه، برای نمایش در بخش نظرات
+        context["managers"] = TeamModels.objects.filter(
+            is_active=True,
+            is_manager=True
+        )
+
+        return context
 # ======================================================================================================================
 # نمایش جزئیات عضو تیم
 class TeamDetailView(DetailView):

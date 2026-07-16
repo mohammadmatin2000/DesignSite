@@ -121,7 +121,13 @@
                                     <div class="col-md-12">
                                         <div class="form-item">
                                             <h4 class="form-title">کد امنیتی *</h4>
-                                            {{ form.captcha }}
+                                            <div class="captcha-wrap d-flex align-items-center" style="gap: 12px;">
+                                                {{ form.captcha }}
+                                                <button type="button" id="captcha-refresh-btn" class="tl-primary-btn" style="padding: 6px 14px;">
+                                                    <i class="fa-solid fa-rotate"></i>
+                                                    کد جدید
+                                                </button>
+                                            </div>
                                             {% if form.captcha.errors %}
                                             <small style="color:red;">{{ form.captcha.errors|striptags }}</small>
                                             {% endif %}
@@ -163,31 +169,46 @@
 
 <script>
     (function () {
-        const captchaEl = document.getElementById('captcha-code');
-        const inputEl = document.getElementById('captcha');
-        const errorEl = document.getElementById('captcha-error');
-        const refreshBtn = document.getElementById('refresh-captcha');
-        const form = document.getElementById('ajax_contact');
-        let currentCode = '';
+        function refreshCaptcha() {
+            fetch('/captcha/refresh/', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    // آپدیت کردن تصویر کپچا
+                    var img = document.querySelector('.captcha-wrap img');
+                    if (img) {
+                        img.src = data.image_url;
+                    }
 
-        function generateCaptcha() {
-            currentCode = Math.floor(1000 + Math.random() * 9000).toString();
-            captchaEl.textContent = currentCode;
-            inputEl.value = '';
-            errorEl.style.display = 'none';
+                    // آپدیت کردن کد مخفی (hidden key) که باید با تصویر جدید هماهنگ باشه
+                    var hiddenInput = document.querySelector('input[name="captcha_0"]');
+                    if (hiddenInput) {
+                        hiddenInput.value = data.key;
+                    }
+
+                    // خالی کردن اینپوتی که کاربر باید کد رو توش تایپ کنه
+                    var textInput = document.querySelector('input[name="captcha_1"]');
+                    if (textInput) {
+                        textInput.value = '';
+                    }
+                })
+                .catch(function (error) {
+                    console.error('خطا در دریافت کپچای جدید:', error);
+                });
         }
 
-        refreshBtn.addEventListener('click', generateCaptcha);
-
-        form.addEventListener('submit', function (e) {
-            if (inputEl.value.trim() !== currentCode) {
+        var refreshBtn = document.getElementById('captcha-refresh-btn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-                errorEl.style.display = 'inline-block';
-                generateCaptcha();
-            }
-        });
-
-        generateCaptcha();
+                refreshCaptcha();
+            });
+        }
     })();
 </script>
 

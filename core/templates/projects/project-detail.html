@@ -14,13 +14,13 @@
         جزئیات پروژه
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="service.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="project-detail.html">
+        <a class="inner-page" href="{% url 'projects:project-detail' project.slug %}">
          جزئیات پروژه
         </a>
        </h4>
@@ -32,153 +32,158 @@
      <div class="container container-2">
       <div class="project-details-wrap">
        <h1 class="details-title">
-        آپارتمان شیک خانوادگی
+        {{ project.title }}
        </h1>
        <div class="project-details-meta">
+        {% if project.architect %}
         <div class="details-meta">
-         <span>
-          معمار:
-         </span>
-         <h5>
-          دیوید اسوالد
-         </h5>
+         <span>معمار:</span>
+         <h5>{{ project.architect }}</h5>
         </div>
+        {% endif %}
+        {% if project.project_type %}
         <div class="details-meta">
-         <span>
-          نوع پروژه:
-         </span>
-         <h5>
-          طراحی داخلی
-         </h5>
+         <span>نوع پروژه:</span>
+         <h5>{{ project.project_type }}</h5>
         </div>
+        {% endif %}
+        {% if project.client %}
         <div class="details-meta">
-         <span>
-          مشتری:
-         </span>
-         <h5>
-          astraThemes
-         </h5>
+         <span>مشتری:</span>
+         <h5>{{ project.client }}</h5>
         </div>
+        {% endif %}
+        {% if project.duration %}
         <div class="details-meta">
-         <span>
-          شرایط:
-         </span>
-         <h5>
-          6 ماه
-         </h5>
+         <span>شرایط:</span>
+         <h5>{{ project.duration }}</h5>
         </div>
+        {% endif %}
+        {% if project.strategy %}
         <div class="details-meta">
-         <span>
-          استراتژی:
-         </span>
-         <h5>
-          مینیمالیست
-         </h5>
+         <span>استراتژی:</span>
+         <h5>{{ project.strategy }}</h5>
         </div>
+        {% endif %}
         <div class="details-meta">
-         <span>
-          تاریخ:
-         </span>
-         <h5>
-          11 خرداد 1405
-         </h5>
+         <span>تاریخ:</span>
+         <h5>{{ project.display_date|default:project.year }}</h5>
         </div>
        </div>
+
        <div class="project-details-img">
-        <img alt="img" src="{% static 'img/project/project-details-img-1.png' %}"/>
+        <img alt="{{ project.title }}" src="{{ project.image.url }}"/>
        </div>
+
+       {% if project.short_description %}
        <h2 class="details-title-2">
         طراحی با جزئیات
        </h2>
        <p>
-        با توجه به نیازهای فیزیکی، ذهنی و عاطفی افراد، طراحان داخلی از رویکردهای انسان محور برای پرداختن به نحوه زندگی امروز ما استفاده می کنند. با ایجاد رویکردهای جدید برای ارتقای سلامت، ایمنی و رفاه، فضاهای داخلی معاصر به طور فزاینده ای از بیوفیلی به عنوان رویکردی جامع برای ارتقای سلامت، ایمنی و رفاه الهام می گیرند، فضاهای داخلی معاصر به طور فزاینده ای از بیوفیلی به عنوان رویکردی جامع برای طراحی الهام می گیرند. طبق تعریف، طراحی داخلی جنبه های متنوعی از محیط ما را در بر می گیرد. این رشته به مصالح ساختمانی و تکمیل می‌شود. مورد، مبلمان.
+        {{ project.short_description }}
        </p>
+       {% endif %}
+
        <div class="project-details-list">
+        {% if project.feature_one_title or project.feature_two_title or project.feature_three_title %}
         <ul>
+         {% if project.feature_one_title %}
          <li>
-          <i class="fa-sharp fa-solid fa-circle-check">
-          </i>
-          <strong>
-           فضاهای زندگی باز:
-          </strong>
-          ایجاد مناطق نشیمن با پلان باز برای افزایش جریان و ارتباط بین فضاهای داخلی و خارجی.
+          <i class="fa-sharp fa-solid fa-circle-check"></i>
+          <strong>{{ project.feature_one_title }}:</strong>
+          {{ project.feature_one_desc }}
          </li>
+         {% endif %}
+         {% if project.feature_two_title %}
          <li>
-          <i class="fa-sharp fa-solid fa-circle-check">
-          </i>
-          <strong>
-           مواد طبیعی
-          </strong>
-          استفاده از چوب، سنگ و الیاف طبیعی احیا شده برای ایجاد حس هماهنگی با محیط اطراف.
+          <i class="fa-sharp fa-solid fa-circle-check"></i>
+          <strong>{{ project.feature_two_title }}:</strong>
+          {{ project.feature_two_desc }}
          </li>
+         {% endif %}
+         {% if project.feature_three_title %}
          <li>
-          <i class="fa-sharp fa-solid fa-circle-check">
-          </i>
-          <strong>
-           پنجره های بزرگ:
-          </strong>
-          نصب پنجره های از کف تا سقف برای به حداکثر رساندن نور طبیعی و ایجاد منظره اقیانوس بدون مانع.
+          <i class="fa-sharp fa-solid fa-circle-check"></i>
+          <strong>{{ project.feature_three_title }}:</strong>
+          {{ project.feature_three_desc }}
          </li>
+         {% endif %}
         </ul>
+        {% endif %}
+
+        {% if project.feature_four_title or project.feature_five_title %}
         <ul>
+         {% if project.feature_four_title %}
          <li>
-          <i class="fa-sharp fa-solid fa-circle-check">
-          </i>
-          <strong>
-           زندگی در فضای باز:
-          </strong>
-          طراحی مناطق وسیع در فضای باز، از جمله عرشه، استخر، و باغ، برای استراحت و سرگرمی.
+          <i class="fa-sharp fa-solid fa-circle-check"></i>
+          <strong>{{ project.feature_four_title }}:</strong>
+          {{ project.feature_four_desc }}
          </li>
+         {% endif %}
+         {% if project.feature_five_title %}
          <li>
-          <i class="fa-sharp fa-solid fa-circle-check">
-          </i>
-          <strong>
-           امکانات مدرن:
-          </strong>
-          دارای مدرن ترین لوازم آشپزخانه، فناوری خانه هوشمند، و وسایل حمام مجلل.
+          <i class="fa-sharp fa-solid fa-circle-check"></i>
+          <strong>{{ project.feature_five_title }}:</strong>
+          {{ project.feature_five_desc }}
          </li>
+         {% endif %}
         </ul>
+        {% endif %}
        </div>
+
+       {% if project.stat_one_value or project.stat_two_value or project.stat_three_value or project.stat_four_value %}
        <div class="project-details-items">
+        {% if project.stat_one_value %}
         <div class="project-details-item text-center">
          <h3 class="title">
-          30 متر مربع
+          {{ project.stat_one_value }}
          </h3>
          <span>
-          اتاق خواب
+          {{ project.stat_one_label }}
          </span>
         </div>
+        {% endif %}
+        {% if project.stat_two_value %}
         <div class="project-details-item text-center">
          <h3 class="title">
-          22 متر مربع
+          {{ project.stat_two_value }}
          </h3>
          <span>
-          حمام
+          {{ project.stat_two_label }}
          </span>
         </div>
+        {% endif %}
+        {% if project.stat_three_value %}
         <div class="project-details-item text-center">
          <h3 class="title">
-          28 متر مربع
+          {{ project.stat_three_value }}
          </h3>
          <span>
-          فضای کار
+          {{ project.stat_three_label }}
          </span>
         </div>
+        {% endif %}
+        {% if project.stat_four_value %}
         <div class="project-details-item text-center">
          <h3 class="title">
-          15 متر مربع
+          {{ project.stat_four_value }}
          </h3>
          <span>
-          منطقه آشپزخانه
+          {{ project.stat_four_label }}
          </span>
         </div>
+        {% endif %}
        </div>
+       {% endif %}
+
+       {% if project.result_description %}
        <h3 class="details-title-2">
         نتیجه باور نکردنی
        </h3>
        <p>
-        با ایجاد تجربیات چندحسی، می‌توانیم فضای داخلی را طراحی کنیم که در سنین و جمعیت‌شناسی طنین‌انداز باشد. این اتاق ها و فضاها ما را به طبیعت به عنوان راهی ثابت شده برای الهام بخشیدن به ما، افزایش بهره وری و ایجاد رفاه بیشتر متصل می کند. گذشته از این مزایا، با کاهش استرس و افزایش خلاقیت، می‌توانیم درمان را نیز تسریع کنیم. در شهرهای شهرنشینی ما، بیوفیلیا از رویکردی انسان‌گرایانه‌تر برای طراحی حمایت می‌کند. نتیجه فضای داخلی بیوفیلیک است که نحوه زندگی، کار و یادگیری ما را با طبیعت جشن می گیرد. این اصطلاح در یونانی باستان به «عشق به موجودات زنده» ترجمه می‌شود (فیلیا = عشق به / تمایل به) و توسط روانکاو آمریکایی آلمانی الاصل اریش فروم در آناتومی ویرانگر انسانی (1973) استفاده شد.
+        {{ project.result_description }}
        </p>
+       {% endif %}
       </div>
      </div>
     </section>

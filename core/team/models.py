@@ -36,6 +36,16 @@ class TeamModels(models.Model):
     skill_three = models.CharField(max_length=100)
     skill_three_percent = models.PositiveIntegerField(default=0)
 
+    # آیا این عضو مدیر شرکت است؟ (برای نمایش در بخش نظرات)
+    is_manager = models.BooleanField(default=False, verbose_name="مدیر شرکت")
+
+    # متن نظر مدیر (فقط وقتی is_manager فعال باشد استفاده می‌شود)
+    manager_quote = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="متن نظر مدیر"
+    )
+
     # نمایش در سایت
     is_active = models.BooleanField(default=True)
 

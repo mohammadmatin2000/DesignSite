@@ -14,13 +14,13 @@
         جزئیات تیم
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="index.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="team-details.html">
+        <a class="inner-page" href="{% url 'team:team-detail' team.pk %}">
          جزئیات تیم
         </a>
        </h4>
@@ -33,139 +33,128 @@
       <div class="row pin-inner">
        <div class="col-lg-6">
         <div class="team-details-img pin-box">
-         <img alt="تیم" src="{% static 'img/team/team-details-img.png' %}"/>
+         <img alt="{{ team.full_name }}" src="{{ team.image.url }}"/>
         </div>
        </div>
        <div class="col-lg-6">
         <div class="team-details-content scroll-content">
          <h2 class="name">
-          ریکاردو مارلین
+          {{ team.full_name }}
          </h2>
          <span class="prof">
-          بنیانگذار و مدیرعامل
+          {{ team.position }}
          </span>
          <p class="desc">
-          مارک جکسون برای داوری سومین دوره جوایز Dezeen انتخاب شد. با داشتن سالها تخصص در طراحی فضاهای مسکونی و عمومی - بنیانگذار و معمار اصلی Antra و نویسنده FAIN به بهترین آثار از سراسر جهان نگاه خواهد کرد.
+          {{ team.description }}
          </p>
          <div class="team-details-contact">
           <span>
            آدرس ایمیل:
           </span>
-          <a class="mail" href="mailto:support@example.com">
-           support@example.com
+          <a class="mail" href="mailto:{{ team.email }}">
+           {{ team.email }}
           </a>
-          <a class="number" href="tel:02112345678">
-           02112345678
+          <a class="number" href="tel:{{ team.phone }}">
+           {{ team.phone }}
           </a>
           <ul class="social-list">
            <li>
             <a href="#">
-             <i class="fa-brands fa-facebook-f">
-             </i>
+             <i class="fa-brands fa-facebook-f"></i>
             </a>
            </li>
            <li>
             <a href="#">
-             <i class="fa-brands fa-instagram">
-             </i>
+             <i class="fa-brands fa-instagram"></i>
             </a>
            </li>
            <li>
             <a href="#">
-             <i class="fa-brands fa-behance">
-             </i>
+             <i class="fa-brands fa-behance"></i>
             </a>
            </li>
            <li>
             <a href="#">
-             <i class="fa-brands fa-linkedin-in">
-             </i>
+             <i class="fa-brands fa-linkedin-in"></i>
             </a>
            </li>
           </ul>
          </div>
+
+         <!-- بخش اطلاعات حرفه‌ای - داینامیک شده -->
          <div class="team-details-info mb-0">
           <h3 class="details-title">
-           اطلاعات حرفه ای
+           {{ team.info_title }}
           </h3>
+          {% if team.info_description %}
           <p>
-           تیم ما خلاقیت و مهارت فنی بی نظیری را به دنیای طراحی داخلی به ارمغان می آورد. ما در ساخت فضاهایی تخصص داریم که نه تنها از نظر زیبایی شناسی خیره کننده هستند، بلکه کاربردی و متناسب با سبک زندگی و نیازهای منحصر به فرد مشتریان ما هستند.
+           {{ team.info_description }}
           </p>
+          {% endif %}
+
+          {% if team.info_items.all %}
           <ul class="team-details-list">
+           {% for item in team.info_items.all %}
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
-            تضمین کیفیت و بازرسی سایت، رندر سه بعدی و تجسم
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
+            {{ item.text }}
            </li>
-           <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
-            طراحی نور و ایجاد محیط، برآورد و بودجه
-           </li>
-           <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
-            برنامه ریزی فضا و بهینه سازی چیدمان هماهنگی فروشنده و پیمانکار
-           </li>
-           <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
-            تئوری رنگ و توسعه پالت طراحی کارآمد انرژی
-           </li>
+           {% endfor %}
           </ul>
+          {% endif %}
          </div>
          <div class="skill-item-wrap">
-          <h4 class="details-title">
-           تخصص و مهارت
-          </h4>
-          <p>
-           مارک جکسون یک رهبر پویا با مجموعه مهارت های جامعی است که برنامه ریزی استراتژیک و توسعه کسب و کار را در بر می گیرد. ما در ساخت فضاهایی تخصص داریم که نه تنها از نظر زیبایی شناسی خیره کننده هستند، بلکه کاربردی و متناسب با سبک زندگی و نیازهای منحصر به فرد مشتریان ما هستند.
-          </p>
-          <div class="skills-items">
-           <div class="skills-item fade-top">
-            <h4 class="title">
-             زمینه های طراحی تخصصی
-            </h4>
-            <div class="progress">
-             <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 85%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
-              <span>
-               85%
-              </span>
-              <div class="dot">
+           <h4 class="details-title">
+            تخصص و مهارت
+           </h4>
+           <p>
+            {{ team.description }}
+           </p>
+           <div class="skills-items">
+            <div class="skills-item fade-top">
+             <h4 class="title">
+              {{ team.skill_one }}
+             </h4>
+             <div class="progress">
+              <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: {{ team.skill_one_percent }}%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+               <span>
+                {{ team.skill_one_percent }}%
+               </span>
+               <div class="dot">
+               </div>
               </div>
              </div>
             </div>
-           </div>
-           <div class="skills-item fade-top">
-            <h4 class="title">
-             سبک ها و روندها
-            </h4>
-            <div class="progress">
-             <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 95%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
-              <span>
-               95%
-              </span>
-              <div class="dot">
+            <div class="skills-item fade-top">
+             <h4 class="title">
+              {{ team.skill_two }}
+             </h4>
+             <div class="progress">
+              <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: {{ team.skill_two_percent }}%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+               <span>
+                {{ team.skill_two_percent }}%
+               </span>
+               <div class="dot">
+               </div>
               </div>
              </div>
             </div>
-           </div>
-           <div class="skills-item fade-top">
-            <h4 class="title">
-             اصول طراحی
-            </h4>
-            <div class="progress">
-             <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 65%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
-              <span>
-               65%
-              </span>
-              <div class="dot">
+            <div class="skills-item fade-top">
+             <h4 class="title">
+              {{ team.skill_three }}
+             </h4>
+             <div class="progress">
+              <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: {{ team.skill_three_percent }}%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+               <span>
+                {{ team.skill_three_percent }}%
+               </span>
+               <div class="dot">
+               </div>
               </div>
              </div>
             </div>
            </div>
           </div>
-         </div>
         </div>
        </div>
       </div>

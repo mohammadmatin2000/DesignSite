@@ -19,7 +19,7 @@ urlpatterns = [
 
     # نمایش جزئیات پروژه
     path(
-        "projects/<slug:slug>/",
+        "projects/<str:slug>/",
         ProjectDetailView.as_view(),
         name="project-detail"
     ),
