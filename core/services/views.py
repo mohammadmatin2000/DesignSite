@@ -1,10 +1,10 @@
 from django.views.generic import ListView, DetailView
-from .models import ServiceModel, ServiceDetailModel
+from .models import ServiceModel
 # ======================================================================================================================
 # نمایش لیست خدمات
 class ServiceListView(ListView):
 
-    # مدل مرتبط
+    # مدل مورد استفاده
     model = ServiceModel
 
     # قالب صفحه
@@ -13,16 +13,14 @@ class ServiceListView(ListView):
     # نام متغیر ارسالی به قالب
     context_object_name = "services"
 
-    # فقط خدمات فعال نمایش داده شوند
-    queryset = ServiceModel.objects.filter(
-        is_active=True
-    ).order_by("order")
+    # فقط خدمات فعال، مرتب‌شده بر اساس ترتیب دلخواه
+    queryset = ServiceModel.objects.filter(is_active=True).order_by("order")
 # ======================================================================================================================
-# نمایش جزئیات هر خدمت
+# نمایش جزئیات یک خدمت
 class ServiceDetailView(DetailView):
 
-    # مدل مرتبط
-    model = ServiceDetailModel
+    # مدل مورد استفاده
+    model = ServiceModel
 
     # قالب صفحه
     template_name = "services/service-detail.html"
@@ -30,7 +28,16 @@ class ServiceDetailView(DetailView):
     # نام متغیر ارسالی به قالب
     context_object_name = "service"
 
-    # استفاده از slug
+    # فیلد اسلاگ برای پیدا کردن رکورد بر اساس آدرس URL
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    # اضافه کردن داده‌های اضافی به قالب (لیست همه‌ی خدمات برای سایدبار)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # همه‌ی خدمات فعال، برای نمایش در سایدبار یا منوی خدمات مشابه
+        context["all_services"] = ServiceModel.objects.filter(is_active=True).order_by("order")
+
+        return context
 # ======================================================================================================================

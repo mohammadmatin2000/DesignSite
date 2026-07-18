@@ -1,101 +1,68 @@
 from django.db import models
+from django.utils.text import slugify
 # ======================================================================================================================
-# ذخیره خدمات ارائه شده توسط مجموعه
+# ذخیره خدمات ارائه شده توسط مجموعه (لیست + جزئیات، یک مدل واحد)
 class ServiceModel(models.Model):
 
     # عنوان خدمت
     title = models.CharField(max_length=255)
 
-    # توضیح کوتاه خدمت
+    # آدرس یکتای صفحه جزئیات
+    slug = models.SlugField(unique=True, blank=True, allow_unicode=True)
+
+    # توضیح کوتاه خدمت (کارت لیست)
     description = models.TextField()
 
     # تصویر شاخص خدمت
-    image = models.ImageField(
-        upload_to="images/"
-    )
+    image = models.ImageField(upload_to="images/")
 
-    # ترتیب نمایش در سایت
-    order = models.PositiveIntegerField(
-        default=0
-    )
-
-    # وضعیت فعال یا غیرفعال بودن خدمت
-    is_active = models.BooleanField(
-        default=True
-    )
-
-    # تاریخ ایجاد
-    created_date = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    # تاریخ آخرین بروزرسانی
-    updated_date = models.DateTimeField(
-        auto_now=True
-    )
-
-    # نمایش عنوان خدمت در پنل مدیریت
-    def __str__(self):
-        return self.title
-# ======================================================================================================================
-# ذخیره اطلاعات و جزئیات کامل هر خدمت
-class ServiceDetailModel(models.Model):
-
-    # ارتباط یک به یک با سرویس اصلی
-    service = models.OneToOneField(
-        ServiceModel,
-        on_delete=models.CASCADE,
-        related_name='detail'
-    )
-
-    # آدرس یکتای صفحه
-    slug = models.SlugField(unique=True)
-
-    # عنوان صفحه جزئیات
-    title = models.CharField(max_length=255)
-
-    # توضیحات ابتدایی خدمت
-    description = models.TextField()
+    # -------------------- بخش‌های صفحه جزئیات --------------------
 
     # بخش "در مورد خدمات"
-    about_service = models.TextField()
+    about_service = models.TextField(blank=True, verbose_name="در مورد خدمات")
 
     # بخش "انواع فضاها"
-    spaces_description = models.TextField()
+    spaces_description = models.TextField(blank=True, verbose_name="انواع فضاها")
 
     # بخش "عناصر کلیدی"
-    key_elements_description = models.TextField()
+    key_elements_description = models.TextField(blank=True, verbose_name="عناصر کلیدی")
+
+    # ترتیب نمایش در سایت
+    order = models.PositiveIntegerField(default=0)
+
+    # وضعیت فعال یا غیرفعال بودن خدمت
+    is_active = models.BooleanField(default=True)
 
     # تاریخ ایجاد
-    created_date = models.DateTimeField(
-        auto_now_add=True
-    )
+    created_date = models.DateTimeField(auto_now_add=True)
 
     # تاریخ آخرین بروزرسانی
-    updated_date = models.DateTimeField(
-        auto_now=True
-    )
+    updated_date = models.DateTimeField(auto_now=True)
 
-    # نمایش عنوان خدمت در پنل مدیریت
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "خدمت"
+        verbose_name_plural = "خدمات"
+
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
 # ======================================================================================================================
 # ذخیره گالری تصاویر هر خدمت
 class ServiceGalleryModel(models.Model):
 
-    # ارتباط با جزئیات خدمت
     service = models.ForeignKey(
-        ServiceDetailModel,
+        ServiceModel,
         on_delete=models.CASCADE,
         related_name='gallery'
     )
 
-    # تصویر مربوط به خدمت
-    image = models.ImageField(
-        upload_to='images/'
-    )
+    image = models.ImageField(upload_to='images/')
 
-    # نمایش نام خدمت در پنل مدیریت
     def __str__(self):
         return self.service.title
 # ======================================================================================================================

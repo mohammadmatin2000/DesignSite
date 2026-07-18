@@ -14,7 +14,7 @@ urlpatterns = [
     path('about-us/', AboutView.as_view(), name='about-us'),
 
     # پردازش عضویت کاربر در خبرنامه
-    path('newsletter/', NewsletterSubscribeView.as_view(), name='newsletter'),
+    path('subscribe/', NewsletterSubscribeView.as_view(), name='subscribe'),
 ]
 
 # ======================================================================================================================

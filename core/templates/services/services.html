@@ -1,378 +1,299 @@
 {% extends 'basses/base.html' %}
 {% load static %}
 {% block content %}
-  <div id="antra-smooth-wrapper">
-   <div id="antra-smooth-content">
-    <section class="page-header">
-     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
-     </div>
-     <div class="overlay">
-     </div>
-     <div class="container">
-      <div class="page-header-content">
-       <h1 class="title">
-        خدمات
-       </h1>
-       <h4 class="sub-title">
-        <a class="home" href="services.html">
-         صفحه اصلی
-        </a>
-        <span class="icon">
+<div id="antra-smooth-wrapper">
+    <div id="antra-smooth-content">
+        <section class="page-header">
+            <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+            </div>
+            <div class="overlay">
+            </div>
+            <div class="container">
+                <div class="page-header-content">
+                    <h1 class="title">
+                        خدمات
+                    </h1>
+                    <h4 class="sub-title">
+                        <a class="home" href="{% url 'index:index' %}">
+                            صفحه اصلی
+                        </a>
+                        <span class="icon">
          -
         </span>
-        <a class="inner-page" href="about.html">
-         خدمات
-        </a>
-       </h4>
-      </div>
-     </div>
-    </section>
-    <!-- ./ page-header -->
-    <section class="feature-section pt-150 pb-110 overflow-hidden">
-     <div class="container container-2">
-      <div class="row section-heading-wrap feature-top">
-       <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
-       </div>
-       <div class="col-lg-4 col-md-12">
-        <div class="section-heading mb-0">
-         <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03" data-text-animation="fade-in-right">
-          ما کی هستیم
-         </h4>
-        </div>
-       </div>
-       <div class="col-lg-8 col-md-12">
-        <div class="section-heading section-heading-2 mb-0">
-         <h2 class="section-title title-2">
+                        <a class="inner-page" href="{% url 'services:service-list' %}">
+                            خدمات
+                        </a>
+                    </h4>
+                </div>
+            </div>
+        </section>
+        <!-- ./ page-header -->
+
+        <!-- بخش لیست خدمات (۵ آیتم بالا) -->
+        <section class="feature-section pt-150 pb-110 overflow-hidden">
+            <div class="container container-2">
+                <div class="row section-heading-wrap feature-top">
+                    <div class="shape">
+                        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03"
+                                data-text-animation="fade-in-right">
+                                ما کی هستیم
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2">
           <span>
            طراحی داخلی مارا ببینید
           </span>
-         </h2>
-         <p class="mb-0">
-          ما در تبدیل دیدگاه ها به واقعیت تخصص داریم. نمونه کارها از معماری نوآورانه ما را کاوش کنید
-          <br/>
-          و پروژه های طراحی داخلی
-          <br/>
-          با دقت ساخته شده است
-         </p>
-        </div>
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-lg-6">
-        <div class="feature-item-imgs">
-         <div class="feature-img">
-          <img alt="ویژگی" src="{% static 'img/service/feature-img-1.png' %}"/>
-          <div class="img-content">
-           <p>
-            خدمات طراحی مناسب برای خانه های خصوصی، از جمله تغییر اتاق و دگرگونی کامل خانه.
-           </p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-6">
-        <div class="feature-item-list feature-item-list-1">
-         <div class="feature-item" data-img="{% static 'img/service/feature-img-1.png' %}" data-text="Tailored design services for private homes, including room makeovers and complete home transformations.">
+                            </h2>
+                            <p class="mb-0">
+                                ما در تبدیل دیدگاه ها به واقعیت تخصص داریم. نمونه کارها از معماری نوآورانه ما را کاوش
+                                کنید
+                                <br/>
+                                و پروژه های طراحی داخلی
+                                <br/>
+                                با دقت ساخته شده است
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="feature-item-imgs">
+                            <div class="feature-img">
+                                {% with first_service=services.first %}
+                                {% if first_service %}
+                                <img alt="{{ first_service.title }}" src="{{ first_service.image.url }}"
+                                     id="feature-main-img"/>
+                                <div class="img-content">
+                                    <p>
+                                        {{ first_service.description }}
+                                    </p>
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="feature-item-list feature-item-list-1">
+                            {% for service in services %}
+                            <div class="feature-item" data-img="{{ service.image.url }}"
+                                 data-text="{{ service.description }}">
           <span class="number">
-           01
+           {{ forloop.counter|stringformat:"02d" }}
           </span>
-          <h3 class="title">
-           <a href="service-details.html">
-            طراحی داخلی مسکونی
-           </a>
-          </h3>
-          <a class="arrow" href="service-details.html">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </div>
-         <div class="feature-item" data-img="{% static 'img/service/feature-img-2.png' %}" data-text="Extending design services to outdoor spaces such as gardens, patios, and decks.">
-          <span class="number">
-           02
-          </span>
-          <h3 class="title">
-           <a href="service-details.html">
-            طراحی داخلی تجاری
-           </a>
-          </h3>
-          <a class="arrow" href="service-details.html">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </div>
-         <div class="feature-item" data-img="{% static 'img/service/feature-img-3.png' %}" data-text="Providing professional advice on concepts, color schemes &amp; material selection.">
-          <span class="number">
-           03
-          </span>
-          <h3 class="title">
-           <a href="service-details.html">
-            مشاوره طراحی داخلی
-           </a>
-          </h3>
-          <a class="arrow" href="service-details.html">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </div>
-         <div class="feature-item" data-img="{% static 'img/service/feature-img-4.png' %}" data-text="Designing functional and attractive interiors for businesses, including offices, retail spaces, and hospitality venues.">
-          <span class="number">
-           04
-          </span>
-          <h3 class="title">
-           <a href="service-details.html">
-            طراحی فضای باز و منظر
-           </a>
-          </h3>
-          <a class="arrow" href="service-details.html">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </div>
-         <div class="feature-item" data-img="{% static 'img/service/feature-img-5.png' %}" data-text="Overhauling existing spaces to modernize and improve functionality and aesthetics.">
-          <span class="number">
-           05
-          </span>
-          <h3 class="title">
-           <a href="service-details.html">
-            نوسازی و بازسازی
-           </a>
-          </h3>
-          <a class="arrow" href="service-details.html">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ feature-section -->
-    <section class="banner-process-area overflow-hidden">
-     <div class="service-carousel-wrap">
-      <div class="banner-process-carousel">
-       <div class="swiper-wrapper antra-swiper-wrapper">
-        <div class="swiper-slide elementor-banner-process-item">
-         <div class="banner-process-caption">
-          <span class="number">
-           01
-          </span>
-          <h3 class="banner-process-title">
-           <a href="service-details.html">
-            نوسازی و
-            <br/>
-            بازسازی
-           </a>
-          </h3>
-          <div class="banner-process-content">
-           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-          </div>
-         </div>
-        </div>
-        <div class="swiper-slide elementor-banner-process-item">
-         <div class="banner-process-caption">
-          <span class="number">
-           02
-          </span>
-          <h3 class="banner-process-title">
-           <a href="service-details.html">
-            طراحی سفارشی
-            <br/>
-            مشاوره
-           </a>
-          </h3>
-          <div class="banner-process-content">
-           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-          </div>
-         </div>
-        </div>
-        <div class="swiper-slide elementor-banner-process-item">
-         <div class="banner-process-caption">
-          <span class="number">
-           03
-          </span>
-          <h3 class="banner-process-title">
-           <a href="service-details.html">
-            برنامه ریزی فضایی
-            <br/>
-            و چیدمان
-           </a>
-          </h3>
-          <div class="banner-process-content">
-           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-          </div>
-         </div>
-        </div>
-        <div class="swiper-slide elementor-banner-process-item">
-         <div class="banner-process-caption">
-          <span class="number">
-           04
-          </span>
-          <h3 class="banner-process-title">
-           <a href="service-details.html">
-            طراحی سه بعدی
-            <br/>
-            تجسم
-           </a>
-          </h3>
-          <div class="banner-process-content">
-           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="banner-process-image-list">
-        <div class="banner-process-img">
-         <div class="process-img">
-          <img alt="img" src="{% static 'img/bg-img/banner-process-1.png' %}"/>
-         </div>
-        </div>
-        <div class="banner-process-img">
-         <div class="process-img">
-          <img alt="img" src="{% static 'img/bg-img/slider-img-1.png' %}"/>
-         </div>
-        </div>
-        <div class="banner-process-img">
-         <div class="process-img">
-          <img alt="img" src="{% static 'img/bg-img/slider-img-2.png' %}"/>
-         </div>
-        </div>
-        <div class="banner-process-img">
-         <div class="process-img">
-          <img alt="img" src="{% static 'img/bg-img/video-bg-1.png' %}"/>
-         </div>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ banner-process-area -->
-    <section class="skill-section skill-inner bg-grey pt-130 pb-130 overflow-hidden">
-     <div class="skill-text">
-      آنترا
-     </div>
-     <div class="shape-1">
-      <img alt="شکل" src="{% static 'img/shapes/skill-shape-1.png' %}"/>
-     </div>
-     <div class="container container-2">
-      <div class="row section-heading-wrap">
-       <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
-       </div>
-       <div class="col-lg-4 col-md-12">
-        <div class="section-heading mb-0">
-         <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03" data-text-animation="fade-in-right">
-          مشتریان ما
-         </h4>
-        </div>
-       </div>
-       <div class="col-lg-8 col-md-12">
-        <div class="section-heading section-heading-2 mb-0">
-         <h2 class="section-title title-2">
-                   <span>
+                                <h3 class="title">
+                                    <a href="{% url 'services:service-detail' service.slug %}">
+                                        {{ service.title }}
+                                    </a>
+                                </h3>
+                                <a class="arrow"
+                                   href="{% url 'services:service-detail' service.slug %}">
+                                    <i class="fa-regular fa-arrow-right">
+                                    </i>
+                                </a>
+                            </div>
+                            {% empty %}
+                            <p>هنوز خدمتی ثبت نشده است.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ feature-section -->
+
+        <!-- بخش کاروسل «فرآیند کار» - از همون services پر می‌شه -->
+        <section class="banner-process-area overflow-hidden">
+            <div class="service-carousel-wrap">
+                <div class="banner-process-carousel">
+                    <div class="swiper-wrapper antra-swiper-wrapper">
+                        {% for service in services %}
+                        <div class="swiper-slide elementor-banner-process-item">
+                            <div class="banner-process-caption">
+                              <span class="number">
+                               {{ forloop.counter|stringformat:"02d" }}
+                              </span>
+                                <h3 class="banner-process-title">
+                                    <a href="{% url 'services:service-detail' service.slug %}">
+                                        {{ service.title }}
+                                    </a>
+                                </h3>
+                                <div class="banner-process-content">
+                                    {{ service.description }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="banner-process-image-list">
+                        {% for service in services %}
+                        <div class="banner-process-img">
+                            <div class="process-img">
+                                <img alt="{{ service.title }}" src="{{ service.image.url }}"/>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ./ banner-process-area -->
+
+        <!-- بخش مشتریان/مهارت‌ها - بدون مدل، فعلا static -->
+        <section class="skill-section skill-inner bg-grey pt-130 pb-130 overflow-hidden">
+            <div class="skill-text">
+                آنترا
+            </div>
+            <div class="shape-1">
+                <img alt="شکل" src="{% static 'img/shapes/skill-shape-1.png' %}"/>
+            </div>
+            <div class="container container-2">
+                <div class="row section-heading-wrap">
+                    <div class="shape">
+                        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="section-heading mb-0">
+                            <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03"
+                                data-text-animation="fade-in-right">
+                                مشتریان ما
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="section-heading section-heading-2 mb-0">
+                            <h2 class="section-title title-2">
+          <span>
            کلمات گرم مشتریان
           </span>
-
-         </h2>
-        </div>
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-lg-5">
-        <div class="skill-left-content">
-         <div class="skill-desc">
-          <p>
-           ما در تبدیل دیدگاه ها به واقعیت تخصص داریم. مجموعه پروژه های نوآورانه معماری و طراحی داخلی ما را که با دقت ساخته شده اند، کاوش کنید.
-          </p>
-         </div>
-         <div class="skills-items">
-          <div class="skills-item fade-top">
-           <h4 class="title">
-            طراحی داخلی
-           </h4>
-           <div class="progress">
-            <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 85%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="skill-left-content">
+                            <div class="skill-desc">
+                                <p>
+                                    ما در تبدیل دیدگاه ها به واقعیت تخصص داریم. مجموعه پروژه های نوآورانه معماری و طراحی
+                                    داخلی ما را که با دقت ساخته شده اند، کاوش کنید.
+                                </p>
+                            </div>
+                            <div class="skills-items">
+                                <div class="skills-item fade-top">
+                                    <h4 class="title">
+                                        طراحی داخلی
+                                    </h4>
+                                    <div class="progress">
+                                        <div class="progress-bar wow slideInLeft" data-wow-delay="0ms"
+                                             data-wow-duration="2000ms" role="progressbar"
+                                             style="width: 85%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
              <span>
               85%
              </span>
-             <div class="dot">
-             </div>
-            </div>
-           </div>
-          </div>
-          <div class="skills-item fade-top">
-           <h4 class="title">
-            مدل سازی سه بعدی
-           </h4>
-           <div class="progress">
-            <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 95%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+                                            <div class="dot">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skills-item fade-top">
+                                    <h4 class="title">
+                                        مدل سازی سه بعدی
+                                    </h4>
+                                    <div class="progress">
+                                        <div class="progress-bar wow slideInLeft" data-wow-delay="0ms"
+                                             data-wow-duration="2000ms" role="progressbar"
+                                             style="width: 95%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
              <span>
               95%
              </span>
-             <div class="dot">
-             </div>
-            </div>
-           </div>
-          </div>
-          <div class="skills-item fade-top">
-           <h4 class="title">
-            برنامه ریزی دو بعدی
-           </h4>
-           <div class="progress">
-            <div class="progress-bar wow slideInLeft" data-wow-delay="0ms" data-wow-duration="2000ms" role="progressbar" style="width: 65%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
+                                            <div class="dot">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skills-item fade-top">
+                                    <h4 class="title">
+                                        برنامه ریزی دو بعدی
+                                    </h4>
+                                    <div class="progress">
+                                        <div class="progress-bar wow slideInLeft" data-wow-delay="0ms"
+                                             data-wow-duration="2000ms" role="progressbar"
+                                             style="width: 65%; visibility: visible; animation-duration: 2000ms; animation-delay: 0ms; animation-name: slideInLeft;">
              <span>
               65%
              </span>
-             <div class="dot">
-             </div>
+                                            <div class="dot">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="skill-img">
+                            <img alt="مهارت" src="{% static 'img/images/skill-img-1.png' %}"/>
+                        </div>
+                    </div>
+                </div>
             </div>
-           </div>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="col-lg-7">
-        <div class="skill-img">
-         <img alt="مهارت" src="{% static 'img/images/skill-img-1.png' %}"/>
-        </div>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ skill-section -->
-    <section class="newsletter-section bg-white pt-130 pb-130 overflow-hidden">
-     <div class="bg-shape">
-      <img alt="شکل" src="{% static 'img/shapes/newsletter-shape.png' %}"/>
-     </div>
-     <div class="container">
-      <div class="newsletter-wrap">
-       <div class="section-heading text-center">
-        <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03" data-text-animation="fade-in-right">
-         مشترک شدن در خبرنامه
-        </h4>
-        <h2 class="section-title">
-          <span>
+        </section>
+        <!-- ./ skill-section -->
+
+        <!-- بخش خبرنامه - داینامیک -->
+        <section class="newsletter-section bg-white pt-130 pb-130 overflow-hidden">
+            <div class="bg-shape">
+                <img alt="شکل" src="{% static 'img/shapes/newsletter-shape.png' %}"/>
+            </div>
+            <div class="container">
+                <div class="newsletter-wrap">
+                    <div class="section-heading text-center">
+                        <h4 class="sub-heading" data-duration="0.9" data-split="char" data-stagger="0.03"
+                            data-text-animation="fade-in-right">
+                            مشترک شدن در خبرنامه
+                        </h4>
+                        <h2 class="section-title">
+         <span>
           به خبرنامه ما بپیوندید
          </span>
-        </h2>
-        <p>
-         به خبرنامه ما بپیوندید چیز جدیدی یاد بگیرید، به محتوای انحصاری دسترسی پیدا کنید،
-         <br/>
-         و از آخرین به‌روزرسانی‌های این صنعت مطلع شوید.
-        </p>
-       </div>
-       <div class="newsletter-form">
-        <input class="form-control" id="email" name="email" placeholder="آدرس ایمیل.." type="text"/>
-        <button type="submit">
-         <i class="fa-regular fa-arrow-right-long">
-         </i>
-        </button>
-       </div>
-      </div>
-     </div>
-    </section>
-    <!-- ./ newsletter-section -->
-   </div>
-  </div>
+                        </h2>
+                        <p>
+                            به خبرنامه ما بپیوندید چیز جدیدی یاد بگیرید، به محتوای انحصاری دسترسی پیدا کنید،
+                            <br/>
+                            و از آخرین به‌روزرسانی‌های این صنعت مطلع شوید.
+                        </p>
+                    </div>
+
+                    {% if messages %}
+                    <div class="newsletter-messages text-center mb-20">
+                        {% for message in messages %}
+                        <p class="{{ message.tags }}">
+                            {{ message }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form class="newsletter-form" method="post" action="{% url 'contact:subscribe' %}">
+                        {% csrf_token %}
+                        <input class="form-control" id="email" name="email" placeholder="آدرس ایمیل.." type="text"/>
+                        <button type="submit">
+                            <i class="fa-regular fa-arrow-right-long">
+                            </i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- ./ newsletter-section -->
+    </div>
+</div>
 {% endblock content %}

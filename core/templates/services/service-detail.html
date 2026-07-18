@@ -14,13 +14,13 @@
         جزئیات خدمات
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="service.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="service-details.html">
+        <a class="inner-page" href="{% url 'services:service-detail' service.slug %}">
          جزئیات خدمات
         </a>
        </h4>
@@ -38,36 +38,13 @@
            سایر خدمات
           </h3>
           <ul>
-           <li class="active">
-            <a href="#">
-             طراحی داخلی مسکونی
+           {% for other in all_services %}
+           <li class="{% if other.slug == service.slug %}active{% endif %}">
+            <a href="{% url 'services:service-detail' other.slug %}">
+             {{ other.title }}
             </a>
            </li>
-           <li>
-            <a href="#">
-             طراحی داخلی تجاری
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             مشاوره طراحی داخلی
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             طراحی فضای باز و منظر
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             نوسازی و بازسازی
-            </a>
-           </li>
-           <li>
-            <a href="#">
-             چیدمان داخلی 2D/3D
-            </a>
-           </li>
+           {% endfor %}
           </ul>
          </div>
          <div class="service-details-cta">
@@ -79,14 +56,14 @@
           <span>
            آیا به کمک نیاز دارید؟
           </span>
-          <a class="number" href="tel:02112345678">
-           02112345678
+          <a class="number" href="tel:09336807260">
+           09336807260
           </a>
-          <a class="mail" href="mailto:">
-           support@example.com
+          <a class="mail" href="mohammadmatin13872008@gmail.com">
+           mohammadmatin13872008@gmail.com
           </a>
           <div class="cta-btn">
-           <a href="contact.html">
+           <a href="{% url 'contact:contact-us' %}">
             تماس با ما
            </a>
           </div>
@@ -96,17 +73,23 @@
        <div class="col-lg-8 col-md-12">
         <div class="service-details-content scroll-content">
          <div class="service-details-img">
-          <img alt="img" src="{% static 'img/service/service-details-img-1.png' %}"/>
+          <img alt="{{ service.title }}" src="{{ service.image.url }}"/>
          </div>
+
+         {% if service.about_service %}
          <h1 class="details-title">
           در مورد خدمات
          </h1>
+         {% for paragraph in service.about_service.splitlines %}
+         {% if paragraph %}
          <p>
-          طراحی داخلی تجاری به طور مداوم در حال تحول است، با روندهای جدیدی که برای پاسخگویی به تغییر نیازها و ترجیحات کسب و کارها و مشتریان آنها ظهور می کند. یکی از مهم ترین روندهای سال های اخیر طراحی بیوفیلیک است که شامل ترکیب عناصر طبیعی مانند گیاهان، چوب و سنگ در طراحی است.
+          {{ paragraph }}
          </p>
-         <p>
-          تقاضای فزاینده برای چیدمان‌های قابل انطباق که بتواند نیازهای در حال تغییر را برآورده کند. این ممکن است شامل پارتیشن های متحرک مدولار باشد. پایداری نیز روند کلیدی در طراحی داخلی تجاری است
-         </p>
+         {% endif %}
+         {% endfor %}
+         {% endif %}
+
+         <!-- بخش آیکون‌دار ثابت - مدل فعلا فیلدی برای این نداره -->
          <div class="service-details-items">
           <div class="service-details-item">
            <div class="icon">
@@ -161,75 +144,83 @@
            </div>
           </div>
          </div>
+
+         <!-- گالری تصاویر - از ServiceGalleryModel -->
+         {% if service.gallery.all %}
          <div class="service-details-img-wrap">
+          {% for gallery_img in service.gallery.all|slice:":2" %}
           <div class="details-img">
-           <img alt="img" src="{% static 'img/service/service-details-img-2.png' %}"/>
+           <img alt="{{ service.title }}" src="{{ gallery_img.image.url }}"/>
           </div>
-          <div class="details-img">
-           <img alt="img" src="{% static 'img/service/service-details-img-3.png' %}"/>
-          </div>
+          {% endfor %}
          </div>
+         {% endif %}
+
+         {% if service.spaces_description %}
          <h2 class="details-title">
           انواع فضاهای تجاری
          </h2>
          <p>
-          در طراحی، ما ویژگی‌های دنیای طبیعی را در شرکت آنترا می‌آوریم، مانند آب، فضای سبز و نور طبیعی یا عناصری مانند چوب و سنگ. تشویق به استفاده از سیستم ها و فرآیندهای طبیعی در طراحی، امکان قرار گرفتن در معرض طبیعت را فراهم می کند و به نوبه خود، این رویکردهای طراحی سلامت و رفاه را بهبود می بخشد. تعدادی از مزایای احتمالی وجود دارد، از جمله کاهش تغییرات ضربان قلب و ضربان نبض، کاهش فشار خون، و افزایش فعالیت در سیستم عصبی ما، به نام چند.
+          {{ service.spaces_description }}
          </p>
+         {% endif %}
+
+         {% if service.key_elements_description %}
          <h2 class="details-title">
           عناصر کلیدی طراحی داخلی
          </h2>
          <p>
-          چندین عنصر کلیدی برای طراحی داخلی تجاری موفق ضروری هستند. اینها شامل برنامه ریزی فضا، طراحی نور، انتخاب مواد، مبلمان و وسایل، رنگ و بافت، ادغام فناوری، و آکوستیک است.
+          {{ service.key_elements_description }}
          </p>
+         {% endif %}
+
+         <!-- لیست دو ستونه - مدل فعلا فیلدی برای این نداره -->
          <div class="service-details-list-wrap">
           <ul>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             ما خدمات طراحی با کیفیت بالا ارائه می دهیم.
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             پروژه به موقع و جدیدترین طراحی
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             مهارت های علمی برای گرفتن نتیجه بهتر
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             مزیت خدمات نوسازی
            </li>
           </ul>
           <ul>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             انعطاف پذیر با هر ساختاری از ساختمان
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             تعهد به خدمات مشتری
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             مهندسان با تجربه و با زمان خدمت
            </li>
            <li>
-            <i class="fa-sharp fa-solid fa-circle-check">
-            </i>
+            <i class="fa-sharp fa-solid fa-circle-check"></i>
             ما در مورد پروژه های خود مطمئن هستیم.
            </li>
           </ul>
          </div>
+
+         {% if service.description %}
          <p class="mb-50">
-          طراحی داخلی تجاری یک زمینه پویا و چندوجهی است که نقش مهمی در موفقیت کسب و کارها در طیف وسیعی از صنایع ایفا می کند. با ترکیب خلاقیت با عملی بودن، طراحی داخلی تجاری
+          {{ service.description }}
          </p>
+         {% endif %}
+
+         <!-- سوالات متداول - مدل فعلا فیلدی برای این نداره -->
          <div class="service-faq">
           <h3 class="faq-title">
            سوالات متداول
@@ -244,7 +235,7 @@
              </h2>
              <div aria-labelledby="headingOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample" id="collapseOne">
               <div class="accordion-body">
-               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد. از توسعه مفهوم اولیه و برنامه ریزی فضا گرفته تا انتخاب طرح های رنگی، مبلمان و طرح های سفارشی، ما دیدگاه شما را زنده می کنیم.
+               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد.
               </div>
              </div>
             </div>
@@ -256,7 +247,7 @@
              </h2>
              <div aria-labelledby="headingTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseTwo">
               <div class="accordion-body">
-               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد. از توسعه مفهوم اولیه و برنامه ریزی فضا گرفته تا انتخاب طرح های رنگی، مبلمان و طرح های سفارشی، ما دیدگاه شما را زنده می کنیم.
+               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد.
               </div>
              </div>
             </div>
@@ -268,7 +259,7 @@
              </h2>
              <div aria-labelledby="headingThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseThree">
               <div class="accordion-body">
-               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد. از توسعه مفهوم اولیه و برنامه ریزی فضا گرفته تا انتخاب طرح های رنگی، مبلمان و طرح های سفارشی، ما دیدگاه شما را زنده می کنیم.
+               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد.
               </div>
              </div>
             </div>
@@ -280,7 +271,7 @@
              </h2>
              <div aria-labelledby="headingFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseFour">
               <div class="accordion-body">
-               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد. از توسعه مفهوم اولیه و برنامه ریزی فضا گرفته تا انتخاب طرح های رنگی، مبلمان و طرح های سفارشی، ما دیدگاه شما را زنده می کنیم.
+               خدمات طراحی داخلی ما هر آنچه را که برای ایجاد فضایی خیره کننده و کاربردی نیاز دارید را پوشش می دهد.
               </div>
              </div>
             </div>

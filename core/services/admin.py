@@ -1,49 +1,12 @@
 from django.contrib import admin
-from .models import (
-    ServiceModel,
-    ServiceDetailModel,
-    ServiceGalleryModel,
-)
+from .models import ServiceModel, ServiceGalleryModel
 # ======================================================================================================================
 # مدیریت گالری تصاویر خدمت به صورت Inline
 class ServiceGalleryInline(admin.TabularInline):
     model = ServiceGalleryModel
     extra = 1
 # ======================================================================================================================
-# مدیریت جزئیات خدمات در پنل ادمین
-@admin.register(ServiceDetailModel)
-class ServiceDetailAdmin(admin.ModelAdmin):
-
-    # فیلدهای قابل نمایش
-    list_display = (
-        "id",
-        "title",
-        "service",
-        "created_date",
-    )
-
-    # فیلدهای قابل جستجو
-    search_fields = (
-        "title",
-        "service__title",
-    )
-
-    # مرتب‌سازی
-    ordering = (
-        "-created_date",
-    )
-
-    # تولید خودکار slug از عنوان
-    prepopulated_fields = {
-        "slug": ("title",)
-    }
-
-    # نمایش گالری تصاویر در صفحه جزئیات
-    inlines = [
-        ServiceGalleryInline,
-    ]
-# ======================================================================================================================
-# مدیریت خدمات در پنل ادمین
+# مدیریت خدمات در پنل ادمین (لیست + جزئیات، یک مدل واحد)
 @admin.register(ServiceModel)
 class ServiceAdmin(admin.ModelAdmin):
 
@@ -54,6 +17,12 @@ class ServiceAdmin(admin.ModelAdmin):
         "order",
         "is_active",
         "created_date",
+    )
+
+    # فیلدهای قابل ویرایش مستقیم از لیست
+    list_editable = (
+        "order",
+        "is_active",
     )
 
     # فیلدهای قابل جستجو
@@ -67,23 +36,35 @@ class ServiceAdmin(admin.ModelAdmin):
         "created_date",
     )
 
+    # تولید خودکار slug از عنوان
+    prepopulated_fields = {
+        "slug": ("title",)
+    }
+
     # مرتب‌سازی
     ordering = (
         "order",
     )
-# ======================================================================================================================
-# ثبت گالری تصاویر
-@admin.register(ServiceGalleryModel)
-class ServiceGalleryAdmin(admin.ModelAdmin):
 
-    # فیلدهای قابل نمایش
-    list_display = (
-        "id",
-        "service",
-    )
+    # نمایش گالری تصاویر مربوط به همین خدمت
+    inlines = [
+        ServiceGalleryInline,
+    ]
 
-    # فیلدهای قابل جستجو
-    search_fields = (
-        "service__title",
+    # گروه‌بندی فیلدها برای خوانایی بهتر فرم ادمین
+    fieldsets = (
+        ("اطلاعات اصلی", {
+            "fields": ("title", "slug", "image", "order", "is_active")
+        }),
+        ("نمایش در لیست خدمات", {
+            "fields": ("description",)
+        }),
+        ("صفحه جزئیات", {
+            "fields": (
+                "about_service",
+                "spaces_description",
+                "key_elements_description",
+            )
+        }),
     )
 # ======================================================================================================================
