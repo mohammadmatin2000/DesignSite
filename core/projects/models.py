@@ -6,6 +6,10 @@ class ProjectCategoryModel(models.Model):
 
     title = models.CharField(max_length=255)
 
+    class Meta:
+        verbose_name = "دسته‌بندی پروژه"
+        verbose_name_plural = "دسته‌بندی های پروژه"
+
     def __str__(self):
         return self.title
 # ======================================================================================================================

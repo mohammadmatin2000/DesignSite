@@ -13,7 +13,7 @@ urlpatterns = [
 
     # صفحه جزئیات مقاله
     path(
-        "blog-detail/<slug:slug>/",
+        "blog-detail/<str:slug>/",
         BlogDetailView.as_view(),
         name="blog-detail"
     ),

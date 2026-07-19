@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ContactMessageModel, NewsletterSubscriberModel
+from .models import ContactMessageModel, NewsletterSubscriberModel,HistoryItemModel,ProcessStepModel,AwardModel
 # ======================================================================================================================
 # مدیریت پیام‌های تماس در پنل ادمین
 @admin.register(ContactMessageModel)
@@ -35,4 +35,28 @@ class NewsletterSubscriberAdmin(admin.ModelAdmin):
     search_fields = (
         'email',
     )
+# ======================================================================================================================
+# مدیریت سابقه/تاریخچه شرکت
+@admin.register(HistoryItemModel)
+class HistoryItemModelAdmin(admin.ModelAdmin):
+
+    list_display = ("year", "order", "is_active")
+    list_editable = ("order", "is_active")
+    list_filter = ("is_active",)
+# ======================================================================================================================
+# مدیریت مراحل کاری
+@admin.register(ProcessStepModel)
+class ProcessStepModelAdmin(admin.ModelAdmin):
+
+    list_display = ("title", "order", "is_active")
+    list_editable = ("order", "is_active")
+    list_filter = ("is_active",)
+# ======================================================================================================================
+# مدیریت جوایز و دستاوردها
+@admin.register(AwardModel)
+class AwardModelAdmin(admin.ModelAdmin):
+
+    list_display = ("title", "year", "category", "order", "is_active")
+    list_editable = ("order", "is_active")
+    list_filter = ("is_active",)
 # ======================================================================================================================

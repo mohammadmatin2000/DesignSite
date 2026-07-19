@@ -14,13 +14,13 @@
         درباره ما
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="index.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="about.html">
+        <a class="inner-page" href="{% url 'contact:about-us' %}">
          درباره ما
         </a>
        </h4>
@@ -30,7 +30,7 @@
     <!-- ./ page-header -->
     <section class="about-section-2 pt-130 pb-130">
      <div class="shape-1">
-      <img alt="شکل" src="{% static 'img/shapes\about-shape-1.png' %}"/>
+      <img alt="شکل" src="{% static 'img/shapes/about-shape-1.png' %}"/>
      </div>
      <div class="container container-2">
       <div class="row about-wrap-2">
@@ -58,7 +58,7 @@
            </p>
           </div>
           <div class="counter-img">
-           <img alt="شمارنده" src="{% static 'img/images\about-img-2.png' %}"/>
+           <img alt="شمارنده" src="{% static 'img/images/about-img-2.png' %}"/>
           </div>
          </div>
         </div>
@@ -66,14 +66,14 @@
        <div class="col-lg-4">
         <div class="about-content-right">
          <div class="about-img-1">
-          <img alt="در مورد" src="{% static 'img/images\about-img-3.png' %}"/>
+          <img alt="در مورد" src="{% static 'img/images/about-img-3.png' %}"/>
          </div>
          <div class="about-desc">
           <p>
            ما معتقدیم که هر فضایی قدرت الهام بخشی را دارد و این طراحی عالی به ارمغان می آورد. ماموریت ما ایجاد محیط هایی است که خلاقیت را برانگیزد، احساسات را برانگیزد و ماهیت افرادی را که در آنها زندگی می کنند منعکس کند.
           </p>
           <div class="about-btn">
-           <a class="tl-primary-btn" href="about.html">
+           <a class="tl-primary-btn" href="{% url 'contact:about-us' %}">
             اطلاعات بیشتر درباره ما
             <span class="icon">
              <i class="fa-regular fa-arrow-right">
@@ -98,6 +98,8 @@
      </div>
     </div>
     <!-- ./ video-section -->
+
+    <!-- بخش سابقه ما - داینامیک از HistoryItemModel -->
     <section class="history-section pt-130 pb-130">
      <div class="history-text">
       <span>
@@ -105,12 +107,12 @@
       </span>
      </div>
      <div class="history-element">
-      <img alt="شمارنده" src="{% static 'img/images\counter-img-1.png' %}"/>
+      <img alt="شمارنده" src="{% static 'img/images/counter-img-1.png' %}"/>
      </div>
      <div class="container container-2">
       <div class="row section-heading-wrap ml-0 mw-100">
        <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes\section-heading.png' %}"/>
+        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
        </div>
        <div class="col-lg-4 col-md-12">
         <div class="section-heading mb-0">
@@ -132,126 +134,39 @@
       <div class="history-carousel-wrap">
        <div class="history-carousel swiper">
         <div class="swiper-wrapper">
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
+         {% for item in history_items %}
+          <div class="swiper-slide">
+           <div class="history-item">
+            <div class="history-img">
+             <img alt="{{ item.year }}" src="{{ item.image.url }}"/>
             </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
+            <div class="history-content">
+             <div class="circle">
+             </div>
+             <h3 class="title">
+              <a href="{% url 'contact:about-us' %}">
+               {{ item.year }}
+              </a>
+             </h3>
+             <p>
+              {{ item.description }}
+             </p>
+            </div>
            </div>
           </div>
-         </div>
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
-            </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
-           </div>
+         {% empty %}
+          <div class="swiper-slide">
+           <p>سابقه‌ای برای نمایش ثبت نشده است.</p>
           </div>
-         </div>
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
-            </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
-           </div>
-          </div>
-         </div>
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
-            </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
-           </div>
-          </div>
-         </div>
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
-            </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
-           </div>
-          </div>
-         </div>
-         <div class="swiper-slide">
-          <div class="history-item">
-           <div class="history-img">
-            <img alt="تاریخچه" src="{% static 'img/images\history-img-1.png' %}"/>
-           </div>
-           <div class="history-content">
-            <div class="circle">
-            </div>
-            <h3 class="title">
-             <a href="about.html">
-              1405
-             </a>
-            </h3>
-            <p>
-             15 سالگی را با نمایش گذشته نگر از پروژه ها و نقاط عطف شرکت جشن می گیرد.
-            </p>
-           </div>
-          </div>
-         </div>
+         {% endfor %}
         </div>
        </div>
       </div>
      </div>
     </section>
     <!-- ./ history-section -->
+
+    <!-- بخش معماری استثنایی - داینامیک از ProcessStepModel -->
     <section class="process-section overflow-hidden bg-white">
      <div class="bg-shape" data-background="{% static 'img/shapes/process-shape-1.png' %}">
      </div>
@@ -280,111 +195,36 @@
        </div>
       </div>
       <div class="row gy-xl-0 gy-4 process-wrap">
-       <div class="col-xl-3 col-lg-6 col-md-6">
-        <div class="process-item">
-         <div class="process-thumb">
-          <img alt="فرآیند" src="{% static 'img/images\process-img-1.png' %}"/>
+       {% for step in process_steps %}
+        <div class="col-xl-3 col-lg-6 col-md-6">
+         <div class="process-item">
+          <div class="process-thumb">
+           <img alt="{{ step.title }}" src="{{ step.image.url }}"/>
+          </div>
+          <div class="process-content">
+           <h3 class="title">
+            <span>
+             {{ forloop.counter|stringformat:"02d" }}
+            </span>
+            . {{ step.title }}
+           </h3>
+           <p>
+            {{ step.description }}
+           </p>
+          </div>
+          <span class="number">
+           {{ forloop.counter|stringformat:"02d" }}
+          </span>
          </div>
-         <div class="process-content">
-          <h3 class="title">
-           <span>
-            01
-           </span>
-           . مشاوره اولیه
-          </h3>
-          <p>
-           ما با درک شروع می کنیم
-           <br/>
-           چشم انداز، اهداف و نیازهای شما،
-           <br/>
-           آنترا را دنبال کرد.
-          </p>
-         </div>
-         <span class="number">
-          01
-         </span>
         </div>
-       </div>
-       <div class="col-xl-3 col-lg-6 col-md-6">
-        <div class="process-item">
-         <div class="process-thumb">
-          <img alt="فرآیند" src="{% static 'img/images\process-img-2.png' %}"/>
-         </div>
-         <div class="process-content">
-          <h3 class="title">
-           <span>
-            02
-           </span>
-           . طراحی و برنامه ریزی
-          </h3>
-          <p>
-           ما با درک شروع می کنیم
-           <br/>
-           چشم انداز، اهداف و نیازهای شما،
-           <br/>
-           آنترا را دنبال کرد.
-          </p>
-         </div>
-         <span class="number">
-          02
-         </span>
-        </div>
-       </div>
-       <div class="col-xl-3 col-lg-6 col-md-6">
-        <div class="process-item">
-         <div class="process-thumb">
-          <img alt="فرآیند" src="{% static 'img/images\process-img-3.png' %}"/>
-         </div>
-         <div class="process-content">
-          <h3 class="title">
-           <span>
-            03
-           </span>
-           . پیاده سازی
-          </h3>
-          <p>
-           ما با درک شروع می کنیم
-           <br/>
-           چشم انداز، اهداف و نیازهای شما،
-           <br/>
-           آنترا را دنبال کرد.
-          </p>
-         </div>
-         <span class="number">
-          03
-         </span>
-        </div>
-       </div>
-       <div class="col-xl-3 col-lg-6 col-md-6">
-        <div class="process-item">
-         <div class="process-thumb">
-          <img alt="فرآیند" src="{% static 'img/images\process-img-4.png' %}"/>
-         </div>
-         <div class="process-content">
-          <h3 class="title">
-           <span>
-            04
-           </span>
-           . واگذاری پروژه
-          </h3>
-          <p>
-           ما با درک شروع می کنیم
-           <br/>
-           چشم انداز، اهداف و نیازهای شما،
-           <br/>
-           آنترا را دنبال کرد.
-          </p>
-         </div>
-         <span class="number">
-          04
-         </span>
-        </div>
-       </div>
+       {% empty %}
+        <p>مرحله‌ای برای نمایش ثبت نشده است.</p>
+       {% endfor %}
       </div>
       <div class="process-text">
        <h5 class="bottom-text">
         ما سخت کار کرده ایم تا شما را تحت تاثیر قرار دهیم.
-        <a href="contact.html">
+        <a href="{% url 'contact:contact-us' %}">
          امروز خود را شروع کنید
         </a>
        </h5>
@@ -392,14 +232,16 @@
      </div>
     </section>
     <!-- ./ process-section -->
+
+    <!-- بخش جوایز - داینامیک از AwardModel -->
     <section class="award-section bg-grey pt-130 pb-130">
      <div class="bg-shape">
-      <img alt="شکل" src="{% static 'img/shapes\team-bg-shape-1.png' %}"/>
+      <img alt="شکل" src="{% static 'img/shapes/team-bg-shape-1.png' %}"/>
      </div>
      <div class="container container-2">
       <div class="row section-heading-wrap">
        <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes\section-heading.png' %}"/>
+        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
        </div>
        <div class="col-lg-4 col-md-12">
         <div class="section-heading mb-0">
@@ -421,92 +263,38 @@
       <div class="row award-wrap">
        <div class="col-lg-5">
         <div class="award-img">
-         <img alt="img" src="{% static 'img/images\award-img-1.png' %}"/>
+         <img alt="img" src="{% static 'img/images/award-img-1.png' %}"/>
         </div>
        </div>
        <div class="col-lg-7">
         <div class="award-item-list">
-         <div class="award-item" data-img="{% static 'img/images/award-img-1.png' %}">
-          <div class="left-content">
-           <span class="number">
-            1405
-           </span>
-           <h3 class="title">
-            بهترین طراحی مسکونی
-           </h3>
+         {% for award in awards %}
+          <div class="award-item" data-img="{{ award.image.url }}">
+           <div class="left-content">
+            <span class="number">
+             {{ award.year }}
+            </span>
+            <h3 class="title">
+             {{ award.title }}
+            </h3>
+           </div>
+           <div class="mid-content">
+            <span>
+             {{ award.category }}
+            </span>
+           </div>
           </div>
-          <div class="mid-content">
-           <span>
-            طراحی داخلی
-           </span>
-          </div>
-         </div>
-         <div class="award-item" data-img="{% static 'img/images/award-img-2.jpg' %}">
-          <div class="left-content">
-           <span class="number">
-            2024
-           </span>
-           <h3 class="title">
-            طراحی تجاری برتر
-           </h3>
-          </div>
-          <div class="mid-content">
-           <span>
-            معماری
-           </span>
-          </div>
-         </div>
-         <div class="award-item" data-img="{% static 'img/images/award-img-3.jpg' %}">
-          <div class="left-content">
-           <span class="number">
-            2023
-           </span>
-           <h3 class="title">
-            جایزه طراحی پایدار
-           </h3>
-          </div>
-          <div class="mid-content">
-           <span>
-            مرکز جامعه
-           </span>
-          </div>
-         </div>
-         <div class="award-item" data-img="{% static 'img/images/award-img-4.jpg' %}">
-          <div class="left-content">
-           <span class="number">
-            2022
-           </span>
-           <h3 class="title">
-            جایزه فضای اداری خلاق
-           </h3>
-          </div>
-          <div class="mid-content">
-           <span>
-            ساختمان شرکت
-           </span>
-          </div>
-         </div>
-         <div class="award-item" data-img="{% static 'img/images/award-img-5.jpg' %}">
-          <div class="left-content">
-           <span class="number">
-            2020
-           </span>
-           <h3 class="title">
-            طراح نوظهور سال
-           </h3>
-          </div>
-          <div class="mid-content">
-           <span>
-            طراحی داخلی
-           </span>
-          </div>
-         </div>
+         {% empty %}
+          <p>جایزه‌ای برای نمایش ثبت نشده است.</p>
+         {% endfor %}
         </div>
        </div>
       </div>
      </div>
     </section>
     <!-- ./ award-section -->
+
+    <!-- بخش گالری - داینامیک از GalleryModel -->
     <section class="gallary-section-2 pb-130 overflow-hidden">
      <div class="bg-img" data-background="{% static 'img/bg-img/gallary-bg-1.png' %}">
      </div>
@@ -519,12 +307,9 @@
            گالری ما
           </h4>
           <h2 class="section-title">
-
            طراحی
-            <br/>
-
+           <br/>
            داخلی
-
           </h2>
           <p class="mb-0">
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.
@@ -536,34 +321,19 @@
         <div class="gallary-carousel-wrap">
          <div class="gallary-carousel swiper">
           <div class="swiper-wrapper">
-           <div class="swiper-slide">
-            <div class="gallary-inner-item">
-             <a href="about.html">
-              <img alt="img" src="{% static 'img/images\gallary-img-1.png' %}"/>
-             </a>
+           {% for photo in about_gallery %}
+            <div class="swiper-slide">
+             <div class="gallary-inner-item">
+              <a href="{{ photo.image.url }}">
+               <img alt="{{ photo.alt_text|default:'گالری' }}" src="{{ photo.image.url }}"/>
+              </a>
+             </div>
             </div>
-           </div>
-           <div class="swiper-slide">
-            <div class="gallary-inner-item">
-             <a href="about.html">
-              <img alt="img" src="{% static 'img/images\gallary-img-2.png' %}"/>
-             </a>
+           {% empty %}
+            <div class="swiper-slide">
+             <p>تصویری برای نمایش ثبت نشده است.</p>
             </div>
-           </div>
-           <div class="swiper-slide">
-            <div class="gallary-inner-item">
-             <a href="about.html">
-              <img alt="img" src="{% static 'img/images\gallary-img-3.png' %}"/>
-             </a>
-            </div>
-           </div>
-           <div class="swiper-slide">
-            <div class="gallary-inner-item">
-             <a href="about.html">
-              <img alt="img" src="{% static 'img/images\gallary-img-4.png' %}"/>
-             </a>
-            </div>
-           </div>
+           {% endfor %}
           </div>
          </div>
          <div class="swiper-arrow">
@@ -582,11 +352,13 @@
      </div>
     </section>
     <!-- ./ gallary-section -->
+
+    <!-- بخش نظرات - داینامیک از TeamModels (فقط مدیر/مدیران) -->
     <section class="testimonial-section bg-white pt-150">
      <div class="container container-2">
       <div class="row section-heading-wrap">
        <div class="shape">
-        <img alt="شکل" src="{% static 'img/shapes\section-heading.png' %}"/>
+        <img alt="شکل" src="{% static 'img/shapes/section-heading.png' %}"/>
        </div>
        <div class="col-lg-4 col-md-12">
         <div class="section-heading mb-0">
@@ -609,74 +381,37 @@
       <div class="row">
        <div class="col-lg-6">
         <div class="testi-img">
-         <img alt="بیضه" src="{% static 'img/testi\testi-img-1.png' %}"/>
+         <img alt="بیضه" src="{% static 'img/testi/testi-img-1.png' %}"/>
         </div>
        </div>
        <div class="col-lg-6">
         <div class="testi-carousel-wrap">
-         <div class="testi-top-content">
-          <div class="left-content">
-           <h3 class="rating">
-            4.80
-           </h3>
-           <div class="rating-list">
-            <ul>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-            </ul>
-            <span>
-             2,688 نظر
-            </span>
-           </div>
-          </div>
-          <div class="right-content">
-           <p>
-            از مفهوم به واقعیت، تیم من را تبدیل کرد
-            <br/>
-            دید به فضایی خیره کننده و قابل زندگی. من نتوانستم
-            <br/>
-            با این خوشحال تر باش
-           </p>
-          </div>
-         </div>
          <div class="testi-carousel swiper">
           <div class="swiper-wrapper">
-           <div class="swiper-slide">
-            <div class="testi-item">
-             <p>
-              "تجربه فوق العاده ای! آنها می دانستند که چه کاری انجام می دهند و در طول فرآیند فوق العاده آگاه بودند."
-             </p>
-             <div class="testi-author">
-              <div class="author-img">
-               <img alt="نویسنده" src="{% static 'img/testi\testi-author-1.png' %}"/>
+           {% for manager in about_managers %}
+            <div class="swiper-slide">
+             <div class="testi-item">
+              <p>
+               "{{ manager.manager_quote }}"
+              </p>
+              <div class="testi-author">
+               <div class="author-img">
+                <img alt="{{ manager.full_name }}" src="{{ manager.image.url }}"/>
+               </div>
+               <h4 class="name">
+                {{ manager.full_name }}
+                <span>
+                 مالک شرکت
+                </span>
+               </h4>
               </div>
-              <h4 class="name">
-               علی صادقی
-               <span>
-                مالک شرکت
-               </span>
-              </h4>
              </div>
             </div>
-           </div>
+           {% empty %}
+            <div class="swiper-slide">
+             <p>نظری برای نمایش ثبت نشده است.</p>
+            </div>
+           {% endfor %}
           </div>
          </div>
         </div>
@@ -685,6 +420,7 @@
      </div>
     </section>
     <!-- ./ testimonial-section -->
+
     <section class="sponsor-section bg-white pt-120 pb-130 overflow-hidden">
      <div class="container">
       <div class="sponsor-text-wrap sponsor-text-wrap-2">
@@ -701,42 +437,42 @@
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-1.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-1.png' %}"/>
           </a>
          </div>
         </div>
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-2.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-2.png' %}"/>
           </a>
          </div>
         </div>
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-3.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-3.png' %}"/>
           </a>
          </div>
         </div>
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-4.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-4.png' %}"/>
           </a>
          </div>
         </div>
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-5.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-5.png' %}"/>
           </a>
          </div>
         </div>
         <div class="swiper-slide">
          <div class="sponsor-item">
           <a href="#">
-           <img alt="حامی" src="{% static 'img/sponsor\sponsor-6.png' %}"/>
+           <img alt="حامی" src="{% static 'img/sponsor/sponsor-6.png' %}"/>
           </a>
          </div>
         </div>
@@ -745,9 +481,11 @@
      </div>
     </section>
     <!-- ./ sponsor-section -->
+
+    <!-- بخش خبرنامه - داینامیک -->
     <section class="newsletter-section bg-white pb-130 overflow-hidden">
      <div class="bg-shape">
-      <img alt="شکل" src="{% static 'img/shapes\newsletter-shape.png' %}"/>
+      <img alt="شکل" src="{% static 'img/shapes/newsletter-shape.png' %}"/>
      </div>
      <div class="container">
       <div class="newsletter-wrap">
@@ -766,13 +504,25 @@
          و از آخرین به‌روزرسانی‌های این صنعت مطلع شوید.
         </p>
        </div>
-       <div class="newsletter-form">
+
+       {% if messages %}
+        <div class="newsletter-messages text-center mb-20">
+         {% for message in messages %}
+          <p class="{{ message.tags }}">
+           {{ message }}
+          </p>
+         {% endfor %}
+        </div>
+       {% endif %}
+
+       <form class="newsletter-form" method="post" action="{% url 'contact:subscribe' %}">
+        {% csrf_token %}
         <input class="form-control" id="email" name="email" placeholder="آدرس ایمیل.." type="text"/>
         <button type="submit">
          <i class="fa-regular fa-arrow-right-long">
          </i>
         </button>
-       </div>
+       </form>
       </div>
      </div>
     </section>

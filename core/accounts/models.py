@@ -57,6 +57,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    class Meta:
+        verbose_name = "کاربر"
+        verbose_name_plural = "کاربر ها"
+
     # نمایش ایمیل کاربر به عنوان نمای متنی شیء
     def __str__(self):
         return self.email
@@ -79,6 +83,10 @@ class Profile(models.Model):
     )
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "پروفایل"
+        verbose_name_plural = "پروفایل ها"
 
     # بازگرداندن نام کامل کاربر
     def get_fullname(self):

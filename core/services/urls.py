@@ -19,7 +19,7 @@ urlpatterns = [
 
     # صفحه جزئیات خدمت
     path(
-        "services/<slug:slug>/",
+        "services/<str:slug>/",
         ServiceDetailView.as_view(),
         name="service-detail",
     ),
