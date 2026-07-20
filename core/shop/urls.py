@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProductListView, ProductDetailView
+from .views import ProductListView, ProductDetailView, WishlistToggleView
 # ======================================================================================================================
 app_name = "shop"
 # ======================================================================================================================
@@ -14,10 +14,12 @@ urlpatterns = [
 
     # جزئیات محصول
     path(
-        "products-detail/<slug:slug>/",
+        "products-detail/<str:slug>/",
         ProductDetailView.as_view(),
         name="shop-detail"
     ),
+    path("<str:slug>/wishlist-toggle/", WishlistToggleView.as_view(), name="wishlist-toggle"),
+
 
 ]
 # ======================================================================================================================

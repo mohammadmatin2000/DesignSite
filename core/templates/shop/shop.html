@@ -11,17 +11,17 @@
      <div class="container">
       <div class="page-header-content">
        <h1 class="title">
-        گالری
+        فروشگاه
        </h1>
        <h4 class="sub-title">
-        <a class="home" href="index.html">
+        <a class="home" href="{% url 'index:index' %}">
          صفحه اصلی
         </a>
         <span class="icon">
          -
         </span>
-        <a class="inner-page" href="gallary-2.html">
-         سعادت حمام
+        <a class="inner-page" href="{% url 'shop:shop-list' %}">
+         فروشگاه
         </a>
        </h4>
       </div>
@@ -32,251 +32,117 @@
      <div class="container container-2">
       <div class="row">
        <div class="col-lg-3 col-md-12">
+
+        <!-- جستجو -->
         <div class="shop-sidebar">
          <h3 class="sidebar-header">
           جستجو کنید
          </h3>
-         <form action="contact.php" class="search-form">
-          <input class="form-control" placeholder="جستجو..." type="text"/>
-          <button class="search-btn" type="button">
+         <form action="{% url 'shop:shop-list' %}" class="search-form" method="get">
+          <input class="form-control" name="q" value="{{ current_search }}" placeholder="جستجو..." type="text"/>
+          <button class="search-btn" type="submit">
            <i class="fa-regular fa-magnifying-glass">
            </i>
           </button>
          </form>
         </div>
+
+        <!-- دسته‌بندی‌ها (چند انتخابی) -->
         <div class="shop-sidebar">
          <h3 class="sidebar-header">
           دسته بندی ها
          </h3>
+         <form action="{% url 'shop:shop-list' %}" method="get" id="category-filter-form">
+          {% if current_search %}<input type="hidden" name="q" value="{{ current_search }}">{% endif %}
+          {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+          <ul class="sidebar-list">
+           {% for category in categories %}
+            <li>
+             <input id="cat-{{ category.slug }}" name="category" type="checkbox" value="{{ category.slug }}"
+                    onchange="document.getElementById('category-filter-form').submit()"
+                    {% if category.slug in selected_categories %}checked{% endif %}/>
+             <label for="cat-{{ category.slug }}">
+              {{ category.title }} ({{ category.products.count }})
+             </label>
+             <br/>
+            </li>
+           {% empty %}
+            <li>دسته‌بندی‌ای ثبت نشده است.</li>
+           {% endfor %}
+          </ul>
+         </form>
+        </div>
+
+        <!-- برچسب‌ها -->
+        <div class="shop-sidebar">
+         <h3 class="sidebar-header">
+          برچسب ها
+         </h3>
          <ul class="sidebar-list">
-          <li>
-           <input id="vehicle1" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle1">
-            نیمکت (4)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle3" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle3">
-            قفسه کتاب (4)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle4" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle4">
-            میز ناهار خوری (1)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle5" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle5">
-            میز آرایش (12)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle6" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle6">
-            پوشاک و پوشاک (2)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle7" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle7">
-            مبلمان (3)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle8" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle8">
-            صندلی اداری (3)
-           </label>
-           <br/>
-          </li>
-          <li>
-           <input id="vehicle9" name="vehicle1" type="checkbox" value="دوچرخه"/>
-           <label for="vehicle9">
-            دسته بندی نشده (5)
-           </label>
-           <br/>
-          </li>
+          {% for tag in tags %}
+           <li>
+            <a href="{% url 'shop:shop-list' %}?tag={{ tag.slug }}">
+             {{ tag.title }}
+            </a>
+           </li>
+          {% empty %}
+           <li>برچسبی ثبت نشده است.</li>
+          {% endfor %}
          </ul>
         </div>
+
+        <!-- فیلتر قیمت -->
         <div class="shop-sidebar">
          <h3 class="sidebar-header">
           فیلتر بر اساس قیمت
          </h3>
          <div class="filter-box">
-          <div class="range-slider">
-           <input id="price-range" max="500" min="20" type="range" value="300"/>
-           <div class="slider-line">
-           </div>
-           <div class="range-slider-output">
-            <h3 class="price">
-             قیمت: 10 تا 90 دلار
-            </h3>
-            <h3 class="price" id="price-output">
-
-             <span>
-              500
-             </span>
-            </h3>
-           </div>
-          </div>
+          <form action="{% url 'shop:shop-list' %}" method="get" class="d-flex" style="gap:8px;">
+           {% if current_search %}<input type="hidden" name="q" value="{{ current_search }}">{% endif %}
+           {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+           {% for cat in selected_categories %}<input type="hidden" name="category" value="{{ cat }}">{% endfor %}
+           <input class="form-control" type="number" name="min_price" placeholder="حداقل" value="{{ request.GET.min_price }}">
+           <input class="form-control" type="number" name="max_price" placeholder="حداکثر" value="{{ request.GET.max_price }}">
+           <button class="tl-primary-btn" type="submit" style="padding:6px 14px;">اعمال</button>
+          </form>
          </div>
         </div>
+
+        <!-- محصولات محبوب -->
         <div class="shop-sidebar sticky-widget">
          <h3 class="sidebar-header">
-          برندها
+          محصولات محبوب
          </h3>
          <div class="sidebar-items">
-          <div class="sidebar-item">
-           <div class="item-img">
-            <img alt="img" src="{% static 'img/shop/sidebar-img-1.png' %}"/>
+          {% for item in popular_products %}
+           <div class="sidebar-item">
+            <div class="item-img">
+             <a href="{% url 'shop:shop-detail' item.slug %}">
+              <img alt="{{ item.title }}" src="{{ item.image.url }}"/>
+             </a>
+            </div>
+            <div class="content">
+             <h4 class="title">
+              <a href="{% url 'shop:shop-detail' item.slug %}">
+               {{ item.title }}
+              </a>
+             </h4>
+             <ul class="review">
+              {% for i in "12345" %}
+               <li><i class="fa-solid fa-star" style="{% if forloop.counter > item.average_rating %}opacity:0.3;{% endif %}"></i></li>
+              {% endfor %}
+             </ul>
+             <span class="price">
+              {{ item.price }} تومان
+             </span>
+            </div>
            </div>
-           <div class="content">
-            <h4 class="title">
-             ساختار چوبی بادوام
-            </h4>
-            <ul class="review">
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-            </ul>
-            <span class="price">
-             550
-            </span>
-           </div>
-          </div>
-          <div class="sidebar-item">
-           <div class="item-img">
-            <img alt="img" src="{% static 'img/shop/sidebar-img-2.png' %}"/>
-           </div>
-           <div class="content">
-            <h4 class="title">
-             گلدان طرح آرابسک
-            </h4>
-            <ul class="review">
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-            </ul>
-            <span class="price">
-             550
-            </span>
-           </div>
-          </div>
-          <div class="sidebar-item">
-           <div class="item-img">
-            <img alt="img" src="{% static 'img/shop/sidebar-img-3.png' %}"/>
-           </div>
-           <div class="content">
-            <h4 class="title">
-             میز قهوه Ocean Blue
-            </h4>
-            <ul class="review">
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-            </ul>
-            <span class="price">
-             550
-            </span>
-           </div>
-          </div>
-          <div class="sidebar-item">
-           <div class="item-img">
-            <img alt="img" src="{% static 'img/shop/sidebar-img-4.png' %}"/>
-           </div>
-           <div class="content">
-            <h4 class="title">
-             نقاشی بوم قاب شده
-            </h4>
-            <ul class="review">
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-             <li>
-              <i class="fa-solid fa-star">
-              </i>
-             </li>
-            </ul>
-            <span class="price">
-             550
-            </span>
-           </div>
-          </div>
+          {% empty %}
+           <p>محصولی برای نمایش نیست.</p>
+          {% endfor %}
          </div>
         </div>
+
        </div>
        <div class="col-lg-9 col-md-12">
         <div class="shop-grid-left">
@@ -286,995 +152,210 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
              <button aria-controls="nav-home" aria-selected="true" class="nav-link active" data-bs-target="#nav-home" data-bs-toggle="tab" id="nav-home-tab" role="tab" type="button">
               <svg height="17" viewbox="0 0 20 17" width="20" xmlns="http://www.w3.org/2000/svg">
-               <rect fill="currentColor" height="3" width="5" x="15">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" x="15" y="7">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" x="15" y="14">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" x="7.71875">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" x="7.71875" y="7">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" x="7.71875" y="14">
-               </rect>
-               <rect fill="currentColor" height="3" width="5">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" y="7">
-               </rect>
-               <rect fill="currentColor" height="3" width="5" y="14">
-               </rect>
+               <rect fill="currentColor" height="3" width="5" x="15"></rect>
+               <rect fill="currentColor" height="3" width="5" x="15" y="7"></rect>
+               <rect fill="currentColor" height="3" width="5" x="15" y="14"></rect>
+               <rect fill="currentColor" height="3" width="5" x="7.71875"></rect>
+               <rect fill="currentColor" height="3" width="5" x="7.71875" y="7"></rect>
+               <rect fill="currentColor" height="3" width="5" x="7.71875" y="14"></rect>
+               <rect fill="currentColor" height="3" width="5"></rect>
+               <rect fill="currentColor" height="3" width="5" y="7"></rect>
+               <rect fill="currentColor" height="3" width="5" y="14"></rect>
               </svg>
              </button>
              <button aria-controls="nav-profile" aria-selected="false" class="nav-link" data-bs-target="#nav-profile" data-bs-toggle="tab" id="nav-profile-tab" role="tab" type="button">
               <svg height="17" viewbox="0 0 20 17" width="20" xmlns="http://www.w3.org/2000/svg">
-               <rect fill="currentColor" height="3" width="14.2857" x="5.71875">
-               </rect>
-               <rect fill="currentColor" height="3" width="14.2857" x="5.71875" y="7">
-               </rect>
-               <rect fill="currentColor" height="3" width="14.2857" x="5.71875" y="14">
-               </rect>
-               <rect fill="currentColor" height="3" width="3.80952">
-               </rect>
-               <rect fill="currentColor" height="3" width="3.80952" y="7">
-               </rect>
-               <rect fill="currentColor" height="3" width="3.80952" y="14">
-               </rect>
+               <rect fill="currentColor" height="3" width="14.2857" x="5.71875"></rect>
+               <rect fill="currentColor" height="3" width="14.2857" x="5.71875" y="7"></rect>
+               <rect fill="currentColor" height="3" width="14.2857" x="5.71875" y="14"></rect>
+               <rect fill="currentColor" height="3" width="3.80952"></rect>
+               <rect fill="currentColor" height="3" width="3.80952" y="7"></rect>
+               <rect fill="currentColor" height="3" width="3.80952" y="14"></rect>
               </svg>
              </button>
             </div>
            </nav>
            <span>
-            نمایش 1-12 از 88 نتیجه
+            نمایش {{ page_obj.start_index }}-{{ page_obj.end_index }} از {{ paginator.count }} نتیجه
            </span>
           </div>
-          <div class="nice-select shop-select country" tabindex="0">
-           <span class="current">
-            کوتاه کردن پیش فرض
-           </span>
-           <ul class="list">
-            <li class="option selected focus" data-value="">
-             کوتاه کردن پیش فرض
-            </li>
-            <li class="option" data-value="vdt">
-             محبوب ترین
-            </li>
-            <li class="option" data-value="can">
-             تاریخ
-            </li>
-            <li class="option" data-value="uk">
-             تجارت
-            </li>
-            <li class="option" data-value="dk">
-             برجسته
-            </li>
-            <li class="option" data-value="dl">
-             با تخفیف
-            </li>
-           </ul>
-          </div>
+
+          <!-- مرتب‌سازی واقعی -->
+          <form action="{% url 'shop:shop-list' %}" method="get" id="sort-form">
+           {% if current_search %}<input type="hidden" name="q" value="{{ current_search }}">{% endif %}
+           {% for cat in selected_categories %}<input type="hidden" name="category" value="{{ cat }}">{% endfor %}
+           <select class="nice-select shop-select country" name="sort" onchange="document.getElementById('sort-form').submit()">
+            <option value="" {% if not current_sort %}selected{% endif %}>مرتب‌سازی پیش فرض</option>
+            <option value="popular" {% if current_sort == "popular" %}selected{% endif %}>محبوب ترین</option>
+            <option value="date" {% if current_sort == "date" %}selected{% endif %}>جدیدترین</option>
+            <option value="price_low" {% if current_sort == "price_low" %}selected{% endif %}>ارزان‌ترین</option>
+            <option value="price_high" {% if current_sort == "price_high" %}selected{% endif %}>گران‌ترین</option>
+            <option value="featured" {% if current_sort == "featured" %}selected{% endif %}>ویژه</option>
+           </select>
+          </form>
+
          </div>
          <div class="tab-content" id="nav-tabContent">
+
+          <!-- تب گرید -->
           <div aria-labelledby="nav-home-tab" class="tab-pane fade show active" id="nav-home" role="tabpanel">
            <div class="row gy-4">
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-1.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
+            {% for product in products %}
+             <div class="col-xl-4 col-lg-6 col-md-6">
+              <div class="shop-item">
+               <div class="shop-thumb">
+                <div class="overlay">
+                </div>
+                <img alt="{{ product.title }}" src="{{ product.image.url }}"/>
+                {% if product.discount_percent > 0 %}
+                 <span class="sale">{{ product.discount_percent }}%-</span>
+                {% endif %}
+                <ul class="shop-list">
                  <li>
-                  <i class="fa-solid fa-star">
-                  </i>
+                  <a href="#">
+                   <i class="fa-regular fa-cart-shopping"></i>
+                  </a>
                  </li>
                  <li>
-                  <i class="fa-solid fa-star">
-                  </i>
+                  <a href="#"
+                     class="wishlist-toggle-btn {% if product.id in wishlist_ids %}active{% endif %}"
+                     data-url="{% url 'shop:wishlist-toggle' product.slug %}">
+                   <i class="{% if product.id in wishlist_ids %}fa-solid{% else %}fa-light{% endif %} fa-heart"></i>
+                  </a>
                  </li>
                  <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
+                  <a href="{% url 'shop:shop-detail' product.slug %}">
+                   <i class="fa-light fa-eye"></i>
+                  </a>
                  </li>
                 </ul>
                </div>
-               <span class="price">
-                1570
-               </span>
+               <div class="shop-content">
+                <h3 class="title">
+                 <a href="{% url 'shop:shop-detail' product.slug %}">
+                  {{ product.title }}
+                 </a>
+                </h3>
+                <div class="review-wrap">
+                 <ul class="review">
+                  {% for i in "12345" %}
+                   <li><i class="fa-solid fa-star" style="{% if forloop.counter > product.average_rating %}opacity:0.3;{% endif %}"></i></li>
+                  {% endfor %}
+                 </ul>
+                 <span>({{ product.review_count }})</span>
+                </div>
+                <span class="price">
+                 {% if product.old_price %}
+                 <s class="old-price">{{ product.old_price }} تومان</s>
+                 <br/>
+                 {% endif %}
+                 {{ product.price }} تومان
+                </span>
+               </div>
               </div>
              </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-2.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-3.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-4.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-5.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-6.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-7.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-8.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
-             <div class="shop-item">
-              <div class="shop-thumb">
-               <div class="overlay">
-               </div>
-               <img alt="فروشگاه" src="{% static 'img/shop/shop-9.png' %}"/>
-               <ul class="shop-list">
-                <li>
-                 <a href="#">
-                  <i class="fa-regular fa-cart-shopping">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-heart">
-                  </i>
-                 </a>
-                </li>
-                <li>
-                 <a href="#">
-                  <i class="fa-light fa-eye">
-                  </i>
-                 </a>
-                </li>
-               </ul>
-              </div>
-              <div class="shop-content">
-               <h3 class="title">
-                <a href="shop-details.html">
-                 مبل مدرن پارچه کاراملی
-                </a>
-               </h3>
-               <div class="review-wrap">
-                <ul class="review">
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                 <li>
-                  <i class="fa-solid fa-star">
-                  </i>
-                 </li>
-                </ul>
-               </div>
-               <span class="price">
-                1570
-               </span>
-              </div>
-             </div>
-            </div>
+            {% empty %}
+             <p>محصولی برای نمایش یافت نشد.</p>
+            {% endfor %}
            </div>
           </div>
+
+          <!-- تب لیست -->
           <div aria-labelledby="nav-profile-tab" class="tab-pane fade" id="nav-profile" role="tabpanel">
            <div class="grid-shop-items">
-            <div class="shop-item grid-shop">
-             <div class="shop-thumb">
-              <div class="overlay">
-              </div>
-              <img alt="فروشگاه" src="{% static 'img/shop/shop-1.png' %}"/>
-              <span class="sale">
-               جدید
-              </span>
-              <ul class="shop-list">
-               <li>
-                <a href="#">
-                 <i class="fa-regular fa-cart-shopping">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-heart">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-eye">
-                 </i>
-                </a>
-               </li>
-              </ul>
-             </div>
-             <div class="shop-content">
-              <h3 class="title">
-               <a href="shop-details.html">
-                مبل مدرن پارچه کاراملی
-               </a>
-              </h3>
-              <div class="review-wrap">
-               <ul class="review">
+            {% for product in products %}
+             <div class="shop-item grid-shop">
+              <div class="shop-thumb">
+               <div class="overlay">
+               </div>
+               <img alt="{{ product.title }}" src="{{ product.image.url }}"/>
+               {% if product.is_featured %}
+                <span class="sale">ویژه</span>
+               {% endif %}
+               <ul class="shop-list">
                 <li>
-                 <i class="fa-solid fa-star">
-                 </i>
+                 <a href="#">
+                  <i class="fa-regular fa-cart-shopping"></i>
+                 </a>
                 </li>
                 <li>
-                 <i class="fa-solid fa-star">
-                 </i>
+                 <a href="#"
+                    class="wishlist-toggle-btn {% if product.id in wishlist_ids %}active{% endif %}"
+                    data-url="{% url 'shop:wishlist-toggle' product.slug %}">
+                  <i class="{% if product.id in wishlist_ids %}fa-solid{% else %}fa-light{% endif %} fa-heart"></i>
+                 </a>
                 </li>
                 <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
+                 <a href="{% url 'shop:shop-detail' product.slug %}">
+                  <i class="fa-light fa-eye"></i>
+                 </a>
                 </li>
                </ul>
               </div>
-              <span class="price">
-               1570
-              </span>
-             </div>
-            </div>
-            <div class="shop-item grid-shop">
-             <div class="shop-thumb">
-              <div class="overlay">
+              <div class="shop-content">
+               <h3 class="title">
+                <a href="{% url 'shop:shop-detail' product.slug %}">
+                 {{ product.title }}
+                </a>
+               </h3>
+               <div class="review-wrap">
+                <ul class="review">
+                 {% for i in "12345" %}
+                  <li><i class="fa-solid fa-star" style="{% if forloop.counter > product.average_rating %}opacity:0.3;{% endif %}"></i></li>
+                 {% endfor %}
+                </ul>
+                <span>({{ product.review_count }})</span>
+               </div>
+               <span class="price">
+                {% if product.old_price %}
+                <s class="old-price">{{ product.old_price }} تومان</s>
+                <br/>
+                {% endif %}
+                {{ product.price }} تومان
+               </span>
               </div>
-              <img alt="فروشگاه" src="{% static 'img/shop/shop-2.png' %}"/>
-              <span class="sale">
-               جدید
-              </span>
-              <ul class="shop-list">
-               <li>
-                <a href="#">
-                 <i class="fa-regular fa-cart-shopping">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-heart">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-eye">
-                 </i>
-                </a>
-               </li>
-              </ul>
              </div>
-             <div class="shop-content">
-              <h3 class="title">
-               <a href="shop-details.html">
-                مبل مدرن پارچه کاراملی
-               </a>
-              </h3>
-              <div class="review-wrap">
-               <ul class="review">
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-               </ul>
-              </div>
-              <span class="price">
-               1570
-              </span>
-             </div>
-            </div>
-            <div class="shop-item grid-shop">
-             <div class="shop-thumb">
-              <div class="overlay">
-              </div>
-              <img alt="فروشگاه" src="{% static 'img/shop/shop-3.png' %}"/>
-              <span class="sale">
-               جدید
-              </span>
-              <ul class="shop-list">
-               <li>
-                <a href="#">
-                 <i class="fa-regular fa-cart-shopping">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-heart">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-eye">
-                 </i>
-                </a>
-               </li>
-              </ul>
-             </div>
-             <div class="shop-content">
-              <h3 class="title">
-               <a href="shop-details.html">
-                مبل مدرن پارچه کاراملی
-               </a>
-              </h3>
-              <div class="review-wrap">
-               <ul class="review">
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-               </ul>
-              </div>
-              <span class="price">
-               1570
-              </span>
-             </div>
-            </div>
-            <div class="shop-item grid-shop">
-             <div class="shop-thumb">
-              <div class="overlay">
-              </div>
-              <img alt="فروشگاه" src="{% static 'img/shop/shop-4.png' %}"/>
-              <span class="sale">
-               جدید
-              </span>
-              <ul class="shop-list">
-               <li>
-                <a href="#">
-                 <i class="fa-regular fa-cart-shopping">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-heart">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-eye">
-                 </i>
-                </a>
-               </li>
-              </ul>
-             </div>
-             <div class="shop-content">
-              <h3 class="title">
-               <a href="shop-details.html">
-                مبل مدرن پارچه کاراملی
-               </a>
-              </h3>
-              <div class="review-wrap">
-               <ul class="review">
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-               </ul>
-              </div>
-              <span class="price">
-               1570
-              </span>
-             </div>
-            </div>
-            <div class="shop-item grid-shop">
-             <div class="shop-thumb">
-              <div class="overlay">
-              </div>
-              <img alt="فروشگاه" src="{% static 'img/shop/shop-1.png' %}"/>
-              <span class="sale">
-               جدید
-              </span>
-              <ul class="shop-list">
-               <li>
-                <a href="#">
-                 <i class="fa-regular fa-cart-shopping">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-heart">
-                 </i>
-                </a>
-               </li>
-               <li>
-                <a href="#">
-                 <i class="fa-light fa-eye">
-                 </i>
-                </a>
-               </li>
-              </ul>
-             </div>
-             <div class="shop-content">
-              <h3 class="title">
-               <a href="shop-details.html">
-                مبل مدرن پارچه کاراملی
-               </a>
-              </h3>
-              <div class="review-wrap">
-               <ul class="review">
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-                <li>
-                 <i class="fa-solid fa-star">
-                 </i>
-                </li>
-               </ul>
-              </div>
-              <span class="price">
-               1570
-              </span>
-             </div>
-            </div>
+            {% empty %}
+             <p>محصولی برای نمایش یافت نشد.</p>
+            {% endfor %}
            </div>
           </div>
+
          </div>
         </div>
-        <ul class="pagination-wrap mt-50 justify-content-center">
-         <li>
-          <a href="#">
-           1
-          </a>
-         </li>
-         <li>
-          <a class="active" href="#">
-           2
-          </a>
-         </li>
-         <li>
-          <a href="#">
-           3
-          </a>
-         </li>
-         <li>
-          <a href="#">
-           <i class="fa-regular fa-arrow-right">
-           </i>
-          </a>
-         </li>
-        </ul>
+
+        <!-- صفحه‌بندی (با حفظ همه‌ی فیلترهای فعال) -->
+        {% if is_paginated %}
+         <ul class="pagination-wrap mt-50 justify-content-center">
+
+          {% if page_obj.has_previous %}
+           <li>
+            <a href="?{% if current_search %}q={{ current_search }}&{% endif %}{% if current_sort %}sort={{ current_sort }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ page_obj.previous_page_number }}">
+             <i class="fa-regular fa-arrow-right"></i>
+            </a>
+           </li>
+          {% endif %}
+
+          {% for num in paginator.page_range %}
+           <li>
+            <a class="{% if num == page_obj.number %}active{% endif %}"
+               href="?{% if current_search %}q={{ current_search }}&{% endif %}{% if current_sort %}sort={{ current_sort }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ num }}">
+             {{ num }}
+            </a>
+           </li>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+           <li>
+            <a href="?{% if current_search %}q={{ current_search }}&{% endif %}{% if current_sort %}sort={{ current_sort }}&{% endif %}{% for cat in selected_categories %}category={{ cat }}&{% endfor %}page={{ page_obj.next_page_number }}">
+             <i class="fa-regular fa-arrow-left"></i>
+            </a>
+           </li>
+          {% endif %}
+
+         </ul>
+        {% endif %}
+
        </div>
       </div>
      </div>
@@ -1282,4 +363,47 @@
     <!-- ./ Shop Grid -->
    </div>
   </div>
+
+<style>
+  .price .old-price{color:#a39c94;font-weight:400;font-size:14px;}
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".wishlist-toggle-btn").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var url = btn.getAttribute("data-url");
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        })
+          .then(function (response) {
+            if (response.status === 403) {
+              window.location.href = "{% url 'accounts:login' %}";
+              return null;
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            if (!data) return;
+            var icon = btn.querySelector("i");
+            if (data.is_wishlisted) {
+              btn.classList.add("active");
+              icon.classList.remove("fa-light");
+              icon.classList.add("fa-solid");
+            } else {
+              btn.classList.remove("active");
+              icon.classList.remove("fa-solid");
+              icon.classList.add("fa-light");
+            }
+          });
+      });
+    });
+  });
+</script>
 {% endblock content %}

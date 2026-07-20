@@ -1,0 +1,104 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        نتایج جستجو
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">-</span>
+        <a class="inner-page" href="{% url 'index:search' %}">
+         جستجو
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+
+    <section class="pt-100 pb-100">
+     <div class="container container-2">
+
+      {% if query %}
+      <p class="mb-40">
+       نتایج جستجو برای «{{ query }}» — {{ total_count }} نتیجه یافت شد.
+      </p>
+      {% else %}
+      <p class="mb-40">لطفاً عبارتی برای جستجو وارد کنید.</p>
+      {% endif %}
+
+      {% if products %}
+      <h3 class="details-title mb-20">محصولات</h3>
+      <div class="row gy-4 mb-50">
+       {% for product in products %}
+       <div class="col-lg-3 col-md-6">
+        <div class="shop-item">
+         <div class="shop-thumb">
+          <img alt="{{ product.title }}" src="{{ product.image.url }}"/>
+         </div>
+         <div class="shop-content">
+          <h3 class="title">
+           <a href="{% url 'shop:shop-detail' product.slug %}">{{ product.title }}</a>
+          </h3>
+          <span class="price">{{ product.price }} تومان</span>
+         </div>
+        </div>
+       </div>
+       {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if projects %}
+      <h3 class="details-title mb-20">پروژه ها</h3>
+      <div class="row gy-4 mb-50">
+       {% for project in projects %}
+       <div class="col-lg-4 col-md-6">
+        <div class="project-item">
+         <div class="project-img">
+          <img alt="{{ project.title }}" src="{{ project.image.url }}"/>
+         </div>
+         <div class="project-content">
+          <h3 class="title">
+           <a href="{% url 'projects:project-detail' project.slug %}">{{ project.title }}</a>
+          </h3>
+         </div>
+        </div>
+       </div>
+       {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if services %}
+      <h3 class="details-title mb-20">خدمات</h3>
+      <div class="row gy-4 mb-50">
+       {% for service in services %}
+       <div class="col-lg-4 col-md-6">
+        <div class="feature-item">
+         <h3 class="title">
+          <a href="{% url 'services:service-detail' service.slug %}">{{ service.title }}</a>
+         </h3>
+        </div>
+       </div>
+       {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if query and total_count == 0 %}
+      <p>هیچ نتیجه‌ای برای «{{ query }}» یافت نشد.</p>
+      {% endif %}
+
+     </div>
+    </section>
+   </div>
+  </div>
+{% endblock content %}

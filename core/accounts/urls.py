@@ -1,7 +1,9 @@
-from django.urls import path
+from django.urls import path,reverse_lazy
 from django.contrib.auth import views as auth_views
 from .views import LoginView, LogoutView, SignupView
 from .forms import SetPasswordForm
+# ======================================================================================================================
+app_name = 'accounts'
 # ======================================================================================================================
 # تعریف مسیرهای مربوط به احراز هویت و مدیریت حساب کاربری
 urlpatterns = [
@@ -19,7 +21,10 @@ urlpatterns = [
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(
-            template_name="accounts/reset-password/reset_password.html"
+            template_name="accounts/reset-password/reset_password.html",
+            email_template_name="accounts/reset-password/password_reset_email.html",
+            subject_template_name="accounts/reset-password/password_reset_subject.txt",
+            success_url= reverse_lazy("accounts:password_reset_done"),
         ),
         name="password_reset",
     ),
@@ -39,6 +44,7 @@ urlpatterns = [
         auth_views.PasswordResetConfirmView.as_view(
             template_name="accounts/reset-password/reset_password_form.html",
             form_class=SetPasswordForm,
+            success_url=reverse_lazy("accounts:password_reset_complete"),
         ),
         name="password_reset_confirm",
     ),

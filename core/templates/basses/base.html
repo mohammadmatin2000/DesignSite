@@ -22,6 +22,107 @@
     <link href="{% static 'css/animation.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/swiper.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+
+    <!-- Account icon + dropdown styles -->
+    <style>
+        .account-icon-wrap {
+            position: relative;
+            display: inline-flex;
+        }
+
+        .account-icon-toggle.search-icon {
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .account-dropdown {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 0;
+            min-width: 200px;
+            background: #171310;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: .25s;
+            z-index: 99;
+        }
+
+        .account-icon-wrap.active .account-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .account-dropdown-hello {
+            padding: 10px 14px;
+            color: rgba(255, 255, 255, .5);
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+            margin-bottom: 4px;
+        }
+
+        .account-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .account-dropdown a:hover {
+            background: rgba(255, 255, 255, .06);
+            color: var(--tl-color-theme-primary, #c9974d);
+        }
+
+        .account-dropdown a i {
+            width: 16px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .popup-search-box-form-wrap {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .popup-search-submit {
+            position: absolute;
+            top: 50%;
+            inset-inline-end: 24px;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #171310;
+            font-size: 20px;
+            cursor: pointer;
+            transition: .25s;
+            z-index: 5;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .popup-search-submit:hover {
+            color: var(--tl-color-theme-primary, #c9974d);
+        }
+
+        #popup-search {
+            padding-inline-end: 50px !important;
+        }
+    </style>
 </head>
 {% block extra_css %} {% endblock extra_css %}
 
@@ -135,11 +236,83 @@
                 </div>
                 <div class="header-right-wrap">
 
+                    <!-- آیکون حساب کاربری - ورود / ثبت‌نام / خروج -->
+                    <div class="account-icon-wrap">
+                        <button class="account-icon-toggle search-icon" type="button">
+                            <i class="fa-regular fa-user"></i>
+                        </button>
+                        <div class="account-dropdown">
+                            {% if user.is_authenticated %}
+                            <span class="account-dropdown-hello">
+                                سلام، {{ user.username }}
+                            </span>
+                            <a href="{% url 'accounts:logout' %}">
+                                <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                                خروج از حساب
+                            </a>
+                            {% else %}
+                            <a href="{% url 'accounts:login' %}">
+                                <i class="fa-regular fa-right-to-bracket"></i>
+                                ورود
+                            </a>
+                            <a href="{% url 'accounts:signup' %}">
+                                <i class="fa-regular fa-user-plus"></i>
+                                ثبت‌نام
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- /.account-icon-wrap -->
+
+                    <!-- آیکون سبد خرید -->
+                    <div class="cart-icon-wrap">
+                        <button class="cart-icon-toggle search-icon" type="button">
+                            <i class="fa-regular fa-cart-shopping"></i>
+                            {% if cart_items_count %}
+                            <span class="cart-count-badge">{{ cart_items_count }}</span>
+                            {% endif %}
+                        </button>
+                        <div class="cart-dropdown">
+                            {% if cart_items %}
+                            <div class="cart-dropdown-items">
+                                {% for item in cart_items %}
+                                <div class="cart-dropdown-item">
+                                    <div class="cart-dropdown-item-img">
+                                        <img alt="{{ item.product.title }}" src="{{ item.product.image.url }}"/>
+                                    </div>
+                                    <div class="cart-dropdown-item-info">
+                                        <span class="cart-dropdown-item-title">{{ item.product.title }}</span>
+                                        <span class="cart-dropdown-item-meta">{{ item.quantity }} × {{ item.product.price }} تومان</span>
+                                    </div>
+                                    <a class="cart-dropdown-item-remove" href="{% url 'shop:cart-remove' item.id %}">
+                                        <i class="fa-regular fa-xmark"></i>
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="cart-dropdown-footer">
+                                <div class="cart-dropdown-total">
+                                    <span>جمع کل</span>
+                                    <span>{{ cart_total }} تومان</span>
+                                </div>
+                                <a class="cart-dropdown-btn" href="{% url 'shop:cart-detail' %}">
+                                    مشاهده سبد خرید
+                                </a>
+                            </div>
+                            {% else %}
+                            <span class="cart-dropdown-empty">
+                                سبد خرید شما خالی است
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- /.cart-icon-wrap -->
 
                     <div class="search-icon dl-search-icon">
                         <i class="fa-solid fa-magnifying-glass">
                         </i>
                     </div>
+
                     <div class="sidebar-icon">
                         <button class="sidebar-trigger open">
                             <svg fill="none" height="16" viewbox="0 0 16 16" width="16"
@@ -167,11 +340,168 @@
     </div>
 </header>
 
+<style>
+    .cart-icon-wrap {
+        position: relative;
+    }
+
+    .cart-icon-toggle {
+        position: relative;
+    }
+
+    .cart-count-badge {
+        position: absolute;
+        top: -6px;
+        inset-inline-end: -8px;
+        background: var(--tl-color-theme-primary, #c9974d);
+        color: #171310;
+        font-size: 11px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        line-height: 1;
+    }
+
+    .cart-dropdown {
+        position: absolute;
+        top: calc(100% + 14px);
+        inset-inline-end: 0;
+        width: 320px;
+        background: #fff;
+        border: 1px solid #eee4d5;
+        border-radius: 14px;
+        box-shadow: 0 20px 45px -20px rgba(30, 20, 10, .25);
+        padding: 18px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: .25s;
+        z-index: 50;
+    }
+
+    .cart-icon-wrap:hover .cart-dropdown,
+    .cart-icon-wrap.active .cart-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .cart-dropdown-empty {
+        display: block;
+        text-align: center;
+        color: #8a8079;
+        font-size: 14px;
+        padding: 14px 0;
+    }
+
+    .cart-dropdown-items {
+        max-height: 280px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .cart-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cart-dropdown-item-img {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 1px solid #eee4d5;
+    }
+
+    .cart-dropdown-item-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .cart-dropdown-item-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .cart-dropdown-item-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #171310;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .cart-dropdown-item-meta {
+        font-size: 13px;
+        color: #8a8079;
+    }
+
+    .cart-dropdown-item-remove {
+        color: #b3413a;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .cart-dropdown-footer {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #eee4d5;
+    }
+
+    .cart-dropdown-total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 700;
+        color: #171310;
+        margin-bottom: 14px;
+    }
+
+    .cart-dropdown-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 44px;
+        border-radius: 8px;
+        background: var(--tl-color-theme-primary, #c9974d);
+        color: #171310;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        transition: .25s;
+    }
+
+    .cart-dropdown-btn:hover {
+        filter: brightness(0.93);
+        color: #171310;
+    }
+</style>
+
 <!-- /.Main Header -->
 <div id="popup-search-box">
     <div class="box-inner-wrap d-flex align-items-center">
-        <form action="#" id="form" method="get" role="search">
+        <form action="{% url 'index:search' %}" id="form" method="get" role="search" class="popup-search-box-form-wrap">
             <input id="popup-search" name="s" placeholder="کلمات کلیدی را اینجا تایپ کنید..." type="text"/>
+            <button type="submit" class="popup-search-submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
         </form>
         <div class="search-close">
             <i class="fa-sharp fa-regular fa-xmark">
@@ -210,52 +540,33 @@
             </h4>
         </div>
         <div class="side-menu-gallary">
+
+            {% for photo in home_gallery %}
             <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-1.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-1.png' %}"/>
+                <a class="venobox" data-gall="gallary1" href="{{ photo.image.url }}">
+                    <img alt="{{ photo.title|default:'گالری' }}" src="{{ photo.image.url }}"/>
                 </a>
             </div>
-            <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-2.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-2.png' %}"/>
-                </a>
-            </div>
-            <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-3.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-3.png' %}"/>
-                </a>
-            </div>
-            <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-4.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-4.png' %}"/>
-                </a>
-            </div>
-            <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-5.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-5.png' %}"/>
-                </a>
-            </div>
-            <div class="side-menu-gallary-item">
-                <a class="venobox" data-gall="gallary1" href="{% static 'img/project/sidebar-gallary-6.png' %}">
-                    <img alt="img" src="{% static 'img/project/sidebar-gallary-6.png' %}"/>
-                </a>
-            </div>
+            {% empty %}
+            <p>تصویری برای نمایش وجود ندارد.</p>
+            {% endfor %}
+
         </div>
         <div class="side-menu-contact">
             <ul class="side-menu-list">
                 <li>
                     ایران
                     <br/>
-                    اصفهان
+                    تهران
                 </li>
                 <li>
-                    <a href="tel:02112345678">
-                        02112345678
+                    <a href="tel:09336807260">
+                        09336807260
                     </a>
                 </li>
                 <li>
-                    <a class="mail" href="mailto:support@example.com">
-                        support@example.com
+                    <a class="mail" href="mohammadmatin13872008@gmail.com">
+                        mohammadmatin13872008@gmail.com
                     </a>
                 </li>
             </ul>
@@ -416,6 +727,25 @@
 <script src="{% static 'js/contact.js' %}">
 </script>
 <script src="{% static 'js/main.js' %}">
+</script>
+
+<!-- Account dropdown toggle -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var wrap = document.querySelector(".account-icon-wrap");
+        var toggle = document.querySelector(".account-icon-toggle");
+
+        if (!wrap || !toggle) return;
+
+        toggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            wrap.classList.toggle("active");
+        });
+
+        document.addEventListener("click", function () {
+            wrap.classList.remove("active");
+        });
+    });
 </script>
 {% endblock extra_js %}
 {% block extra_js_no_compress %} {% endblock extra_js_no_compress %}

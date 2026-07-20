@@ -1,0 +1,226 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        ثبت‌نام
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">
+         -
+        </span>
+        <a class="inner-page" href="{% url 'accounts:signup' %}">
+         ثبت‌نام
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+    <!-- ./ page-header -->
+
+    <section class="auth-section pt-130 pb-130">
+     <div class="container container-2">
+      <div class="row align-items-center auth-row">
+
+       <div class="col-lg-6">
+        <div class="auth-card">
+         <span class="auth-eyebrow">ثبت‌نام</span>
+         <h2 class="auth-title">
+          به آنترا بپیوندید
+         </h2>
+         <p class="auth-subtitle">
+          چند لحظه وقت بگذارید و حساب کاربری خود را بسازید.
+         </p>
+
+         {% if form.errors %}
+         <div class="auth-alert">
+          {% for field in form %}
+          {% for error in field.errors %}
+          <div>{{ field.label }}: {{ error }}</div>
+          {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+          <div>{{ error }}</div>
+          {% endfor %}
+         </div>
+         {% endif %}
+
+         <form class="auth-form" method="post" action="{% url 'accounts:signup' %}">
+          {% csrf_token %}
+
+          <div class="auth-field">
+           <label for="id_full_name">نام و نام خانوادگی</label>
+           <input type="text" name="full_name" id="id_full_name" class="form-control" placeholder="مثال: علیرضا محمدی" required autofocus/>
+          </div>
+
+          <div class="auth-field">
+           <label for="id_username">نام کاربری</label>
+           <input type="text" name="username" id="id_username" class="form-control" placeholder="یک نام کاربری منحصربه‌فرد انتخاب کنید" required/>
+          </div>
+
+          <div class="auth-field">
+           <label for="id_email">ایمیل</label>
+           <input type="email" name="email" id="id_email" class="form-control" placeholder="example@mail.com" required/>
+          </div>
+
+          <div class="auth-field-group">
+           <div class="auth-field">
+            <label for="id_password1">رمز عبور</label>
+            <input type="password" name="password1" id="id_password1" class="form-control" placeholder="حداقل ۸ کاراکتر" required/>
+           </div>
+
+           <div class="auth-field">
+            <label for="id_password2">تکرار رمز عبور</label>
+            <input type="password" name="password2" id="id_password2" class="form-control" placeholder="رمز عبور را دوباره وارد کنید" required/>
+           </div>
+          </div>
+
+          <div class="auth-field auth-captcha">
+           <label>کد امنیتی</label>
+           <div class="captcha-wrap d-flex align-items-center" style="gap: 12px;">
+            {{ form.captcha }}
+            <button type="button" id="captcha-refresh-btn" class="tl-primary-btn" style="padding: 6px 14px;">
+             <i class="fa-solid fa-rotate"></i>
+             کد جدید
+            </button>
+           </div>
+           {% if form.captcha.errors %}
+           <small style="color:red;">{{ form.captcha.errors|striptags }}</small>
+           {% endif %}
+          </div>
+
+          <label class="auth-checkbox auth-terms">
+           <input type="checkbox" name="accept_terms" required/>
+           <span>با <a class="auth-link" href="#">قوانین و مقررات</a> سایت موافقم</span>
+          </label>
+
+          <button type="submit" class="auth-submit-btn">
+           ساخت حساب کاربری
+           <i class="fa-regular fa-arrow-left-long"></i>
+          </button>
+         </form>
+
+         <p class="auth-footer-text">
+          قبلاً ثبت‌نام کرده‌اید؟
+          <a href="{% url 'accounts:login' %}">وارد شوید</a>
+         </p>
+        </div>
+       </div>
+
+       <div class="col-lg-6 d-none d-lg-block">
+        <div class="auth-side-img">
+         <img alt="ثبت‌نام" src="{% static 'img/service/feature-img-2.png' %}"/>
+         <div class="auth-side-caption">
+          <span>یک قدم تا شروع</span>
+          <p>عضو خانواده‌ی آنترا شوید و به امکانات اختصاصی سایت دسترسی پیدا کنید.</p>
+         </div>
+        </div>
+       </div>
+
+      </div>
+     </div>
+    </section>
+    <!-- ./ auth-section -->
+
+   </div>
+  </div>
+
+<style>
+  .auth-section{position:relative;overflow:hidden;background:#fbf9f6;}
+  .auth-row{gap:40px 0;}
+  .auth-side-img{position:relative;border-radius:20px;overflow:hidden;height:100%;min-height:520px;}
+  .auth-side-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .auth-side-caption{position:absolute;inset-inline-start:0;bottom:0;width:100%;padding:36px;background:linear-gradient(0deg, rgba(15,12,10,0.85) 0%, rgba(15,12,10,0) 100%);color:#fff;}
+  .auth-side-caption span{display:inline-block;color:var(--tl-color-theme-primary,#c9974d);font-weight:600;margin-bottom:8px;letter-spacing:.3px;}
+  .auth-side-caption p{margin:0;font-size:15px;line-height:1.9;color:rgba(255,255,255,.85);max-width:340px;}
+
+  .auth-card{background:#ffffff;border:1px solid #eee4d5;border-radius:20px;padding:48px;box-shadow:0 30px 60px -30px rgba(30,20,10,.15);max-width:560px;}
+  .auth-eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--tl-color-theme-primary,#c9974d);border:1px solid var(--tl-color-theme-primary,#c9974d);border-radius:30px;padding:5px 16px;margin-bottom:20px;}
+  .auth-title{font-size:30px;font-weight:700;color:#171310;margin-bottom:10px;}
+  .auth-subtitle{color:#8a8079;font-size:15px;margin-bottom:30px;}
+
+  .auth-alert{background:#fdeeee;color:#b3413a;border:1px solid #f3d3d1;border-radius:10px;padding:12px 16px;font-size:14px;margin-bottom:20px;}
+
+  .auth-field{margin-bottom:20px;}
+  .auth-field-group{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;}
+  .auth-field label{display:block;font-size:14px;color:#171310;margin-bottom:8px;font-weight:500;}
+  .auth-field .form-control,
+  .auth-form input.form-control{width:100%;height:54px;border:1px solid #e7ded1;border-radius:10px;padding:0 18px;font-size:15px;background:#fbf9f6;transition:.25s;}
+  .auth-field .form-control:focus,
+  .auth-form input.form-control:focus{outline:none;border-color:var(--tl-color-theme-primary,#c9974d);background:#fff;}
+
+  .auth-captcha .captcha-wrap img{border-radius:8px;border:1px solid #e7ded1;}
+  .auth-captcha input.form-control{width:auto;}
+
+  .auth-checkbox{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:#5b544c;cursor:pointer;}
+  .auth-checkbox input{accent-color:var(--tl-color-theme-primary,#c9974d);margin-top:3px;}
+  .auth-terms{margin-bottom:28px;}
+  .auth-link{color:var(--tl-color-theme-primary,#c9974d);text-decoration:underline;}
+
+  .auth-submit-btn{width:100%;height:56px;border:none;border-radius:10px;background:var(--tl-color-theme-primary,#c9974d);color:#171310;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:.25s;}
+  .auth-submit-btn:hover{filter:brightness(0.93);}
+
+  .auth-footer-text{text-align:center;margin-top:26px;font-size:14px;color:#5b544c;}
+  .auth-footer-text a{color:var(--tl-color-theme-primary,#c9974d);font-weight:600;margin-inline-start:4px;}
+
+  @media (max-width: 767px){
+    .auth-field-group{grid-template-columns:1fr;}
+  }
+  @media (max-width: 991px){
+    .auth-card{padding:32px;}
+  }
+</style>
+
+<script>
+    (function () {
+        function refreshCaptcha() {
+            fetch('/captcha/refresh/', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    var img = document.querySelector('.captcha-wrap img');
+                    if (img) {
+                        img.src = data.image_url;
+                    }
+
+                    var hiddenInput = document.querySelector('input[name="captcha_0"]');
+                    if (hiddenInput) {
+                        hiddenInput.value = data.key;
+                    }
+
+                    var textInput = document.querySelector('input[name="captcha_1"]');
+                    if (textInput) {
+                        textInput.value = '';
+                    }
+                })
+                .catch(function (error) {
+                    console.error('خطا در دریافت کپچای جدید:', error);
+                });
+        }
+
+        var refreshBtn = document.getElementById('captcha-refresh-btn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                refreshCaptcha();
+            });
+        }
+    })();
+</script>
+{% endblock content %}

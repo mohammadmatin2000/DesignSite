@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,3 +137,17 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.User"
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000/",  # اگه هنوز HTTPS نداری
+]
+
+LOGIN_REDIRECT_URL = 'index:index'  # یا هر URL name دیگه‌ای که می‌خواید بعد از لاگین بره
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mohammadmatin13872008@gmail.com'
+EMAIL_HOST_PASSWORD = 'mpwu vjqd kbcj kdib'  # نه پسورد عادی جیمیل! باید App Password بسازی
+DEFAULT_FROM_EMAIL = 'mohammadmatin13872008@gmail.com'

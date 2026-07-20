@@ -1,0 +1,120 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        خروج از حساب
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">
+         -
+        </span>
+        <a class="inner-page" href="{% url 'accounts:logout' %}">
+         خروج
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+    <!-- ./ page-header -->
+
+    <section class="auth-section auth-section-center pt-130 pb-130">
+     <div class="container container-2">
+      <div class="row justify-content-center">
+       <div class="col-lg-6">
+
+        {% if user.is_authenticated %}
+        <!-- حالت تایید قبل از خروج -->
+        <div class="auth-card auth-card-center">
+         <div class="auth-icon-circle">
+          <i class="fa-regular fa-arrow-right-from-bracket"></i>
+         </div>
+         <h2 class="auth-title">
+          مطمئن هستید می‌خواهید خارج شوید؟
+         </h2>
+         <p class="auth-subtitle">
+          با خروج از حساب کاربری، دسترسی شما به بخش‌های اختصاصی سایت غیرفعال می‌شود.
+         </p>
+
+         <form method="post" action="{% url 'accounts:logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="auth-submit-btn auth-submit-btn-danger">
+           بله، خارج شو
+           <i class="fa-regular fa-arrow-left-long"></i>
+          </button>
+         </form>
+
+         <a href="{% url 'index:index' %}" class="auth-cancel-link">
+          انصراف و بازگشت به صفحه اصلی
+         </a>
+        </div>
+
+        {% else %}
+        <!-- حالت بعد از خروج موفق -->
+        <div class="auth-card auth-card-center">
+         <div class="auth-icon-circle auth-icon-circle-success">
+          <i class="fa-regular fa-circle-check"></i>
+         </div>
+         <h2 class="auth-title">
+          با موفقیت خارج شدید
+         </h2>
+         <p class="auth-subtitle">
+          امیدواریم به زودی دوباره شما را ببینیم.
+         </p>
+
+         <div class="auth-btn-row">
+          <a href="{% url 'accounts:login' %}" class="auth-submit-btn">
+           ورود مجدد
+          </a>
+          <a href="{% url 'index:index' %}" class="auth-secondary-btn">
+           بازگشت به صفحه اصلی
+          </a>
+         </div>
+        </div>
+        {% endif %}
+
+       </div>
+      </div>
+     </div>
+    </section>
+    <!-- ./ auth-section -->
+
+   </div>
+  </div>
+
+<style>
+  .auth-section-center{background:#fbf9f6;}
+  .auth-card-center{background:#ffffff;border:1px solid #eee4d5;border-radius:20px;padding:56px 48px;box-shadow:0 30px 60px -30px rgba(30,20,10,.15);text-align:center;}
+
+  .auth-icon-circle{width:76px;height:76px;border-radius:50%;background:#f6ede0;color:var(--tl-color-theme-primary,#c9974d);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 26px;}
+  .auth-icon-circle-success{background:#eaf7ee;color:#2f7d4f;}
+
+  .auth-title{font-size:26px;font-weight:700;color:#171310;margin-bottom:10px;}
+  .auth-subtitle{color:#8a8079;font-size:15px;margin-bottom:34px;}
+
+  .auth-submit-btn{display:inline-flex;width:100%;height:56px;border:none;border-radius:10px;background:var(--tl-color-theme-primary,#c9974d);color:#171310;font-weight:700;font-size:16px;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:.25s;text-decoration:none;}
+  .auth-submit-btn:hover{filter:brightness(0.93);color:#171310;}
+  .auth-submit-btn-danger{background:#e2564f;color:#fff;}
+
+  .auth-cancel-link{display:block;margin-top:20px;font-size:14px;color:#8a8079;text-decoration:underline;}
+
+  .auth-btn-row{display:flex;flex-direction:column;gap:14px;}
+  .auth-secondary-btn{display:inline-flex;width:100%;height:56px;border:1px solid #e7ded1;border-radius:10px;color:#171310;font-weight:600;font-size:15px;align-items:center;justify-content:center;text-decoration:none;transition:.25s;}
+  .auth-secondary-btn:hover{border-color:var(--tl-color-theme-primary,#c9974d);color:var(--tl-color-theme-primary,#c9974d);}
+
+  @media (max-width: 767px){
+    .auth-card-center{padding:40px 24px;}
+  }
+</style>
+{% endblock content %}
