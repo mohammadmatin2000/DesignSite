@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "team",
     "shop",
     "cart",
+    "order",
+    "payment",
     "index",
 
 
@@ -153,3 +155,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mohammadmatin13872008@gmail.com'
 EMAIL_HOST_PASSWORD = 'mpwu vjqd kbcj kdib'  # نه پسورد عادی جیمیل! باید App Password بسازی
 DEFAULT_FROM_EMAIL = 'mohammadmatin13872008@gmail.com'
+
+
+# تنظیمات درگاه پرداخت زرین‌پال
+ZARINPAL_MERCHANT_ID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # مرچنت آیدی خودتو اینجا بذار
+ZARINPAL_SANDBOX = True  # وقتی مرچنت واقعی گرفتی، این رو False کن
+ZARINPAL_CALLBACK_URL_NAME = "payment:verify"  # فقط برای مرجع، مستقیم استفاده نمیشه

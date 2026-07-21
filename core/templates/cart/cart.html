@@ -148,7 +148,7 @@
           <span>{{ cart.total_price }} تومان</span>
          </div>
 
-         <a href="#" class="cart-checkout-btn">
+         <a href="{% url 'order:checkout' %}" class="cart-checkout-btn">
           ادامه فرآیند خرید
           <i class="fa-regular fa-arrow-left-long"></i>
          </a>

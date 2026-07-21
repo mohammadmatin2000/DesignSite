@@ -1,0 +1,162 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        تکمیل سفارش
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">
+         -
+        </span>
+        <a class="inner-page" href="{% url 'order:checkout' %}">
+         تکمیل سفارش
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+
+    {% if messages %}
+     <div class="container mt-20">
+      {% for message in messages %}
+       <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+     </div>
+    {% endif %}
+
+    <section class="cart-section pt-100 pb-100">
+     <div class="container container-2">
+      <form method="post">
+       {% csrf_token %}
+       <div class="row">
+
+        <div class="col-lg-8">
+         <div class="cart-summary-box">
+          <h3 class="cart-summary-title">
+           اطلاعات گیرنده
+          </h3>
+
+          <div class="checkout-field">
+           <label>نام و نام خانوادگی</label>
+           <input class="form-control" type="text" name="full_name" required/>
+          </div>
+
+          <div class="checkout-field">
+           <label>شماره تماس</label>
+           <input class="form-control" type="text" name="phone" required/>
+          </div>
+
+          <div class="checkout-field">
+           <label>آدرس کامل</label>
+           <textarea class="form-control" name="address" rows="4" required></textarea>
+          </div>
+
+          <div class="checkout-field">
+           <label>کد پستی (اختیاری)</label>
+           <input class="form-control" type="text" name="postal_code"/>
+          </div>
+
+          <div class="checkout-field">
+           <label>یادداشت (اختیاری)</label>
+           <textarea class="form-control" name="note" rows="2"></textarea>
+          </div>
+         </div>
+        </div>
+
+        <div class="col-lg-4">
+         <div class="cart-summary-box">
+          <h3 class="cart-summary-title">
+           خلاصه سفارش
+          </h3>
+
+          {% for item in cart_items %}
+          <div class="cart-summary-row">
+           <span>{{ item.product.title }} × {{ item.quantity }}</span>
+           <span>{{ item.total_price }} تومان</span>
+          </div>
+          {% endfor %}
+
+          <div class="cart-summary-divider"></div>
+
+          <div class="cart-summary-row cart-summary-total">
+           <span>مبلغ نهایی</span>
+           <span>{{ cart.total_price }} تومان</span>
+          </div>
+
+          <button type="submit" class="cart-checkout-btn">
+           ثبت نهایی سفارش
+           <i class="fa-regular fa-arrow-left-long"></i>
+          </button>
+
+          <div class="cart-summary-note">
+           <i class="fa-regular fa-truck"></i>
+           پرداخت در محل
+          </div>
+         </div>
+        </div>
+
+       </div>
+      </form>
+     </div>
+    </section>
+
+   </div>
+  </div>
+
+<style>
+  .cart-section{background:#fbf9f6;}
+
+  .checkout-field{margin-bottom:20px;}
+  .checkout-field label{
+    display:block;font-size:13px;font-weight:600;color:#5b544c;margin-bottom:8px;
+  }
+  .checkout-field .form-control{
+    width:100%;border:1px solid #eee4d5;border-radius:8px;padding:12px 16px;
+    font-size:14px;color:#171310;background:#fbf9f6;transition:.2s;
+  }
+  .checkout-field .form-control:focus{
+    outline:none;border-color:var(--tl-color-theme-primary,#c9974d);background:#fff;
+  }
+
+  .cart-summary-box{
+    background:#fff;border:1px solid #eee4d5;border-radius:16px;
+    padding:32px;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-summary-title{font-size:18px;font-weight:700;color:#171310;margin-bottom:22px;}
+  .cart-summary-row{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:14px;color:#5b544c;margin-bottom:14px;gap:12px;
+  }
+  .cart-summary-divider{height:1px;background:#eee4d5;margin:18px 0;}
+  .cart-summary-total{font-size:16px;font-weight:700;color:#171310;margin-bottom:26px;}
+
+  .cart-checkout-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;height:54px;border-radius:10px;border:none;cursor:pointer;
+    background:var(--tl-color-theme-primary,#c9974d);color:#171310;
+    font-weight:700;font-size:15px;text-decoration:none;transition:.25s;
+  }
+  .cart-checkout-btn:hover{filter:brightness(0.93);color:#171310;}
+
+  .cart-summary-note{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:18px;font-size:12px;color:#a39c94;
+  }
+
+  @media (max-width: 991px){
+    .cart-summary-box{margin-top:30px;}
+  }
+</style>
+{% endblock content %}

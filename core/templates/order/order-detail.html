@@ -1,0 +1,199 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        سفارش #{{ order.id }}
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">
+         -
+        </span>
+        <a class="inner-page" href="{% url 'order:order-list' %}">
+         سفارش های من
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+
+    {% if messages %}
+     <div class="container mt-20">
+      {% for message in messages %}
+       <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+     </div>
+    {% endif %}
+
+    <section class="cart-section pt-100 pb-100">
+     <div class="container container-2">
+      <div class="row">
+
+       <div class="col-lg-8">
+        <div class="cart-table-wrap">
+         <table class="cart-table">
+          <thead>
+           <tr>
+            <th>محصول</th>
+            <th>قیمت واحد</th>
+            <th>تعداد</th>
+            <th>جمع</th>
+           </tr>
+          </thead>
+          <tbody>
+           {% for item in order.items.all %}
+           <tr>
+            <td>{{ item.product_title }}</td>
+            <td>{{ item.price }} تومان</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.total_price }} تومان</td>
+           </tr>
+           {% endfor %}
+          </tbody>
+         </table>
+        </div>
+       </div>
+
+       <div class="col-lg-4">
+        <div class="cart-summary-box">
+         <h3 class="cart-summary-title">
+          خلاصه سفارش
+         </h3>
+
+         <div class="cart-summary-row">
+          <span>وضعیت</span>
+          <span class="order-status order-status-{{ order.status }}">{{ order.get_status_display }}</span>
+         </div>
+
+         <div class="cart-summary-row">
+          <span>تاریخ ثبت</span>
+          <span>{{ order.created_date|date:"Y/m/d - H:i" }}</span>
+         </div>
+
+         <div class="cart-summary-divider"></div>
+
+         <div class="cart-summary-row">
+          <span>گیرنده</span>
+          <span>{{ order.full_name }}</span>
+         </div>
+
+         <div class="cart-summary-row">
+          <span>تماس</span>
+          <span>{{ order.phone }}</span>
+         </div>
+
+         <div class="cart-summary-row" style="align-items:flex-start;">
+          <span>آدرس</span>
+          <span style="text-align:left;max-width:60%;">{{ order.address }}</span>
+         </div>
+
+         <div class="cart-summary-divider"></div>
+
+         <div class="cart-summary-row cart-summary-total">
+          <span>مبلغ نهایی</span>
+          <span>{{ order.total_price }} تومان</span>
+         </div>
+
+         {% if order.status == "pending" %}
+         <form method="post" action="{% url 'payment:request' order.id %}">
+          {% csrf_token %}
+          <button type="submit" class="cart-checkout-btn">
+           پرداخت آنلاین سفارش
+           <i class="fa-regular fa-credit-card"></i>
+          </button>
+         </form>
+
+         <div class="cart-summary-note">
+          <i class="fa-regular fa-shield-check"></i>
+          پرداخت امن از طریق درگاه زرین‌پال
+         </div>
+         {% elif order.status == "paid" %}
+         <div class="order-paid-badge">
+          <i class="fa-regular fa-circle-check"></i>
+          این سفارش پرداخت شده است
+         </div>
+         {% endif %}
+        </div>
+       </div>
+
+      </div>
+     </div>
+    </section>
+
+   </div>
+  </div>
+
+<style>
+  .cart-section{background:#fbf9f6;}
+
+  .cart-table-wrap{
+    background:#fff;border:1px solid #eee4d5;border-radius:16px;
+    overflow-x:auto;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-table{width:100%;border-collapse:collapse;min-width:480px;}
+  .cart-table thead tr{border-bottom:1px solid #eee4d5;}
+  .cart-table thead th{
+    text-align:right;font-size:13px;font-weight:600;color:#8a8079;
+    padding:20px 24px;white-space:nowrap;
+  }
+  .cart-table tbody tr{border-bottom:1px solid #f3ede1;}
+  .cart-table tbody tr:last-child{border-bottom:none;}
+  .cart-table td{padding:18px 24px;vertical-align:middle;font-size:14px;color:#5b544c;}
+
+  .order-status{
+    display:inline-flex;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  }
+  .order-status-pending{background:#fdf3e3;color:#a5720f;}
+  .order-status-paid{background:#e6f4ea;color:#2f7d4f;}
+  .order-status-shipped{background:#e6eefb;color:#2c5fb0;}
+  .order-status-delivered{background:#e6f4ea;color:#2f7d4f;}
+  .order-status-canceled{background:#fdeeee;color:#b3413a;}
+
+  .cart-summary-box{
+    background:#fff;border:1px solid #eee4d5;border-radius:16px;
+    padding:32px;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-summary-title{font-size:18px;font-weight:700;color:#171310;margin-bottom:22px;}
+  .cart-summary-row{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:14px;color:#5b544c;margin-bottom:14px;gap:12px;
+  }
+  .cart-summary-divider{height:1px;background:#eee4d5;margin:18px 0;}
+  .cart-summary-total{font-size:16px;font-weight:700;color:#171310;margin-bottom:8px;}
+
+  .cart-checkout-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;height:54px;border-radius:10px;border:none;cursor:pointer;
+    background:var(--tl-color-theme-primary,#c9974d);color:#171310;
+    font-weight:700;font-size:15px;text-decoration:none;transition:.25s;
+    margin-top:16px;
+  }
+  .cart-checkout-btn:hover{filter:brightness(0.93);color:#171310;}
+
+  .cart-summary-note{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:16px;font-size:12px;color:#a39c94;
+  }
+
+  .order-paid-badge{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:16px;padding:14px;border-radius:10px;
+    background:#e6f4ea;color:#2f7d4f;font-weight:600;font-size:14px;
+  }
+
+  @media (max-width: 991px){
+    .cart-summary-box{margin-top:30px;}
+  }
+</style>
+{% endblock content %}
