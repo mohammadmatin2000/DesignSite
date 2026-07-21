@@ -212,8 +212,8 @@
                 {% endif %}
                 <ul class="shop-list">
                  <li>
-                  <a href="#">
-                   <i class="fa-regular fa-cart-shopping"></i>
+                  <a href="{% url 'cart:cart-add' product.slug %}">
+                    <i class="fa-regular fa-cart-shopping"></i>
                   </a>
                  </li>
                  <li>

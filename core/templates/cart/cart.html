@@ -1,0 +1,345 @@
+{% extends 'basses/base.html' %}
+{% load static %}
+{% block content %}
+  <div id="antra-smooth-wrapper">
+   <div id="antra-smooth-content">
+    <section class="page-header">
+     <div class="bg-img" data-background="{% static 'img/bg-img/page-header-bg.png' %}">
+     </div>
+     <div class="overlay">
+     </div>
+     <div class="container">
+      <div class="page-header-content">
+       <h1 class="title">
+        سبد خرید
+       </h1>
+       <h4 class="sub-title">
+        <a class="home" href="{% url 'index:index' %}">
+         صفحه اصلی
+        </a>
+        <span class="icon">
+         -
+        </span>
+        <a class="inner-page" href="{% url 'cart:cart-detail' %}">
+         سبد خرید
+        </a>
+       </h4>
+      </div>
+     </div>
+    </section>
+    <!-- ./ page-header -->
+
+    {% if messages %}
+     <div class="container mt-20">
+      {% for message in messages %}
+       <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+     </div>
+    {% endif %}
+
+    <section class="cart-section pt-100 pb-100">
+     <div class="container container-2">
+
+      {% if cart_items %}
+      <div class="row">
+       <div class="col-lg-8">
+        <div class="cart-table-wrap">
+         <table class="cart-table">
+          <thead>
+           <tr>
+            <th class="cart-col-product">محصول</th>
+            <th class="cart-col-price">قیمت</th>
+            <th class="cart-col-qty">تعداد</th>
+            <th class="cart-col-subtotal">جمع</th>
+            <th class="cart-col-remove"></th>
+           </tr>
+          </thead>
+          <tbody>
+           {% for item in cart_items %}
+           <tr>
+            <td class="cart-col-product">
+ <div class="cart-product-info">
+  <a href="{% url 'shop:shop-detail' item.product.slug %}" class="cart-product-img">
+   <img alt="{{ item.product.title }}" src="{{ item.product.image.url }}"/>
+  </a>
+  <div class="cart-product-text">
+   <a href="{% url 'shop:shop-detail' item.product.slug %}" class="cart-product-title">
+    {{ item.product.title }}
+   </a>
+   {% if item.product.category %}
+   <span class="cart-product-category">{{ item.product.category.title }}</span>
+   {% endif %}
+   <a href="#"
+      class="wishlist-toggle-btn cart-wishlist-btn {% if item.product.id in wishlist_ids %}active{% endif %}"
+      data-url="{% url 'shop:wishlist-toggle' item.product.slug %}">
+    <i class="{% if item.product.id in wishlist_ids %}fa-solid{% else %}fa-light{% endif %} fa-heart"></i>
+    افزودن به علاقه‌مندی‌ها
+   </a>
+  </div>
+ </div>
+</td>
+            <td class="cart-col-price">
+             <span class="cart-price">{{ item.product.price }} تومان</span>
+            </td>
+            <td class="cart-col-qty">
+             <form method="post" action="{% url 'cart:cart-update' item.id %}" class="cart-qty-form">
+              {% csrf_token %}
+              <div class="cart-qty-box">
+               <button type="submit" name="action" value="decrease" class="cart-qty-btn">
+                <i class="fa-regular fa-minus"></i>
+               </button>
+               <input type="text" value="{{ item.quantity }}" readonly class="cart-qty-input"/>
+               <button type="submit" name="action" value="increase" class="cart-qty-btn">
+                <i class="fa-regular fa-plus"></i>
+               </button>
+              </div>
+             </form>
+            </td>
+            <td class="cart-col-subtotal">
+             <span class="cart-subtotal">{{ item.total_price }} تومان</span>
+            </td>
+            <td class="cart-col-remove">
+             <form method="post" action="{% url 'cart:cart-remove' item.id %}">
+              {% csrf_token %}
+              <button type="submit" class="cart-remove-btn">
+               <i class="fa-regular fa-trash-can"></i>
+              </button>
+             </form>
+            </td>
+           </tr>
+           {% endfor %}
+          </tbody>
+         </table>
+        </div>
+
+        <div class="cart-actions-row">
+         <a href="{% url 'shop:shop-list' %}" class="cart-continue-btn">
+          <i class="fa-regular fa-arrow-right-long"></i>
+          ادامه‌ی خرید
+         </a>
+        </div>
+       </div>
+
+       <div class="col-lg-4">
+        <div class="cart-summary-box">
+         <h3 class="cart-summary-title">
+          خلاصه سفارش
+         </h3>
+
+         <div class="cart-summary-row">
+          <span>تعداد کالاها</span>
+          <span>{{ cart.total_quantity }}</span>
+         </div>
+
+         <div class="cart-summary-row">
+          <span>جمع جزء</span>
+          <span>{{ cart.total_price }} تومان</span>
+         </div>
+
+         <div class="cart-summary-row">
+          <span>هزینه ارسال</span>
+          <span class="cart-summary-free">رایگان</span>
+         </div>
+
+         <div class="cart-summary-divider"></div>
+
+         <div class="cart-summary-row cart-summary-total">
+          <span>مبلغ نهایی</span>
+          <span>{{ cart.total_price }} تومان</span>
+         </div>
+
+         <a href="#" class="cart-checkout-btn">
+          ادامه فرآیند خرید
+          <i class="fa-regular fa-arrow-left-long"></i>
+         </a>
+
+         <div class="cart-summary-note">
+          <i class="fa-regular fa-shield-check"></i>
+          پرداخت امن و رمزنگاری‌شده
+         </div>
+        </div>
+       </div>
+      </div>
+
+      {% else %}
+
+      <div class="cart-empty-state">
+       <div class="cart-empty-icon">
+        <i class="fa-regular fa-cart-shopping"></i>
+       </div>
+       <h3 class="cart-empty-title">
+        سبد خرید شما خالی است
+       </h3>
+       <p class="cart-empty-text">
+        هنوز محصولی به سبد خرید خود اضافه نکرده‌اید. برای مشاهده‌ی محصولات به فروشگاه سر بزنید.
+       </p>
+       <a href="{% url 'shop:shop-list' %}" class="cart-empty-btn">
+        مشاهده‌ی فروشگاه
+        <i class="fa-regular fa-arrow-left-long"></i>
+       </a>
+      </div>
+
+      {% endif %}
+
+     </div>
+    </section>
+    <!-- ./ cart-section -->
+
+   </div>
+  </div>
+
+<style>
+  .cart-section{background:#fbf9f6;}
+
+  .cart-table-wrap{
+    background:#fff;border:1px solid #eee4d5;border-radius:16px;
+    overflow-x:auto;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-table{width:100%;border-collapse:collapse;min-width:640px;}
+  .cart-table thead tr{border-bottom:1px solid #eee4d5;}
+  .cart-table thead th{
+    text-align:right;font-size:13px;font-weight:600;color:#8a8079;
+    padding:20px 24px;white-space:nowrap;
+  }
+  .cart-table tbody tr{border-bottom:1px solid #f3ede1;}
+  .cart-table tbody tr:last-child{border-bottom:none;}
+  .cart-table td{padding:20px 24px;vertical-align:middle;}
+
+  .cart-product-info{display:flex;align-items:center;gap:16px;}
+  .cart-product-img{
+    width:72px;height:72px;border-radius:10px;overflow:hidden;
+    flex-shrink:0;border:1px solid #eee4d5;display:block;
+  }
+  .cart-product-img img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cart-product-text{display:flex;flex-direction:column;gap:4px;}
+  .cart-product-title{font-size:15px;font-weight:600;color:#171310;text-decoration:none;}
+  .cart-product-title:hover{color:var(--tl-color-theme-primary,#c9974d);}
+  .cart-product-category{font-size:13px;color:#a39c94;}
+
+  .cart-price{font-size:14px;color:#5b544c;white-space:nowrap;}
+  .cart-subtotal{font-size:15px;font-weight:700;color:#171310;white-space:nowrap;}
+
+  .cart-qty-form{display:inline-block;}
+  .cart-qty-box{
+    display:flex;align-items:center;border:1px solid #eee4d5;
+    border-radius:8px;overflow:hidden;width:fit-content;
+  }
+  .cart-qty-btn{
+    width:34px;height:34px;border:none;background:#fbf9f6;color:#171310;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-size:12px;transition:.2s;
+  }
+  .cart-qty-btn:hover{background:var(--tl-color-theme-primary,#c9974d);}
+  .cart-qty-input{
+    width:40px;height:34px;border:none;border-inline:1px solid #eee4d5;
+    text-align:center;font-size:14px;color:#171310;background:#fff;
+  }
+
+  .cart-remove-btn{
+    width:34px;height:34px;border-radius:8px;display:flex;align-items:center;
+    justify-content:center;color:#b3413a;background:#fdeeee;transition:.2s;
+    border:none;cursor:pointer;
+  }
+  .cart-remove-btn:hover{background:#b3413a;color:#fff;}
+
+  .cart-actions-row{margin-top:24px;}
+  .cart-continue-btn{
+    display:inline-flex;align-items:center;gap:10px;font-size:14px;
+    font-weight:600;color:#171310;text-decoration:underline;
+  }
+  .cart-continue-btn:hover{color:var(--tl-color-theme-primary,#c9974d);}
+
+  .cart-summary-box{
+    background:#fff;border:1px solid #eee4d5;border-radius:16px;
+    padding:32px;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-summary-title{font-size:18px;font-weight:700;color:#171310;margin-bottom:22px;}
+  .cart-summary-row{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:14px;color:#5b544c;margin-bottom:14px;
+  }
+  .cart-summary-free{color:#2f7d4f;font-weight:600;}
+  .cart-summary-divider{height:1px;background:#eee4d5;margin:18px 0;}
+  .cart-summary-total{font-size:16px;font-weight:700;color:#171310;margin-bottom:26px;}
+
+  .cart-checkout-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;height:54px;border-radius:10px;
+    background:var(--tl-color-theme-primary,#c9974d);color:#171310;
+    font-weight:700;font-size:15px;text-decoration:none;transition:.25s;
+  }
+  .cart-checkout-btn:hover{filter:brightness(0.93);color:#171310;}
+
+  .cart-summary-note{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:18px;font-size:12px;color:#a39c94;
+  }
+
+  .cart-empty-state{
+    text-align:center;background:#fff;border:1px solid #eee4d5;
+    border-radius:20px;padding:80px 30px;box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+  }
+  .cart-empty-icon{
+    width:84px;height:84px;border-radius:50%;background:#f6ede0;
+    color:var(--tl-color-theme-primary,#c9974d);font-size:30px;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 26px;
+  }
+  .cart-empty-title{font-size:22px;font-weight:700;color:#171310;margin-bottom:10px;}
+  .cart-empty-text{color:#8a8079;font-size:14px;max-width:420px;margin:0 auto 28px;}
+  .cart-empty-btn{
+    display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 28px;
+    border-radius:10px;background:var(--tl-color-theme-primary,#c9974d);
+    color:#171310;font-weight:700;font-size:14px;text-decoration:none;transition:.25s;
+  }
+  .cart-empty-btn:hover{filter:brightness(0.93);color:#171310;}
+  .cart-wishlist-btn{
+  display:inline-flex;align-items:center;gap:6px;margin-top:4px;
+  font-size:12px;color:#8a8079;text-decoration:none;width:fit-content;
+  transition:.2s;
+}
+.cart-wishlist-btn:hover{color:#b3413a;}
+.cart-wishlist-btn.active{color:#b3413a;}
+
+  @media (max-width: 991px){
+    .cart-summary-box{margin-top:30px;}
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".wishlist-toggle-btn").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var url = btn.getAttribute("data-url");
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+        })
+          .then(function (response) {
+            if (response.status === 403) {
+              window.location.href = "{% url 'accounts:login' %}";
+              return null;
+            }
+            return response.json();
+          })
+          .then(function (data) {
+            if (!data) return;
+            var icon = btn.querySelector("i");
+            if (data.is_wishlisted) {
+              btn.classList.add("active");
+              icon.classList.remove("fa-light");
+              icon.classList.add("fa-solid");
+            } else {
+              btn.classList.remove("active");
+              icon.classList.remove("fa-solid");
+              icon.classList.add("fa-light");
+            }
+          });
+      });
+    });
+  });
+</script>
+{% endblock content %}

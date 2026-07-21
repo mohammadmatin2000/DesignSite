@@ -284,9 +284,12 @@
                                         <span class="cart-dropdown-item-title">{{ item.product.title }}</span>
                                         <span class="cart-dropdown-item-meta">{{ item.quantity }} × {{ item.product.price }} تومان</span>
                                     </div>
-                                    <a class="cart-dropdown-item-remove" href="{% url 'shop:cart-remove' item.id %}">
-                                        <i class="fa-regular fa-xmark"></i>
-                                    </a>
+                                    <form method="post" action="{% url 'cart:cart-remove' item.id %}" class="cart-dropdown-item-remove-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="cart-dropdown-item-remove">
+                                            <i class="fa-regular fa-xmark"></i>
+                                        </button>
+                                    </form>
                                 </div>
                                 {% endfor %}
                             </div>
@@ -295,7 +298,7 @@
                                     <span>جمع کل</span>
                                     <span>{{ cart_total }} تومان</span>
                                 </div>
-                                <a class="cart-dropdown-btn" href="{% url 'shop:cart-detail' %}">
+                                <a class="cart-dropdown-btn" href="{% url 'cart:cart-detail' %}">
                                     مشاهده سبد خرید
                                 </a>
                             </div>
@@ -451,10 +454,23 @@
         color: #8a8079;
     }
 
+    .cart-dropdown-item-remove-form {
+        margin: 0;
+        flex-shrink: 0;
+    }
+
     .cart-dropdown-item-remove {
+        border: none;
+        background: transparent;
         color: #b3413a;
         font-size: 14px;
-        flex-shrink: 0;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+    }
+
+    .cart-dropdown-item-remove:hover {
+        color: #8a2e28;
     }
 
     .cart-dropdown-footer {
