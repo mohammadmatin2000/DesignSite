@@ -1,0 +1,54 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}جزئیات پیام{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:700px;">
+    <div class="dash-card-header">
+        <h3>پیام از طرف {{ contact_message.name }}</h3>
+        <a href="{% url 'dashboard:admin:message-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <div class="dash-form-row" style="margin-bottom:20px;">
+            <div>
+                <div style="font-size:12px;color:var(--dash-muted);margin-bottom:4px;">ایمیل</div>
+                <div style="font-size:14px;color:var(--dash-dark);">{{ contact_message.email }}</div>
+            </div>
+            <div>
+                <div style="font-size:12px;color:var(--dash-muted);margin-bottom:4px;">شماره تماس</div>
+                <div style="font-size:14px;color:var(--dash-dark);">{{ contact_message.phone_number }}</div>
+            </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <div style="font-size:12px;color:var(--dash-muted);margin-bottom:4px;">خدمت درخواستی</div>
+            <div style="font-size:14px;color:var(--dash-dark);">{{ contact_message.service }}</div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+            <div style="font-size:12px;color:var(--dash-muted);margin-bottom:8px;">متن پیام</div>
+            <div style="background:var(--dash-bg);border:1px solid var(--dash-border);border-radius:10px;padding:18px;font-size:14px;color:#5b544c;line-height:1.9;">
+                {{ contact_message.message|linebreaks }}
+            </div>
+        </div>
+
+        <div style="font-size:12px;color:var(--dash-muted);">
+            تاریخ ارسال: {{ contact_message.created_date|date:"Y/m/d - H:i" }}
+        </div>
+
+        <div class="dash-form-actions">
+            <a href="mailto:{{ contact_message.email }}" class="dash-btn dash-btn-primary">
+                <i class="fa-regular fa-reply"></i>
+                پاسخ از طریق ایمیل
+            </a>
+            <a href="{% url 'dashboard:admin:message-delete' contact_message.id %}" class="dash-btn dash-btn-danger">
+                <i class="fa-regular fa-trash-can"></i>
+                حذف پیام
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -16,7 +16,7 @@ class OrderModel(models.Model):
     user = models.ForeignKey(
         "accounts.User",
         on_delete=models.CASCADE,
-        related_name="orders"
+        related_name="order"
     )
 
     # نام کامل گیرنده

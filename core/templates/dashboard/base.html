@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>{% block dashboard_title %}داشبورد{% endblock %} | Antra</title>
+    <link href="{% static 'img/favicon.png' %}" rel="shortcut icon" type="image/x-icon"/>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/fontawesome.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+
+    <style>
+        :root{
+            --dash-primary: var(--tl-color-theme-primary, #c9974d);
+            --dash-bg: #fbf9f6;
+            --dash-border: #eee4d5;
+            --dash-dark: #171310;
+            --dash-muted: #8a8079;
+        }
+        *{box-sizing:border-box;}
+        body{background:var(--dash-bg);font-family:inherit;margin:0;}
+
+        .dash-wrapper{display:flex;min-height:100vh;}
+
+        /* -------- Sidebar -------- */
+        .dash-sidebar{
+            width:270px;flex-shrink:0;background:var(--dash-dark);color:#fff;
+            display:flex;flex-direction:column;position:sticky;top:0;height:100vh;
+            overflow-y:auto;
+        }
+        .dash-sidebar-logo{
+            padding:26px 24px;border-bottom:1px solid rgba(255,255,255,.08);
+        }
+        .dash-sidebar-logo img{height:32px;}
+        .dash-sidebar-role{
+            font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;
+        }
+        .dash-nav{padding:18px 14px;display:flex;flex-direction:column;gap:4px;flex:1;}
+        .dash-nav-group-title{
+            font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;
+            letter-spacing:.5px;padding:16px 12px 6px;
+        }
+        .dash-nav a{
+            display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:9px;
+            color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;transition:.2s;
+        }
+        .dash-nav a i{width:18px;text-align:center;font-size:14px;}
+        .dash-nav a:hover{background:rgba(255,255,255,.06);color:#fff;}
+        .dash-nav a.active{background:var(--dash-primary);color:var(--dash-dark);font-weight:600;}
+        .dash-nav a .badge-count{
+            margin-inline-start:auto;background:rgba(255,255,255,.12);color:#fff;
+            font-size:11px;padding:2px 8px;border-radius:20px;
+        }
+        .dash-nav a.active .badge-count{background:rgba(23,19,16,.2);color:var(--dash-dark);}
+
+        .dash-sidebar-footer{
+            padding:16px;border-top:1px solid rgba(255,255,255,.08);
+        }
+        .dash-sidebar-footer a{
+            display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;
+            color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;transition:.2s;
+        }
+        .dash-sidebar-footer a:hover{background:rgba(255,255,255,.06);color:#fff;}
+
+        /* -------- Main -------- */
+        .dash-main{flex:1;min-width:0;display:flex;flex-direction:column;}
+        .dash-topbar{
+            background:#fff;border-bottom:1px solid var(--dash-border);
+            padding:18px 32px;display:flex;align-items:center;justify-content:space-between;
+        }
+        .dash-topbar-title{font-size:19px;font-weight:700;color:var(--dash-dark);}
+        .dash-topbar-user{
+            display:flex;align-items:center;gap:10px;font-size:13px;color:var(--dash-muted);
+        }
+        .dash-topbar-user a{color:var(--dash-muted);text-decoration:none;}
+        .dash-topbar-user a:hover{color:var(--dash-primary);}
+
+        .dash-content{padding:32px;flex:1;}
+
+        .dash-messages{margin-bottom:20px;}
+        .dash-messages p{
+            padding:14px 18px;border-radius:10px;font-size:14px;margin-bottom:10px;
+        }
+        .dash-messages .success{background:#e6f4ea;color:#2f7d4f;}
+        .dash-messages .error{background:#fdeeee;color:#b3413a;}
+        .dash-messages .warning{background:#fdf3e3;color:#a5720f;}
+        .dash-messages .info{background:#e6eefb;color:#2c5fb0;}
+
+        /* -------- Shared card / table styles -------- */
+        .dash-card{
+            background:#fff;border:1px solid var(--dash-border);border-radius:16px;
+            box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+        }
+        .dash-card-header{
+            padding:22px 26px;border-bottom:1px solid var(--dash-border);
+            display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+        }
+        .dash-card-header h3{font-size:16px;font-weight:700;color:var(--dash-dark);margin:0;}
+        .dash-card-body{padding:26px;}
+
+        .dash-btn{
+            display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:9px;
+            font-size:13px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:.2s;
+        }
+        .dash-btn-primary{background:var(--dash-primary);color:var(--dash-dark);}
+        .dash-btn-primary:hover{filter:brightness(.93);color:var(--dash-dark);}
+        .dash-btn-outline{background:#fff;border:1px solid var(--dash-border);color:var(--dash-dark);}
+        .dash-btn-outline:hover{border-color:var(--dash-primary);color:var(--dash-primary);}
+        .dash-btn-danger{background:#fdeeee;color:#b3413a;}
+        .dash-btn-danger:hover{background:#b3413a;color:#fff;}
+        .dash-btn-sm{padding:7px 14px;font-size:12px;}
+
+        .dash-table{width:100%;border-collapse:collapse;}
+        .dash-table thead th{
+            text-align:right;font-size:12px;font-weight:600;color:var(--dash-muted);
+            padding:14px 20px;white-space:nowrap;border-bottom:1px solid var(--dash-border);
+        }
+        .dash-table tbody td{
+            padding:16px 20px;font-size:13.5px;color:#5b544c;vertical-align:middle;
+            border-bottom:1px solid #f3ede1;
+        }
+        .dash-table tbody tr:last-child td{border-bottom:none;}
+        .dash-table tbody tr:hover{background:#fbf9f6;}
+        .dash-table-img{width:46px;height:46px;border-radius:8px;object-fit:cover;border:1px solid var(--dash-border);}
+
+        .dash-badge{
+            display:inline-flex;padding:5px 13px;border-radius:20px;font-size:11.5px;font-weight:600;
+        }
+        .dash-badge-gray{background:#f3ede1;color:#8a8079;}
+        .dash-badge-green{background:#e6f4ea;color:#2f7d4f;}
+        .dash-badge-orange{background:#fdf3e3;color:#a5720f;}
+        .dash-badge-blue{background:#e6eefb;color:#2c5fb0;}
+        .dash-badge-red{background:#fdeeee;color:#b3413a;}
+
+        .dash-empty{text-align:center;padding:70px 20px;color:var(--dash-muted);}
+        .dash-empty i{font-size:34px;color:var(--dash-border);margin-bottom:14px;display:block;}
+
+        .dash-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:28px;}
+        .dash-stat-card{
+            background:#fff;border:1px solid var(--dash-border);border-radius:16px;padding:22px;
+            box-shadow:0 20px 45px -30px rgba(30,20,10,.15);
+        }
+        .dash-stat-icon{
+            width:44px;height:44px;border-radius:11px;background:#f6ede0;color:var(--dash-primary);
+            display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px;
+        }
+        .dash-stat-value{font-size:24px;font-weight:800;color:var(--dash-dark);}
+        .dash-stat-label{font-size:12.5px;color:var(--dash-muted);margin-top:4px;}
+
+        /* -------- Forms -------- */
+        .dash-form-group{margin-bottom:20px;}
+        .dash-form-group label{
+            display:block;font-size:13px;font-weight:600;color:#5b544c;margin-bottom:8px;
+        }
+        .dash-form-group .form-control,
+        .dash-form-group select,
+        .dash-form-group textarea,
+        .dash-form-group input{
+            width:100%;border:1px solid var(--dash-border);border-radius:9px;padding:11px 15px;
+            font-size:14px;color:var(--dash-dark);background:var(--dash-bg);transition:.2s;font-family:inherit;
+        }
+        .dash-form-group input:focus,
+        .dash-form-group select:focus,
+        .dash-form-group textarea:focus{
+            outline:none;border-color:var(--dash-primary);background:#fff;
+        }
+        .dash-form-check{display:flex;align-items:center;gap:8px;}
+        .dash-form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+        .dash-form-errors{color:#b3413a;font-size:12px;margin-top:6px;}
+        .dash-form-actions{display:flex;gap:10px;margin-top:10px;}
+        .dash-form-img-preview{
+            width:90px;height:90px;border-radius:10px;object-fit:cover;
+            border:1px solid var(--dash-border);margin-bottom:12px;display:block;
+        }
+
+        .dash-pagination{display:flex;gap:8px;justify-content:center;margin-top:26px;list-style:none;padding:0;}
+        .dash-pagination a, .dash-pagination span{
+            display:flex;align-items:center;justify-content:center;width:36px;height:36px;
+            border-radius:8px;border:1px solid var(--dash-border);color:var(--dash-dark);
+            text-decoration:none;font-size:13px;
+        }
+        .dash-pagination a.active{background:var(--dash-primary);border-color:var(--dash-primary);color:var(--dash-dark);}
+
+        @media (max-width: 991px){
+            .dash-sidebar{position:fixed;inset-inline-start:-280px;z-index:999;transition:.3s;}
+            .dash-sidebar.open{inset-inline-start:0;}
+            .dash-stat-grid{grid-template-columns:1fr 1fr;}
+            .dash-form-row{grid-template-columns:1fr;}
+            .dash-content{padding:18px;}
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+<div class="dash-wrapper">
+
+    <!-- سایدبار -->
+    <aside class="dash-sidebar" id="dashSidebar">
+        <div class="dash-sidebar-logo">
+            <a href="{% url 'index:index' %}">
+                <img alt="لوگو" src="{% static 'img/logo/logo-1.png' %}"/>
+            </a>
+            <div class="dash-sidebar-role">
+                {% if request.user.type == 2 %}پنل مدیریت{% else %}پنل کاربری{% endif %}
+            </div>
+        </div>
+
+        <nav class="dash-nav">
+            {% block sidebar_nav %}{% endblock %}
+        </nav>
+
+        <div class="dash-sidebar-footer">
+            <a href="{% url 'index:index' %}">
+                <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                بازگشت به سایت
+            </a>
+            <a href="{% url 'accounts:logout' %}">
+                <i class="fa-regular fa-power-off"></i>
+                خروج از حساب
+            </a>
+        </div>
+    </aside>
+
+    <!-- محتوای اصلی -->
+    <main class="dash-main">
+        <div class="dash-topbar">
+            <button class="dash-btn dash-btn-outline d-lg-none" onclick="document.getElementById('dashSidebar').classList.toggle('open')" type="button">
+                <i class="fa-regular fa-bars"></i>
+            </button>
+            <span class="dash-topbar-title">{% block page_title %}داشبورد{% endblock %}</span>
+            <div class="dash-topbar-user">
+                <i class="fa-regular fa-user"></i>
+                <span>{{ request.user.email }}</span>
+            </div>
+        </div>
+
+        <div class="dash-content">
+            {% if messages %}
+            <div class="dash-messages">
+                {% for message in messages %}
+                <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block dashboard_content %}{% endblock %}
+        </div>
+    </main>
+
+</div>
+</body>
+</html>

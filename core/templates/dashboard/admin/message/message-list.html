@@ -1,0 +1,78 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}پیام‌های تماس با ما{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست پیام‌ها</h3>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if contact_messages %}
+        <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>وضعیت</th>
+                    <th>نام</th>
+                    <th>ایمیل</th>
+                    <th>خدمت درخواستی</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in contact_messages %}
+                <tr>
+                    <td>
+                        {% if msg.is_read %}
+                        <span class="dash-badge dash-badge-gray">خوانده شده</span>
+                        {% else %}
+                        <span class="dash-badge dash-badge-blue">جدید</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ msg.name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.service }}</td>
+                    <td>{{ msg.created_date|date:"Y/m/d" }}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'dashboard:admin:message-detail' msg.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                                مشاهده
+                            </a>
+                            <a href="{% url 'dashboard:admin:message-delete' msg.id %}" class="dash-btn dash-btn-danger dash-btn-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        {% if is_paginated %}
+        <div style="padding:22px;">
+            <ul class="dash-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa-regular fa-arrow-right"></i></a></li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                <li><a class="{% if num == page_obj.number %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa-regular fa-arrow-left"></i></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-envelope-open"></i>
+            پیامی دریافت نشده است.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

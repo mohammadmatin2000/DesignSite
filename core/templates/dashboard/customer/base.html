@@ -1,0 +1,37 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block sidebar_nav %}
+
+<a class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'dashboard:customer:home' %}">
+    <i class="fa-regular fa-grid-2"></i>
+    داشبورد
+</a>
+
+<div class="dash-nav-group-title">حساب کاربری</div>
+<a class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'dashboard:customer:profile' %}">
+    <i class="fa-regular fa-user"></i>
+    اطلاعات پروفایل
+</a>
+<a class="{% if request.resolver_match.url_name == 'security' %}active{% endif %}" href="{% url 'dashboard:customer:security' %}">
+    <i class="fa-regular fa-lock"></i>
+    امنیت و رمز عبور
+</a>
+
+<div class="dash-nav-group-title">خرید</div>
+<a class="{% if 'order' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:customer:order-list' %}">
+    <i class="fa-regular fa-receipt"></i>
+    سفارش‌های من
+</a>
+<a class="{% if 'wishlist' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:customer:wishlist' %}">
+    <i class="fa-regular fa-heart"></i>
+    علاقه‌مندی‌ها
+</a>
+
+<div class="dash-nav-group-title">ارتباطات</div>
+<a class="{% if 'message' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:customer:message-list' %}">
+    <i class="fa-regular fa-envelope"></i>
+    پیام‌های من
+</a>
+
+{% endblock %}

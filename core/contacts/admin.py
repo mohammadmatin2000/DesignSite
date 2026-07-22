@@ -11,6 +11,8 @@ class ContactMessageAdmin(admin.ModelAdmin):
         'email',
         'message',
         'phone_number',
+        'user',
+        'is_read',
         'created_date'
     )
 

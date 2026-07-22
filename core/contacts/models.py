@@ -2,6 +2,15 @@ from django.db import models
 # ======================================================================================================================
 # ذخیره پیام‌ها و درخواست‌های ارسالی کاربران از طریق فرم تماس
 class ContactMessageModel(models.Model):
+    # کاربر ارسال‌کننده (در صورت لاگین بودن؛ مهمان‌ها می‌تونن null باشن)
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="contact_messages",
+        verbose_name="کاربر"
+    )
 
     # نام و نام خانوادگی فرستنده
     name = models.CharField(max_length=255)
@@ -17,6 +26,9 @@ class ContactMessageModel(models.Model):
 
     # نوع خدمت یا درخواست مورد نظر کاربر
     service = models.CharField(max_length=255)
+
+    # آیا ادمین این پیام رو خونده؟
+    is_read = models.BooleanField(default=False, verbose_name="خوانده شده")
 
     # تاریخ ایجاد رکورد
     created_date = models.DateTimeField(auto_now_add=True)

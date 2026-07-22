@@ -1,0 +1,75 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}سفارش‌های من{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست سفارش‌های شما</h3>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if orders %}
+        <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>شماره سفارش</th>
+                    <th>تاریخ ثبت</th>
+                    <th>تعداد کالا</th>
+                    <th>مبلغ کل</th>
+                    <th>وضعیت</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.created_date|date:"Y/m/d - H:i" }}</td>
+                    <td>{{ order.total_quantity }}</td>
+                    <td>{{ order.total_price }} تومان</td>
+                    <td>
+                        <span class="dash-badge
+                            {% if order.status == 'pending' %}dash-badge-orange
+                            {% elif order.status == 'paid' or order.status == 'delivered' %}dash-badge-green
+                            {% elif order.status == 'shipped' %}dash-badge-blue
+                            {% else %}dash-badge-red{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'dashboard:customer:order-detail' order.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                            مشاهده
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        {% if is_paginated %}
+        <div style="padding:22px;">
+            <ul class="dash-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa-regular fa-arrow-right"></i></a></li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                <li><a class="{% if num == page_obj.number %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa-regular fa-arrow-left"></i></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-box-open"></i>
+            هنوز سفارشی ثبت نکرده‌اید.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

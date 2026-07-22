@@ -1,0 +1,89 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}محصولات{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست محصولات ({{ products.paginator.count|default:products|length }})</h3>
+        <div style="display:flex;gap:10px;align-items:center;">
+            <form method="get" style="display:flex;gap:8px;">
+                <input class="form-control" style="border:1px solid var(--dash-border);border-radius:9px;padding:9px 14px;font-size:13px;" type="text" name="q" value="{{ request.GET.q }}" placeholder="جستجوی محصول..."/>
+            </form>
+            <a href="{% url 'dashboard:admin:product-create' %}" class="dash-btn dash-btn-primary dash-btn-sm">
+                <i class="fa-regular fa-plus"></i>
+                محصول جدید
+            </a>
+        </div>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if products %}
+        <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>تصویر</th>
+                    <th>عنوان</th>
+                    <th>دسته‌بندی</th>
+                    <th>قیمت</th>
+                    <th>موجودی</th>
+                    <th>وضعیت</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td><img class="dash-table-img" src="{{ product.image.url }}" alt="{{ product.title }}"/></td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.category.title|default:"—" }}</td>
+                    <td>{{ product.price }} تومان</td>
+                    <td>{{ product.stock }}</td>
+                    <td>
+                        {% if product.is_available %}
+                        <span class="dash-badge dash-badge-green">موجود</span>
+                        {% else %}
+                        <span class="dash-badge dash-badge-red">ناموجود</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'dashboard:admin:product-update' product.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                                <i class="fa-regular fa-pen"></i>
+                            </a>
+                            <a href="{% url 'dashboard:admin:product-delete' product.id %}" class="dash-btn dash-btn-danger dash-btn-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        {% if is_paginated %}
+        <div style="padding:22px;">
+            <ul class="dash-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa-regular fa-arrow-right"></i></a></li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                <li><a class="{% if num == page_obj.number %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa-regular fa-arrow-left"></i></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-box-open"></i>
+            هنوز محصولی ثبت نشده است.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

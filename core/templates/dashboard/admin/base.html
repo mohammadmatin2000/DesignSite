@@ -1,0 +1,70 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block sidebar_nav %}
+
+<a class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'dashboard:admin:home' %}">
+    <i class="fa-regular fa-grid-2"></i>
+    داشبورد
+</a>
+
+<div class="dash-nav-group-title">فروشگاه</div>
+<a class="{% if 'product' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
+    <i class="fa-regular fa-box"></i>
+    محصولات
+</a>
+<a class="{% if 'category' in request.resolver_match.url_name and 'blog' not in request.path %}active{% endif %}" href="{% url 'dashboard:admin:category-list' %}">
+    <i class="fa-regular fa-tags"></i>
+    دسته‌بندی‌ها
+</a>
+<a class="{% if request.resolver_match.url_name == 'tag-list' or 'tag-' in request.resolver_match.url_name and 'blog' not in request.path %}active{% endif %}" href="{% url 'dashboard:admin:tag-list' %}">
+    <i class="fa-regular fa-tag"></i>
+    برچسب‌ها
+</a>
+
+<div class="dash-nav-group-title">سفارش‌ها</div>
+<a class="{% if 'order' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:order-list' %}">
+    <i class="fa-regular fa-receipt"></i>
+    سفارش‌ها
+</a>
+
+<div class="dash-nav-group-title">محتوا</div>
+<a class="{% if request.resolver_match.url_name == 'blog-list' %}active{% endif %}" href="{% url 'dashboard:admin:blog-list' %}">
+    <i class="fa-regular fa-newspaper"></i>
+    مقالات وبلاگ
+</a>
+<a class="{% if request.resolver_match.url_name == 'blog-category-list' or 'blog-category' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:blog-category-list' %}">
+    <i class="fa-regular fa-folder-open"></i>
+    دسته‌بندی وبلاگ
+</a>
+<a class="{% if request.resolver_match.url_name == 'blog-tag-list' or 'blog-tag' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:blog-tag-list' %}">
+    <i class="fa-regular fa-tags"></i>
+    برچسب وبلاگ
+</a>
+<a class="{% if 'comment' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:comment-list' %}">
+    <i class="fa-regular fa-comments"></i>
+    نظرات
+</a>
+
+<div class="dash-nav-group-title">سایت</div>
+<a class="{% if 'service' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:service-list' %}">
+    <i class="fa-regular fa-briefcase"></i>
+    خدمات
+</a>
+<a class="{% if 'team' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:team-list' %}">
+    <i class="fa-regular fa-users"></i>
+    اعضای تیم
+</a>
+<a class="{% if 'gallery' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:gallery-list' %}">
+    <i class="fa-regular fa-images"></i>
+    گالری صفحه اصلی
+</a>
+
+<div class="dash-nav-group-title">ارتباطات</div>
+<a class="{% if 'message' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:message-list' %}">
+    <i class="fa-regular fa-envelope"></i>
+    پیام‌های تماس
+    {% if unread_messages_count %}<span class="badge-count">{{ unread_messages_count }}</span>{% endif %}
+</a>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}داشبورد کاربری{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-stat-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon"><i class="fa-regular fa-receipt"></i></div>
+        <div class="dash-stat-value">{{ total_orders }}</div>
+        <div class="dash-stat-label">تعداد سفارش‌های شما</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon"><i class="fa-regular fa-heart"></i></div>
+        <div class="dash-stat-value">{{ total_wishlist }}</div>
+        <div class="dash-stat-label">محصولات مورد علاقه</div>
+    </div>
+    <div class="dash-stat-card">
+        <div class="dash-stat-icon"><i class="fa-regular fa-user"></i></div>
+        <div class="dash-stat-value">{{ request.user.user_profile.get_fullname }}</div>
+        <div class="dash-stat-label">خوش آمدید</div>
+    </div>
+</div>
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>آخرین سفارش‌های شما</h3>
+        <a href="{% url 'dashboard:customer:order-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            مشاهده همه
+            <i class="fa-regular fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if recent_orders %}
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>شماره سفارش</th>
+                    <th>مبلغ</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.total_price }} تومان</td>
+                    <td>
+                        <span class="dash-badge
+                            {% if order.status == 'pending' %}dash-badge-orange
+                            {% elif order.status == 'paid' or order.status == 'delivered' %}dash-badge-green
+                            {% elif order.status == 'shipped' %}dash-badge-blue
+                            {% else %}dash-badge-red{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.created_date|date:"Y/m/d" }}</td>
+                    <td>
+                        <a href="{% url 'dashboard:customer:order-detail' order.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                            مشاهده
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-box-open"></i>
+            هنوز سفارشی ثبت نکرده‌اید.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

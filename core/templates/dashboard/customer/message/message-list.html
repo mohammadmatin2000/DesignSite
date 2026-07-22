@@ -1,0 +1,48 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}پیام‌های من{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>پیام‌های ارسالی شما</h3>
+        <a href="{% url 'contact:contact-us' %}" class="dash-btn dash-btn-primary dash-btn-sm">
+            <i class="fa-regular fa-plus"></i>
+            ارسال پیام جدید
+        </a>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if contact_messages %}
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>خدمت درخواستی</th>
+                    <th>خلاصه پیام</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in contact_messages %}
+                <tr>
+                    <td>{{ msg.service }}</td>
+                    <td>{{ msg.message|truncatechars:40 }}</td>
+                    <td>{{ msg.created_date|date:"Y/m/d" }}</td>
+                    <td>
+                        <a href="{% url 'dashboard:customer:message-detail' msg.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                            مشاهده
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-envelope-open"></i>
+            هنوز پیامی ارسال نکرده‌اید.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -246,6 +246,10 @@
                             <span class="account-dropdown-hello">
                                 سلام، {{ user.username }}
                             </span>
+                            <a href="{% url 'dashboard:home' %}">
+                                <i class="fa-regular fa-grid-2"></i>
+                                پنل کاربری
+                            </a>
                             <a href="{% url 'accounts:logout' %}">
                                 <i class="fa-regular fa-arrow-right-from-bracket"></i>
                                 خروج از حساب
@@ -284,7 +288,8 @@
                                         <span class="cart-dropdown-item-title">{{ item.product.title }}</span>
                                         <span class="cart-dropdown-item-meta">{{ item.quantity }} × {{ item.product.price }} تومان</span>
                                     </div>
-                                    <form method="post" action="{% url 'cart:cart-remove' item.id %}" class="cart-dropdown-item-remove-form">
+                                    <form method="post" action="{% url 'cart:cart-remove' item.id %}"
+                                          class="cart-dropdown-item-remove-form">
                                         {% csrf_token %}
                                         <button type="submit" class="cart-dropdown-item-remove">
                                             <i class="fa-regular fa-xmark"></i>

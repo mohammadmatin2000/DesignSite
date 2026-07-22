@@ -1,0 +1,84 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}سفارش #{{ order.id }}{% endblock %}
+{% block dashboard_content %}
+
+<div class="row">
+    <div class="col-lg-8" style="margin-bottom:20px;">
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <h3>اقلام سفارش</h3>
+            </div>
+            <div class="dash-card-body" style="padding:0;">
+                <table class="dash-table">
+                    <thead>
+                        <tr>
+                            <th>محصول</th>
+                            <th>قیمت واحد</th>
+                            <th>تعداد</th>
+                            <th>جمع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product_title }}</td>
+                            <td>{{ item.price }} تومان</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total_price }} تومان</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="dash-card" style="margin-bottom:20px;">
+            <div class="dash-card-header">
+                <h3>اطلاعات گیرنده</h3>
+            </div>
+            <div class="dash-card-body">
+                <p style="font-size:13.5px;color:#5b544c;margin-bottom:10px;"><strong>نام:</strong> {{ order.full_name }}</p>
+                <p style="font-size:13.5px;color:#5b544c;margin-bottom:10px;"><strong>تماس:</strong> {{ order.phone }}</p>
+                <p style="font-size:13.5px;color:#5b544c;margin-bottom:10px;"><strong>آدرس:</strong> {{ order.address }}</p>
+                {% if order.postal_code %}
+                <p style="font-size:13.5px;color:#5b544c;margin-bottom:10px;"><strong>کد پستی:</strong> {{ order.postal_code }}</p>
+                {% endif %}
+                {% if order.note %}
+                <p style="font-size:13.5px;color:#5b544c;"><strong>یادداشت:</strong> {{ order.note }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <h3>وضعیت سفارش</h3>
+            </div>
+            <div class="dash-card-body">
+                <form method="post" action="{% url 'dashboard:admin:order-update-status' order.id %}">
+                    {% csrf_token %}
+                    <div class="dash-form-group">
+                        <select name="status">
+                            {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="dash-btn dash-btn-primary" style="width:100%;justify-content:center;">
+                        بروزرسانی وضعیت
+                    </button>
+                </form>
+
+                <div style="height:1px;background:var(--dash-border);margin:20px 0;"></div>
+
+                <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;color:var(--dash-dark);">
+                    <span>مبلغ کل</span>
+                    <span>{{ order.total_price }} تومان</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

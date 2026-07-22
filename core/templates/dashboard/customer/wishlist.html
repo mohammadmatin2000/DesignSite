@@ -1,0 +1,45 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}علاقه‌مندی‌های من{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>محصولات مورد علاقه شما</h3>
+    </div>
+    <div class="dash-card-body">
+        {% if wishlist_items %}
+        <div class="row gy-4">
+            {% for item in wishlist_items %}
+            <div class="col-lg-4 col-md-6">
+                <div style="border:1px solid var(--dash-border);border-radius:14px;overflow:hidden;">
+                    <a href="{% url 'shop:shop-detail' item.product.slug %}">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}" style="width:100%;height:170px;object-fit:cover;display:block;"/>
+                    </a>
+                    <div style="padding:16px;">
+                        <a href="{% url 'shop:shop-detail' item.product.slug %}" style="font-size:14px;font-weight:600;color:var(--dash-dark);text-decoration:none;display:block;margin-bottom:8px;">
+                            {{ item.product.title }}
+                        </a>
+                        <div style="display:flex;align-items:center;justify-content:space-between;">
+                            <span style="font-size:14px;font-weight:700;color:var(--dash-primary);">{{ item.product.price }} تومان</span>
+                            <form method="post" action="{% url 'dashboard:customer:wishlist-delete' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dash-btn dash-btn-danger dash-btn-sm">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-heart"></i>
+            هنوز محصولی به علاقه‌مندی‌ها اضافه نکرده‌اید.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

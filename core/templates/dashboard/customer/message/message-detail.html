@@ -1,0 +1,26 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}جزئیات پیام{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:700px;">
+    <div class="dash-card-header">
+        <h3>پیام شما درباره‌ی «{{ contact_message.service }}»</h3>
+        <a href="{% url 'dashboard:customer:message-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <div style="margin-bottom:20px;">
+            <div style="font-size:12px;color:var(--dash-muted);margin-bottom:8px;">متن پیام</div>
+            <div style="background:var(--dash-bg);border:1px solid var(--dash-border);border-radius:10px;padding:18px;font-size:14px;color:#5b544c;line-height:1.9;">
+                {{ contact_message.message|linebreaks }}
+            </div>
+        </div>
+        <div style="font-size:12px;color:var(--dash-muted);">
+            تاریخ ارسال: {{ contact_message.created_date|date:"Y/m/d - H:i" }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

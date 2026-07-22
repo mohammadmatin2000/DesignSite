@@ -64,7 +64,7 @@ class CheckoutView(LoginRequiredMixin, View):
 class OrderListView(LoginRequiredMixin, ListView):
     model = OrderModel
     template_name = "order/order-list.html"
-    context_object_name = "orders"
+    context_object_name = "order"
     paginate_by = 10
 
     def get_queryset(self):

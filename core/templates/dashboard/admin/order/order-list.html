@@ -1,0 +1,85 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}سفارش‌ها{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست سفارش‌ها</h3>
+        <form method="get" style="display:flex;gap:8px;">
+            <select name="status" onchange="this.form.submit()" style="border:1px solid var(--dash-border);border-radius:9px;padding:9px 14px;font-size:13px;">
+                <option value="">همه وضعیت‌ها</option>
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if orders %}
+        <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>شماره</th>
+                    <th>مشتری</th>
+                    <th>تماس</th>
+                    <th>مبلغ</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.full_name }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>{{ order.total_price }} تومان</td>
+                    <td>
+                        <span class="dash-badge
+                            {% if order.status == 'pending' %}dash-badge-orange
+                            {% elif order.status == 'paid' or order.status == 'delivered' %}dash-badge-green
+                            {% elif order.status == 'shipped' %}dash-badge-blue
+                            {% else %}dash-badge-red{% endif %}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.created_date|date:"Y/m/d" }}</td>
+                    <td>
+                        <a href="{% url 'dashboard:admin:order-detail' order.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                            مشاهده
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        {% if is_paginated %}
+        <div style="padding:22px;">
+            <ul class="dash-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}"><i class="fa-regular fa-arrow-right"></i></a></li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                <li><a class="{% if num == page_obj.number %}active{% endif %}" href="?page={{ num }}{% if current_status %}&status={{ current_status }}{% endif %}">{{ num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}{% if current_status %}&status={{ current_status }}{% endif %}"><i class="fa-regular fa-arrow-left"></i></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-receipt"></i>
+            سفارشی یافت نشد.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

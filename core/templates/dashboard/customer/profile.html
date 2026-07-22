@@ -1,0 +1,56 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}اطلاعات پروفایل{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:640px;">
+    <div class="dash-card-header">
+        <h3>ویرایش اطلاعات پروفایل</h3>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if object.image %}
+            <img class="dash-form-img-preview" src="{{ object.image.url }}" alt="پروفایل"/>
+            {% endif %}
+
+            <div class="dash-form-group">
+                <label>تصویر پروفایل</label>
+                {{ form.image }}
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>نام</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}<div class="dash-form-errors">{{ form.first_name.errors|striptags }}</div>{% endif %}
+                </div>
+                <div class="dash-form-group">
+                    <label>نام خانوادگی</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}<div class="dash-form-errors">{{ form.last_name.errors|striptags }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>شماره موبایل</label>
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}<div class="dash-form-errors">{{ form.phone_number.errors|striptags }}</div>{% endif %}
+            </div>
+
+            <div class="dash-form-group">
+                <label>ایمیل (غیرقابل تغییر)</label>
+                <input type="email" class="form-control" value="{{ request.user.email }}" disabled/>
+            </div>
+
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    ذخیره تغییرات
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

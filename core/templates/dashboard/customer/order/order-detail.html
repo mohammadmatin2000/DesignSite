@@ -1,0 +1,84 @@
+{% extends 'dashboard/customer/base.html' %}
+{% block page_title %}سفارش #{{ order.id }}{% endblock %}
+{% block dashboard_content %}
+
+<div class="row">
+    <div class="col-lg-8" style="margin-bottom:20px;">
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <h3>اقلام سفارش</h3>
+            </div>
+            <div class="dash-card-body" style="padding:0;">
+                <table class="dash-table">
+                    <thead>
+                        <tr>
+                            <th>محصول</th>
+                            <th>قیمت واحد</th>
+                            <th>تعداد</th>
+                            <th>جمع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                        <tr>
+                            <td>{{ item.product_title }}</td>
+                            <td>{{ item.price }} تومان</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total_price }} تومان</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="dash-card">
+            <div class="dash-card-header">
+                <h3>خلاصه سفارش</h3>
+            </div>
+            <div class="dash-card-body">
+                <div style="display:flex;justify-content:space-between;font-size:13.5px;color:#5b544c;margin-bottom:14px;">
+                    <span>وضعیت</span>
+                    <span class="dash-badge
+                        {% if order.status == 'pending' %}dash-badge-orange
+                        {% elif order.status == 'paid' or order.status == 'delivered' %}dash-badge-green
+                        {% elif order.status == 'shipped' %}dash-badge-blue
+                        {% else %}dash-badge-red{% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:13.5px;color:#5b544c;margin-bottom:14px;">
+                    <span>تاریخ ثبت</span>
+                    <span>{{ order.created_date|date:"Y/m/d - H:i" }}</span>
+                </div>
+
+                <div style="height:1px;background:var(--dash-border);margin:18px 0;"></div>
+
+                <div style="font-size:13.5px;color:#5b544c;margin-bottom:6px;"><strong>گیرنده:</strong> {{ order.full_name }}</div>
+                <div style="font-size:13.5px;color:#5b544c;margin-bottom:6px;"><strong>تماس:</strong> {{ order.phone }}</div>
+                <div style="font-size:13.5px;color:#5b544c;"><strong>آدرس:</strong> {{ order.address }}</div>
+
+                <div style="height:1px;background:var(--dash-border);margin:18px 0;"></div>
+
+                <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:var(--dash-dark);margin-bottom:16px;">
+                    <span>مبلغ نهایی</span>
+                    <span>{{ order.total_price }} تومان</span>
+                </div>
+
+                {% if order.status == "pending" %}
+                <form method="post" action="{% url 'payment:request' order.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dash-btn dash-btn-primary" style="width:100%;justify-content:center;">
+                        پرداخت آنلاین سفارش
+                        <i class="fa-regular fa-credit-card"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
