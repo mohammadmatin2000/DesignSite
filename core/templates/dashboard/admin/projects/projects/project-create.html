@@ -1,0 +1,223 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}{% if object %}ویرایش پروژه{% else %}افزودن پروژه{% endif %}{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>{% if object %}ویرایش پروژه: {{ object.title }}{% else %}افزودن پروژه جدید{% endif %}</h3>
+        <a href="{% url 'dashboard:admin:project-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت به لیست
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if object and object.image %}
+            <img class="dash-form-img-preview" src="{{ object.image.url }}" alt="{{ object.title }}"/>
+            {% endif %}
+
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:0 0 16px;">اطلاعات کلی</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>عنوان پروژه</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}<div class="dash-form-errors">{{ form.title.errors|striptags }}</div>{% endif %}
+                </div>
+                <div class="dash-form-group">
+                    <label>موقعیت</label>
+                    {{ form.location }}
+                </div>
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>دسته‌بندی اصلی</label>
+                    {{ form.category }}
+                </div>
+                <div class="dash-form-group">
+                    <label>دسته‌بندی‌های اضافه</label>
+                    {{ form.extra_category }}
+                </div>
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>سال اجرا</label>
+                    {{ form.year }}
+                </div>
+                <div class="dash-form-group">
+                    <label>تصویر شاخص</label>
+                    {{ form.image }}
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>توضیح کوتاه (کارت لیست)</label>
+                {{ form.description }}
+            </div>
+
+            <div style="height:1px;background:var(--dash-border);margin:26px 0;"></div>
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:0 0 16px;">اطلاعات متا صفحه جزئیات</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>مشتری</label>
+                    {{ form.client }}
+                </div>
+                <div class="dash-form-group">
+                    <label>نوع پروژه</label>
+                    {{ form.project_type }}
+                </div>
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>معمار</label>
+                    {{ form.architect }}
+                </div>
+                <div class="dash-form-group">
+                    <label>مدت زمان (شرایط)</label>
+                    {{ form.duration }}
+                </div>
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>استراتژی طراحی</label>
+                    {{ form.strategy }}
+                </div>
+                <div class="dash-form-group">
+                    <label>تاریخ نمایشی</label>
+                    {{ form.display_date }}
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>توضیح کوتاه جزئیات</label>
+                {{ form.short_description }}
+            </div>
+
+            <div style="height:1px;background:var(--dash-border);margin:26px 0;"></div>
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:0 0 16px;">ویژگی‌های پروژه (ستون اول)</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ویژگی ۱ - عنوان</label>
+                    {{ form.feature_one_title }}
+                </div>
+                <div class="dash-form-group">
+                    <label>ویژگی ۱ - توضیح</label>
+                    {{ form.feature_one_desc }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ویژگی ۲ - عنوان</label>
+                    {{ form.feature_two_title }}
+                </div>
+                <div class="dash-form-group">
+                    <label>ویژگی ۲ - توضیح</label>
+                    {{ form.feature_two_desc }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ویژگی ۳ - عنوان</label>
+                    {{ form.feature_three_title }}
+                </div>
+                <div class="dash-form-group">
+                    <label>ویژگی ۳ - توضیح</label>
+                    {{ form.feature_three_desc }}
+                </div>
+            </div>
+
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:20px 0 16px;">ویژگی‌های پروژه (ستون دوم)</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ویژگی ۴ - عنوان</label>
+                    {{ form.feature_four_title }}
+                </div>
+                <div class="dash-form-group">
+                    <label>ویژگی ۴ - توضیح</label>
+                    {{ form.feature_four_desc }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ویژگی ۵ - عنوان</label>
+                    {{ form.feature_five_title }}
+                </div>
+                <div class="dash-form-group">
+                    <label>ویژگی ۵ - توضیح</label>
+                    {{ form.feature_five_desc }}
+                </div>
+            </div>
+
+            <div style="height:1px;background:var(--dash-border);margin:26px 0;"></div>
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:0 0 16px;">باکس‌های آماری</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>آمار ۱ - مقدار</label>
+                    {{ form.stat_one_value }}
+                </div>
+                <div class="dash-form-group">
+                    <label>آمار ۱ - برچسب</label>
+                    {{ form.stat_one_label }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>آمار ۲ - مقدار</label>
+                    {{ form.stat_two_value }}
+                </div>
+                <div class="dash-form-group">
+                    <label>آمار ۲ - برچسب</label>
+                    {{ form.stat_two_label }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>آمار ۳ - مقدار</label>
+                    {{ form.stat_three_value }}
+                </div>
+                <div class="dash-form-group">
+                    <label>آمار ۳ - برچسب</label>
+                    {{ form.stat_three_label }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>آمار ۴ - مقدار</label>
+                    {{ form.stat_four_value }}
+                </div>
+                <div class="dash-form-group">
+                    <label>آمار ۴ - برچسب</label>
+                    {{ form.stat_four_label }}
+                </div>
+            </div>
+
+            <div style="height:1px;background:var(--dash-border);margin:26px 0;"></div>
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:0 0 16px;">نتیجه پروژه</h4>
+
+            <div class="dash-form-group">
+                <label>توضیح نتیجه</label>
+                {{ form.result_description }}
+            </div>
+
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    {% if object %}ذخیره تغییرات{% else %}افزودن پروژه{% endif %}
+                </button>
+                <a href="{% url 'dashboard:admin:project-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

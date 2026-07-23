@@ -151,7 +151,7 @@ class Command(BaseCommand):
             other_categories = [c for c in categories if c != main_category]
             if other_categories:
                 extra_count = random.randint(0, min(2, len(other_categories)))
-                project.extra_categories.set(random.sample(other_categories, k=extra_count))
+                project.extra_category.set(random.sample(other_categories, k=extra_count))
 
             self.stdout.write(self.style.SUCCESS(f"پروژه ساخته شد: {title}"))
 

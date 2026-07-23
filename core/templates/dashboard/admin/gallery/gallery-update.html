@@ -1,0 +1,54 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}{% if object %}ویرایش تصویر{% else %}افزودن تصویر{% endif %}{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:560px;">
+    <div class="dash-card-header">
+        <h3>{% if object %}ویرایش تصویر گالری{% else %}افزودن تصویر جدید{% endif %}</h3>
+        <a href="{% url 'dashboard:admin:gallery-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if object and object.image %}
+            <img class="dash-form-img-preview" src="{{ object.image.url }}" alt=""/>
+            {% endif %}
+
+            <div class="dash-form-group">
+                <label>تصویر</label>
+                {{ form.image }}
+                {% if form.image.errors %}<div class="dash-form-errors">{{ form.image.errors|striptags }}</div>{% endif %}
+            </div>
+
+            <div class="dash-form-group">
+                <label>متن جایگزین (برای سئو و دسترسی‌پذیری)</label>
+                {{ form.alt_text }}
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ترتیب نمایش</label>
+                    {{ form.order }}
+                </div>
+                <div class="dash-form-group dash-form-check" style="align-self:center;margin-top:24px;">
+                    {{ form.is_active }}
+                    <label style="margin:0;">نمایش در سایت</label>
+                </div>
+            </div>
+
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    {% if object %}ذخیره تغییرات{% else %}افزودن تصویر{% endif %}
+                </button>
+                <a href="{% url 'dashboard:admin:gallery-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}{% if object %}ویرایش عضو تیم{% else %}افزودن عضو تیم{% endif %}{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>{% if object %}ویرایش عضو: {{ object.full_name }}{% else %}افزودن عضو جدید{% endif %}</h3>
+        <a href="{% url 'dashboard:admin:team-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت به لیست
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if object and object.image %}
+            <img class="dash-form-img-preview" src="{{ object.image.url }}" alt="{{ object.full_name }}"/>
+            {% endif %}
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>نام و نام خانوادگی</label>
+                    {{ form.full_name }}
+                    {% if form.full_name.errors %}<div class="dash-form-errors">{{ form.full_name.errors|striptags }}</div>{% endif %}
+                </div>
+                <div class="dash-form-group">
+                    <label>سمت</label>
+                    {{ form.position }}
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>تصویر</label>
+                {{ form.image }}
+                {% if form.image.errors %}<div class="dash-form-errors">{{ form.image.errors|striptags }}</div>{% endif %}
+            </div>
+
+            <div class="dash-form-group">
+                <label>درباره عضو</label>
+                {{ form.description }}
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ایمیل</label>
+                    {{ form.email }}
+                </div>
+                <div class="dash-form-group">
+                    <label>شماره تماس</label>
+                    {{ form.phone }}
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>آدرس</label>
+                {{ form.address }}
+            </div>
+
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:26px 0 16px;">مهارت‌ها</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>مهارت اول - عنوان</label>
+                    {{ form.skill_one }}
+                </div>
+                <div class="dash-form-group">
+                    <label>مهارت اول - درصد</label>
+                    {{ form.skill_one_percent }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>مهارت دوم - عنوان</label>
+                    {{ form.skill_two }}
+                </div>
+                <div class="dash-form-group">
+                    <label>مهارت دوم - درصد</label>
+                    {{ form.skill_two_percent }}
+                </div>
+            </div>
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>مهارت سوم - عنوان</label>
+                    {{ form.skill_three }}
+                </div>
+                <div class="dash-form-group">
+                    <label>مهارت سوم - درصد</label>
+                    {{ form.skill_three_percent }}
+                </div>
+            </div>
+
+            <h4 style="font-size:14px;font-weight:700;color:var(--dash-dark);margin:26px 0 16px;">تنظیمات نمایش</h4>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group dash-form-check">
+                    {{ form.is_manager }}
+                    <label style="margin:0;">مدیر شرکت (نمایش در بخش نظرات)</label>
+                </div>
+                <div class="dash-form-group dash-form-check">
+                    {{ form.is_active }}
+                    <label style="margin:0;">نمایش در سایت</label>
+                </div>
+            </div>
+
+            <div class="dash-form-group">
+                <label>متن نظر مدیر (فقط در صورت فعال بودن «مدیر شرکت»)</label>
+                {{ form.manager_quote }}
+            </div>
+
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    {% if object %}ذخیره تغییرات{% else %}افزودن عضو{% endif %}
+                </button>
+                <a href="{% url 'dashboard:admin:team-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

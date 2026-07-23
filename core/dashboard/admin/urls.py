@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 # ======================================================================================================================
 app_name = "admin"
 # ======================================================================================================================
@@ -41,7 +42,8 @@ urlpatterns = [
     path("services/<int:pk>/update/", views.AdminServiceUpdateView.as_view(), name="service-update"),
     path("services/<int:pk>/delete/", views.AdminServiceDeleteView.as_view(), name="service-delete"),
     path("services/gallery/create/", views.AdminServiceGalleryCreateView.as_view(), name="service-gallery-create"),
-    path("services/gallery/<int:pk>/delete/", views.AdminServiceGalleryDeleteView.as_view(), name="service-gallery-delete"),
+    path("services/gallery/<int:pk>/delete/", views.AdminServiceGalleryDeleteView.as_view(),
+         name="service-gallery-delete"),
 
     # تیم
     path("team/", views.AdminTeamListView.as_view(), name="team-list"),
@@ -76,5 +78,40 @@ urlpatterns = [
     path("comments/", views.AdminCommentListView.as_view(), name="comment-list"),
     path("comments/<int:pk>/approve/", views.AdminCommentApproveView.as_view(), name="comment-approve"),
     path("comments/<int:pk>/delete/", views.AdminCommentDeleteView.as_view(), name="comment-delete"),
+
+    # پروژه‌ها
+    path("projects/", views.AdminProjectListView.as_view(), name="project-list"),
+    path("projects/create/", views.AdminProjectCreateView.as_view(), name="project-create"),
+    path("projects/<int:pk>/update/", views.AdminProjectUpdateView.as_view(), name="project-update"),
+    path("projects/<int:pk>/delete/", views.AdminProjectDeleteView.as_view(), name="project-delete"),
+
+    path("projects/categories/", views.AdminProjectCategoryListView.as_view(), name="project-category-list"),
+    path("projects/categories/create/", views.AdminProjectCategoryCreateView.as_view(), name="project-category-create"),
+    path("projects/categories/<int:pk>/update/", views.AdminProjectCategoryUpdateView.as_view(),
+         name="project-category-update"),
+    path("projects/categories/<int:pk>/delete/", views.AdminProjectCategoryDeleteView.as_view(),
+         name="project-category-delete"),
+
+    # خبرنامه
+    path("newsletter/", views.AdminNewsletterListView.as_view(), name="newsletter-list"),
+    path("newsletter/<int:pk>/delete/", views.AdminNewsletterDeleteView.as_view(), name="newsletter-delete"),
+
+    # سابقه شرکت
+    path("history/", views.AdminHistoryListView.as_view(), name="history-list"),
+    path("history/create/", views.AdminHistoryCreateView.as_view(), name="history-create"),
+    path("history/<int:pk>/update/", views.AdminHistoryUpdateView.as_view(), name="history-update"),
+    path("history/<int:pk>/delete/", views.AdminHistoryDeleteView.as_view(), name="history-delete"),
+
+    # مراحل کاری
+    path("process/", views.AdminProcessListView.as_view(), name="process-list"),
+    path("process/create/", views.AdminProcessCreateView.as_view(), name="process-create"),
+    path("process/<int:pk>/update/", views.AdminProcessUpdateView.as_view(), name="process-update"),
+    path("process/<int:pk>/delete/", views.AdminProcessDeleteView.as_view(), name="process-delete"),
+
+    # جوایز
+    path("awards/", views.AdminAwardListView.as_view(), name="award-list"),
+    path("awards/create/", views.AdminAwardCreateView.as_view(), name="award-create"),
+    path("awards/<int:pk>/update/", views.AdminAwardUpdateView.as_view(), name="award-update"),
+    path("awards/<int:pk>/delete/", views.AdminAwardDeleteView.as_view(), name="award-delete"),
 ]
 # ======================================================================================================================

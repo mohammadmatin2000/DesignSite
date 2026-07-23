@@ -4,6 +4,8 @@ from services.models import ServiceModel, ServiceGalleryModel
 from team.models import TeamModels
 from index.models import GalleryModel
 from blog.models import BlogModels, CategoryModels as BlogCategoryModels, TagModel as BlogTagModel
+from projects.models import ProjectModel, ProjectCategoryModel
+from contacts.models import HistoryItemModel, ProcessStepModel, AwardModel
 # ======================================================================================================================
 # ---------------------------- فرم‌های شاپ ----------------------------
 class ProductForm(forms.ModelForm):
@@ -90,4 +92,61 @@ class BlogTagForm(forms.ModelForm):
     class Meta:
         model = BlogTagModel
         fields = ["title"]
+# ======================================================================================================================
+# ---------------------------- فرم‌های پروژه ها ----------------------------
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = ProjectModel
+        fields = [
+            "title", "category", "extra_category", "location", "year", "image", "description",
+            "client", "project_type", "architect", "duration", "strategy", "display_date",
+            "short_description",
+            "feature_one_title", "feature_one_desc",
+            "feature_two_title", "feature_two_desc",
+            "feature_three_title", "feature_three_desc",
+            "feature_four_title", "feature_four_desc",
+            "feature_five_title", "feature_five_desc",
+            "stat_one_value", "stat_one_label",
+            "stat_two_value", "stat_two_label",
+            "stat_three_value", "stat_three_label",
+            "stat_four_value", "stat_four_label",
+            "result_description",
+        ]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 3}),
+            "short_description": forms.Textarea(attrs={"rows": 4}),
+            "feature_one_desc": forms.Textarea(attrs={"rows": 2}),
+            "feature_two_desc": forms.Textarea(attrs={"rows": 2}),
+            "feature_three_desc": forms.Textarea(attrs={"rows": 2}),
+            "feature_four_desc": forms.Textarea(attrs={"rows": 2}),
+            "feature_five_desc": forms.Textarea(attrs={"rows": 2}),
+            "result_description": forms.Textarea(attrs={"rows": 4}),
+        }
+# ======================================================================================================================
+class ProjectCategoryForm(forms.ModelForm):
+    class Meta:
+        model = ProjectCategoryModel
+        fields = ["title"]
+# ======================================================================================================================
+# ---------------------------- اطلاعات تماس ها ----------------------------
+class HistoryItemForm(forms.ModelForm):
+    class Meta:
+        model = HistoryItemModel
+        fields = ["image", "year", "description", "order", "is_active"]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 3}),
+        }
+# ======================================================================================================================
+class ProcessStepForm(forms.ModelForm):
+    class Meta:
+        model = ProcessStepModel
+        fields = ["image", "title", "description", "order", "is_active"]
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 3}),
+        }
+# ======================================================================================================================
+class AwardForm(forms.ModelForm):
+    class Meta:
+        model = AwardModel
+        fields = ["title", "category", "year", "image", "order", "is_active"]
 # ======================================================================================================================

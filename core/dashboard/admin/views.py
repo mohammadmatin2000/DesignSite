@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+from projects.models import ProjectModel, ProjectCategoryModel
 from dashboard.permission import HasAdminPermission
 from order.models import OrderModel
 from contacts.models import ContactMessageModel
@@ -12,10 +13,11 @@ from services.models import ServiceModel, ServiceGalleryModel
 from team.models import TeamModels
 from index.models import GalleryModel
 from blog.models import BlogModels, CategoryModels as BlogCategoryModels, TagModel as BlogTagModel, CommentModel
+from contacts.models import NewsletterSubscriberModel, HistoryItemModel, ProcessStepModel, AwardModel
 from .forms import (
     ProductForm, CategoryForm, TagForm,
     ServiceForm, ServiceGalleryForm, TeamForm, GalleryForm,
-    BlogForm, BlogCategoryForm, BlogTagForm,
+    BlogForm, BlogCategoryForm, BlogTagForm,ProjectForm,ProjectCategoryForm,HistoryItemForm,ProcessStepForm,AwardForm
 )
 # ======================================================================================================================
 # میکسین مشترک برای همه‌ی ویوهای ادمین
@@ -52,12 +54,16 @@ class AdminOrderListView(AdminRequiredMixin, ListView):
     def get_queryset(self):
         queryset = OrderModel.objects.all()
         status = self.request.GET.get("status")
-        q = self.request.GET.get("q")
+        q = self.request.GET.get("q", "").strip()
 
         if status:
             queryset = queryset.filter(status=status)
+
         if q:
-            queryset = queryset.filter(full_name__icontains=q)
+            if q.isdigit():
+                queryset = queryset.filter(id=int(q))
+            else:
+                queryset = queryset.filter(full_name__icontains=q)
 
         return queryset
 
@@ -110,7 +116,11 @@ class AdminMessageListView(AdminRequiredMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return ContactMessageModel.objects.all().order_by("-created_date")
+        queryset = ContactMessageModel.objects.all().order_by("-created_date")
+        q = self.request.GET.get("q", "").strip()
+        if q:
+            queryset = queryset.filter(name__icontains=q)
+        return queryset
 # ======================================================================================================================
 class AdminMessageDetailView(AdminRequiredMixin, DetailView):
     model = ContactMessageModel
@@ -126,7 +136,7 @@ class AdminMessageDetailView(AdminRequiredMixin, DetailView):
 # ======================================================================================================================
 class AdminMessageDeleteView(AdminRequiredMixin, DeleteView):
     model = ContactMessageModel
-    template_name = "dashboard/admin/messages/message-confirm-delete.html"
+    template_name = "dashboard/admin/messages/message-delete.html"
     success_url = reverse_lazy("dashboard:admin:message-list")
 
     def form_valid(self, form):
@@ -286,11 +296,18 @@ class AdminTeamListView(AdminRequiredMixin, ListView):
     template_name = "dashboard/admin/team/team-list.html"
     context_object_name = "team_members"
     paginate_by = 15
+
+    def get_queryset(self):
+        queryset = TeamModels.objects.all()
+        q = self.request.GET.get("q", "").strip()
+        if q:
+            queryset = queryset.filter(full_name__icontains=q)
+        return queryset
 # ======================================================================================================================
 class AdminTeamCreateView(AdminRequiredMixin, CreateView):
     model = TeamModels
     form_class = TeamForm
-    template_name = "dashboard/admin/team/team-form.html"
+    template_name = "dashboard/admin/team/team-create.html"
     success_url = reverse_lazy("dashboard:admin:team-list")
 
     def form_valid(self, form):
@@ -300,7 +317,7 @@ class AdminTeamCreateView(AdminRequiredMixin, CreateView):
 class AdminTeamUpdateView(AdminRequiredMixin, UpdateView):
     model = TeamModels
     form_class = TeamForm
-    template_name = "dashboard/admin/team/team-form.html"
+    template_name = "dashboard/admin/team/team-update.html"
     success_url = reverse_lazy("dashboard:admin:team-list")
 
     def form_valid(self, form):
@@ -309,8 +326,12 @@ class AdminTeamUpdateView(AdminRequiredMixin, UpdateView):
 # ======================================================================================================================
 class AdminTeamDeleteView(AdminRequiredMixin, DeleteView):
     model = TeamModels
-    template_name = "dashboard/admin/team/team-confirm-delete.html"
+    template_name = "dashboard/admin/team/team-delete.html"
     success_url = reverse_lazy("dashboard:admin:team-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "عضو تیم با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 # ==================================== گالری صفحه اصلی ====================================
 class AdminGalleryListView(AdminRequiredMixin, ListView):
@@ -322,19 +343,31 @@ class AdminGalleryListView(AdminRequiredMixin, ListView):
 class AdminGalleryCreateView(AdminRequiredMixin, CreateView):
     model = GalleryModel
     form_class = GalleryForm
-    template_name = "dashboard/admin/gallery/gallery-form.html"
+    template_name = "dashboard/admin/gallery/gallery-create.html"
     success_url = reverse_lazy("dashboard:admin:gallery-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "تصویر با موفقیت اضافه شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 class AdminGalleryUpdateView(AdminRequiredMixin, UpdateView):
     model = GalleryModel
     form_class = GalleryForm
-    template_name = "dashboard/admin/gallery/gallery-form.html"
+    template_name = "dashboard/admin/gallery/gallery-update.html"
     success_url = reverse_lazy("dashboard:admin:gallery-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "تصویر با موفقیت ویرایش شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 class AdminGalleryDeleteView(AdminRequiredMixin, DeleteView):
     model = GalleryModel
-    template_name = "dashboard/admin/gallery/gallery-confirm-delete.html"
+    template_name = "dashboard/admin/gallery/gallery-delete.html"
     success_url = reverse_lazy("dashboard:admin:gallery-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "تصویر با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 # ==================================== بلاگ ====================================
 class AdminBlogListView(AdminRequiredMixin, ListView):
@@ -470,5 +503,199 @@ class AdminCommentDeleteView(AdminRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         messages.success(self.request, "نظر با موفقیت حذف شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+# ---------------------------- پروژه ها ----------------------------
+class AdminProjectListView(AdminRequiredMixin, ListView):
+    model = ProjectModel
+    template_name = "dashboard/admin/projects/projects/project-list.html"
+    context_object_name = "projects"
+    paginate_by = 15
+
+    def get_queryset(self):
+        queryset = ProjectModel.objects.all()
+        q = self.request.GET.get("q", "").strip()
+        if q:
+            queryset = queryset.filter(title__icontains=q)
+        return queryset
+# ======================================================================================================================
+class AdminProjectCreateView(AdminRequiredMixin, CreateView):
+    model = ProjectModel
+    form_class = ProjectForm
+    template_name = "dashboard/admin/projects/projects/project-create.html"
+    success_url = reverse_lazy("dashboard:admin:project-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "پروژه با موفقیت اضافه شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminProjectUpdateView(AdminRequiredMixin, UpdateView):
+    model = ProjectModel
+    form_class = ProjectForm
+    template_name = "dashboard/admin/projects/projects/project-update.html"
+    success_url = reverse_lazy("dashboard:admin:project-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "پروژه با موفقیت ویرایش شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminProjectDeleteView(AdminRequiredMixin, DeleteView):
+    model = ProjectModel
+    template_name = "dashboard/admin/projects/projects/project-delete.html"
+    success_url = reverse_lazy("dashboard:admin:project-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "پروژه با موفقیت حذف شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+# ---------------------------- دسته‌بندی پروژه ----------------------------
+class AdminProjectCategoryListView(AdminRequiredMixin, ListView):
+    model = ProjectCategoryModel
+    template_name = "dashboard/admin/projects/categories/project-category-list.html"
+    context_object_name = "categories"
+# ======================================================================================================================
+class AdminProjectCategoryCreateView(AdminRequiredMixin, CreateView):
+    model = ProjectCategoryModel
+    form_class = ProjectCategoryForm
+    template_name = "dashboard/admin/projects/categories/project-category-create.html"
+    success_url = reverse_lazy("dashboard:admin:project-category-list")
+# ======================================================================================================================
+class AdminProjectCategoryUpdateView(AdminRequiredMixin, UpdateView):
+    model = ProjectCategoryModel
+    form_class = ProjectCategoryForm
+    template_name = "dashboard/admin/projects/categories/project-category-update.html"
+    success_url = reverse_lazy("dashboard:admin:project-category-list")
+# ======================================================================================================================
+class AdminProjectCategoryDeleteView(AdminRequiredMixin, DeleteView):
+    model = ProjectCategoryModel
+    template_name = "dashboard/admin/projects/categories/project-category-delete.html"
+    success_url = reverse_lazy("dashboard:admin:project-category-list")
+# ======================================================================================================================
+# ==================================== خبرنامه ====================================
+class AdminNewsletterListView(AdminRequiredMixin, ListView):
+    model = NewsletterSubscriberModel
+    template_name = "dashboard/admin/contacts/newsletter-list.html"
+    context_object_name = "subscribers"
+    paginate_by = 20
+
+    def get_queryset(self):
+        queryset = NewsletterSubscriberModel.objects.all().order_by("-subscribed_date")
+        q = self.request.GET.get("q", "").strip()
+        if q:
+            queryset = queryset.filter(email__icontains=q)
+        return queryset
+# ======================================================================================================================
+class AdminNewsletterDeleteView(AdminRequiredMixin, DeleteView):
+    model = NewsletterSubscriberModel
+    template_name = "dashboard/admin/contacts/newsletter-delete.html"
+    success_url = reverse_lazy("dashboard:admin:newsletter-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "مشترک با موفقیت حذف شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+# ==================================== سابقه شرکت ====================================
+class AdminHistoryListView(AdminRequiredMixin, ListView):
+    model = HistoryItemModel
+    template_name = "dashboard/admin/contacts/history-list.html"
+    context_object_name = "history_items"
+# ======================================================================================================================
+class AdminHistoryCreateView(AdminRequiredMixin, CreateView):
+    model = HistoryItemModel
+    form_class = HistoryItemForm
+    template_name = "dashboard/admin/contacts/history-create.html"
+    success_url = reverse_lazy("dashboard:admin:history-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "آیتم سابقه با موفقیت اضافه شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminHistoryUpdateView(AdminRequiredMixin, UpdateView):
+    model = HistoryItemModel
+    form_class = HistoryItemForm
+    template_name = "dashboard/admin/contacts/history-update.html"
+    success_url = reverse_lazy("dashboard:admin:history-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "آیتم سابقه با موفقیت ویرایش شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminHistoryDeleteView(AdminRequiredMixin, DeleteView):
+    model = HistoryItemModel
+    template_name = "dashboard/admin/contacts/history-delete.html"
+    success_url = reverse_lazy("dashboard:admin:history-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "آیتم سابقه با موفقیت حذف شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+# ==================================== مراحل کاری ====================================
+class AdminProcessListView(AdminRequiredMixin, ListView):
+    model = ProcessStepModel
+    template_name = "dashboard/admin/contacts/process-list.html"
+    context_object_name = "process_steps"
+# ======================================================================================================================
+class AdminProcessCreateView(AdminRequiredMixin, CreateView):
+    model = ProcessStepModel
+    form_class = ProcessStepForm
+    template_name = "dashboard/admin/contacts/process-create.html"
+    success_url = reverse_lazy("dashboard:admin:process-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "مرحله کاری با موفقیت اضافه شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminProcessUpdateView(AdminRequiredMixin, UpdateView):
+    model = ProcessStepModel
+    form_class = ProcessStepForm
+    template_name = "dashboard/admin/contacts/process-update.html"
+    success_url = reverse_lazy("dashboard:admin:process-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "مرحله کاری با موفقیت ویرایش شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminProcessDeleteView(AdminRequiredMixin, DeleteView):
+    model = ProcessStepModel
+    template_name = "dashboard/admin/contacts/process-delete.html"
+    success_url = reverse_lazy("dashboard:admin:process-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "مرحله کاری با موفقیت حذف شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+# ==================================== جوایز ====================================
+class AdminAwardListView(AdminRequiredMixin, ListView):
+    model = AwardModel
+    template_name = "dashboard/admin/contacts/award-list.html"
+    context_object_name = "awards"
+# ======================================================================================================================
+class AdminAwardCreateView(AdminRequiredMixin, CreateView):
+    model = AwardModel
+    form_class = AwardForm
+    template_name = "dashboard/admin/contacts/award-create.html"
+    success_url = reverse_lazy("dashboard:admin:award-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "جایزه با موفقیت اضافه شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminAwardUpdateView(AdminRequiredMixin, UpdateView):
+    model = AwardModel
+    form_class = AwardForm
+    template_name = "dashboard/admin/contacts/award-update.html"
+    success_url = reverse_lazy("dashboard:admin:award-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "جایزه با موفقیت ویرایش شد.")
+        return super().form_valid(form)
+# ======================================================================================================================
+class AdminAwardDeleteView(AdminRequiredMixin, DeleteView):
+    model = AwardModel
+    template_name = "dashboard/admin/contacts/award-delete.html"
+    success_url = reverse_lazy("dashboard:admin:award-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "جایزه با موفقیت حذف شد.")
         return super().form_valid(form)
 # ======================================================================================================================

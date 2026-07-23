@@ -1,0 +1,25 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}حذف پیام{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:520px;margin:0 auto;">
+    <div class="dash-card-body" style="text-align:center;">
+        <div class="dash-stat-icon" style="margin:0 auto 18px;background:#fdeeee;color:#b3413a;width:60px;height:60px;font-size:22px;">
+            <i class="fa-regular fa-triangle-exclamation"></i>
+        </div>
+        <h3 style="font-size:17px;color:var(--dash-dark);margin-bottom:10px;">حذف پیام</h3>
+        <p style="color:var(--dash-muted);font-size:14px;margin-bottom:26px;">
+            آیا از حذف پیام «{{ object.name }}» مطمئن هستید؟ این عمل غیرقابل بازگشت است.
+        </p>
+        <form method="post" style="display:flex;gap:10px;justify-content:center;">
+            {% csrf_token %}
+            <button type="submit" class="dash-btn dash-btn-danger">
+                <i class="fa-regular fa-trash-can"></i>
+                بله، حذف شود
+            </button>
+            <a href="{% url 'dashboard:admin:message-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

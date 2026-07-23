@@ -1,0 +1,51 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}دسته‌بندی پروژه‌ها{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست دسته‌بندی‌ها ({{ categories|length }})</h3>
+        <a href="{% url 'dashboard:admin:project-category-create' %}" class="dash-btn dash-btn-primary dash-btn-sm">
+            <i class="fa-regular fa-plus"></i>
+            دسته‌بندی جدید
+        </a>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if categories %}
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>تعداد پروژه‌ها</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.title }}</td>
+                    <td>{{ category.projects_list.count }}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'dashboard:admin:project-category-update' category.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                                <i class="fa-regular fa-pen"></i>
+                            </a>
+                            <a href="{% url 'dashboard:admin:project-category-delete' category.id %}" class="dash-btn dash-btn-danger dash-btn-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-folder-open"></i>
+            هنوز دسته‌بندی‌ای ثبت نشده است.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
