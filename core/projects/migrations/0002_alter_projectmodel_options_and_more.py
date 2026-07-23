@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name="projectmodel",
-            name="category",
+            name="categories",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="projects_list",

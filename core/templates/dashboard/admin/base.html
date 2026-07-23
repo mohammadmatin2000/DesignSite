@@ -8,6 +8,18 @@
     داشبورد
 </a>
 
+<div class="dash-nav-group-title">خدمات</div>
+<a class="{% if 'service' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:service-list' %}">
+    <i class="fa-regular fa-briefcase"></i>
+    لیست خدمات
+</a>
+
+<div class="dash-nav-group-title">سفارش‌ها</div>
+<a class="{% if 'order' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:order-list' %}">
+    <i class="fa-regular fa-receipt"></i>
+    سفارش‌ها
+</a>
+
 <div class="dash-nav-group-title">فروشگاه</div>
 <a class="{% if 'product' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:product-list' %}">
     <i class="fa-regular fa-box"></i>
@@ -22,13 +34,9 @@
     برچسب‌ها
 </a>
 
-<div class="dash-nav-group-title">سفارش‌ها</div>
-<a class="{% if 'order' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:order-list' %}">
-    <i class="fa-regular fa-receipt"></i>
-    سفارش‌ها
-</a>
 
-<div class="dash-nav-group-title">محتوا</div>
+
+<div class="dash-nav-group-title">وبلاگ‌ها</div>
 <a class="{% if request.resolver_match.url_name == 'blog-list' %}active{% endif %}" href="{% url 'dashboard:admin:blog-list' %}">
     <i class="fa-regular fa-newspaper"></i>
     مقالات وبلاگ
@@ -46,15 +54,15 @@
     نظرات
 </a>
 
-<div class="dash-nav-group-title">سایت</div>
-<a class="{% if 'service' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:service-list' %}">
-    <i class="fa-regular fa-briefcase"></i>
-    خدمات
-</a>
+
+
+<div class="dash-nav-group-title">تیم</div>
 <a class="{% if 'team' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:team-list' %}">
     <i class="fa-regular fa-users"></i>
     اعضای تیم
 </a>
+
+<div class="dash-nav-group-title">گالری</div>
 <a class="{% if 'gallery' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'dashboard:admin:gallery-list' %}">
     <i class="fa-regular fa-images"></i>
     گالری صفحه اصلی

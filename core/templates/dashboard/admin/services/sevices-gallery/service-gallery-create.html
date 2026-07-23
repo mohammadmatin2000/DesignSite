@@ -1,0 +1,33 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}افزودن تصویر گالری{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:480px;">
+    <div class="dash-card-header">
+        <h3>افزودن تصویر به گالری خدمت</h3>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="dash-form-group">
+                <label>خدمت مرتبط</label>
+                {{ form.service }}
+                {% if form.service.errors %}<div class="dash-form-errors">{{ form.service.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="dash-form-group">
+                <label>تصویر</label>
+                {{ form.image }}
+                {% if form.image.errors %}<div class="dash-form-errors">{{ form.image.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    افزودن
+                </button>
+                <a href="{% url 'dashboard:admin:service-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

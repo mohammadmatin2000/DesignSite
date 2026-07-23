@@ -11,6 +11,7 @@ urlpatterns = [
     path("order/", views.AdminOrderListView.as_view(), name="order-list"),
     path("order/<int:pk>/", views.AdminOrderDetailView.as_view(), name="order-detail"),
     path("order/<int:pk>/update-status/", views.AdminOrderUpdateStatusView.as_view(), name="order-update-status"),
+    path("order/<int:pk>/delete/", views.AdminOrderDeleteView.as_view(), name="order-delete"),
 
     # پیام‌ها
     path("messages/", views.AdminMessageListView.as_view(), name="message-list"),
@@ -24,10 +25,10 @@ urlpatterns = [
     path("products/<int:pk>/delete/", views.AdminProductDeleteView.as_view(), name="product-delete"),
 
     # دسته‌بندی و برچسب شاپ
-    path("categories/", views.AdminCategoryListView.as_view(), name="category-list"),
-    path("categories/create/", views.AdminCategoryCreateView.as_view(), name="category-create"),
-    path("categories/<int:pk>/update/", views.AdminCategoryUpdateView.as_view(), name="category-update"),
-    path("categories/<int:pk>/delete/", views.AdminCategoryDeleteView.as_view(), name="category-delete"),
+    path("category/", views.AdminCategoryListView.as_view(), name="category-list"),
+    path("category/create/", views.AdminCategoryCreateView.as_view(), name="category-create"),
+    path("category/<int:pk>/update/", views.AdminCategoryUpdateView.as_view(), name="category-update"),
+    path("category/<int:pk>/delete/", views.AdminCategoryDeleteView.as_view(), name="category-delete"),
 
     path("tags/", views.AdminTagListView.as_view(), name="tag-list"),
     path("tags/create/", views.AdminTagCreateView.as_view(), name="tag-create"),
@@ -61,10 +62,10 @@ urlpatterns = [
     path("blog/<int:pk>/delete/", views.AdminBlogDeleteView.as_view(), name="blog-delete"),
 
     # دسته‌بندی و برچسب بلاگ
-    path("blog/categories/", views.AdminBlogCategoryListView.as_view(), name="blog-category-list"),
-    path("blog/categories/create/", views.AdminBlogCategoryCreateView.as_view(), name="blog-category-create"),
-    path("blog/categories/<int:pk>/update/", views.AdminBlogCategoryUpdateView.as_view(), name="blog-category-update"),
-    path("blog/categories/<int:pk>/delete/", views.AdminBlogCategoryDeleteView.as_view(), name="blog-category-delete"),
+    path("blog/category/", views.AdminBlogCategoryListView.as_view(), name="blog-category-list"),
+    path("blog/category/create/", views.AdminBlogCategoryCreateView.as_view(), name="blog-category-create"),
+    path("blog/category/<int:pk>/update/", views.AdminBlogCategoryUpdateView.as_view(), name="blog-category-update"),
+    path("blog/category/<int:pk>/delete/", views.AdminBlogCategoryDeleteView.as_view(), name="blog-category-delete"),
 
     path("blog/tags/", views.AdminBlogTagListView.as_view(), name="blog-tag-list"),
     path("blog/tags/create/", views.AdminBlogTagCreateView.as_view(), name="blog-tag-create"),

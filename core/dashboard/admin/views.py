@@ -12,14 +12,11 @@ from services.models import ServiceModel, ServiceGalleryModel
 from team.models import TeamModels
 from index.models import GalleryModel
 from blog.models import BlogModels, CategoryModels as BlogCategoryModels, TagModel as BlogTagModel, CommentModel
-
 from .forms import (
     ProductForm, CategoryForm, TagForm,
     ServiceForm, ServiceGalleryForm, TeamForm, GalleryForm,
     BlogForm, BlogCategoryForm, BlogTagForm,
 )
-
-
 # ======================================================================================================================
 # میکسین مشترک برای همه‌ی ویوهای ادمین
 class AdminRequiredMixin(LoginRequiredMixin, HasAdminPermission):
@@ -49,14 +46,19 @@ class AdminHomeView(AdminRequiredMixin, TemplateView):
 class AdminOrderListView(AdminRequiredMixin, ListView):
     model = OrderModel
     template_name = "dashboard/admin/order/order-list.html"
-    context_object_name = "order"
+    context_object_name = "orders"
     paginate_by = 15
 
     def get_queryset(self):
         queryset = OrderModel.objects.all()
         status = self.request.GET.get("status")
+        q = self.request.GET.get("q")
+
         if status:
             queryset = queryset.filter(status=status)
+        if q:
+            queryset = queryset.filter(full_name__icontains=q)
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -68,7 +70,7 @@ class AdminOrderListView(AdminRequiredMixin, ListView):
 class AdminOrderDetailView(AdminRequiredMixin, DetailView):
     model = OrderModel
     template_name = "dashboard/admin/order/order-detail.html"
-    context_object_name = "order"
+    context_object_name = "orders"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -88,7 +90,17 @@ class AdminOrderUpdateStatusView(AdminRequiredMixin, View):
         else:
             messages.error(request, "وضعیت نامعتبر است.")
 
-        return redirect("dashboard:admin:order-detail", pk=order.id)
+        return redirect("dashboard:admin:order-list")
+# ======================================================================================================================
+# ======================================================================================================================
+class AdminOrderDeleteView(AdminRequiredMixin, DeleteView):
+    model = OrderModel
+    template_name = "dashboard/admin/order/order-delete.html"
+    success_url = reverse_lazy("dashboard:admin:order-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "سفارش با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 # ==================================== پیام‌ها ====================================
 class AdminMessageListView(AdminRequiredMixin, ListView):
@@ -121,10 +133,11 @@ class AdminMessageDeleteView(AdminRequiredMixin, DeleteView):
         messages.success(self.request, "پیام با موفقیت حذف شد.")
         return super().form_valid(form)
 # ======================================================================================================================
+# ======================================================================================================================
 # ==================================== محصولات ====================================
 class AdminProductListView(AdminRequiredMixin, ListView):
     model = ProductModels
-    template_name = "dashboard/admin/products/product-list.html"
+    template_name = "dashboard/admin/products/products/product-list.html"
     context_object_name = "products"
     paginate_by = 15
 
@@ -138,7 +151,7 @@ class AdminProductListView(AdminRequiredMixin, ListView):
 class AdminProductCreateView(AdminRequiredMixin, CreateView):
     model = ProductModels
     form_class = ProductForm
-    template_name = "dashboard/admin/products/product-form.html"
+    template_name = "dashboard/admin/products/products/product-create.html"
     success_url = reverse_lazy("dashboard:admin:product-list")
 
     def form_valid(self, form):
@@ -148,7 +161,7 @@ class AdminProductCreateView(AdminRequiredMixin, CreateView):
 class AdminProductUpdateView(AdminRequiredMixin, UpdateView):
     model = ProductModels
     form_class = ProductForm
-    template_name = "dashboard/admin/products/product-form.html"
+    template_name = "dashboard/admin/products/products/product-update.html"
     success_url = reverse_lazy("dashboard:admin:product-list")
 
     def form_valid(self, form):
@@ -157,7 +170,7 @@ class AdminProductUpdateView(AdminRequiredMixin, UpdateView):
 # ======================================================================================================================
 class AdminProductDeleteView(AdminRequiredMixin, DeleteView):
     model = ProductModels
-    template_name = "dashboard/admin/products/product-confirm-delete.html"
+    template_name = "dashboard/admin/products/products/product-delete.html"
     success_url = reverse_lazy("dashboard:admin:product-list")
 
     def form_valid(self, form):
@@ -167,59 +180,66 @@ class AdminProductDeleteView(AdminRequiredMixin, DeleteView):
 # ---------------------------- دسته‌بندی و برچسب شاپ ----------------------------
 class AdminCategoryListView(AdminRequiredMixin, ListView):
     model = CategoryModels
-    template_name = "dashboard/admin/products/category-list.html"
+    template_name = "dashboard/admin/products/categories/category-list.html"
     context_object_name = "categories"
 # ======================================================================================================================
 class AdminCategoryCreateView(AdminRequiredMixin, CreateView):
     model = CategoryModels
     form_class = CategoryForm
-    template_name = "dashboard/admin/products/category-form.html"
+    template_name = "dashboard/admin/products/categories/category-create.html"
     success_url = reverse_lazy("dashboard:admin:category-list")
 # ======================================================================================================================
 class AdminCategoryUpdateView(AdminRequiredMixin, UpdateView):
     model = CategoryModels
     form_class = CategoryForm
-    template_name = "dashboard/admin/products/category-form.html"
+    template_name = "dashboard/admin/products/categories/category-update.html"
     success_url = reverse_lazy("dashboard:admin:category-list")
 # ======================================================================================================================
 class AdminCategoryDeleteView(AdminRequiredMixin, DeleteView):
     model = CategoryModels
-    template_name = "dashboard/admin/products/category-confirm-delete.html"
+    template_name = "dashboard/admin/products/categories/category-delete.html"
     success_url = reverse_lazy("dashboard:admin:category-list")
 # ======================================================================================================================
 class AdminTagListView(AdminRequiredMixin, ListView):
     model = TagModels
-    template_name = "dashboard/admin/products/tag-list.html"
+    template_name = "dashboard/admin/products/tags/tag-list.html"
     context_object_name = "tags"
 # ======================================================================================================================
 class AdminTagCreateView(AdminRequiredMixin, CreateView):
     model = TagModels
     form_class = TagForm
-    template_name = "dashboard/admin/products/tag-form.html"
+    template_name = "dashboard/admin/products/tags/tag-create.html"
     success_url = reverse_lazy("dashboard:admin:tag-list")
 # ======================================================================================================================
 class AdminTagUpdateView(AdminRequiredMixin, UpdateView):
     model = TagModels
     form_class = TagForm
-    template_name = "dashboard/admin/products/tag-form.html"
+    template_name = "dashboard/admin/products/tags/tag-update.html"
     success_url = reverse_lazy("dashboard:admin:tag-list")
 # ======================================================================================================================
 class AdminTagDeleteView(AdminRequiredMixin, DeleteView):
     model = TagModels
-    template_name = "dashboard/admin/products/tag-confirm-delete.html"
+    template_name = "dashboard/admin/products/tags/tag-delete.html"
     success_url = reverse_lazy("dashboard:admin:tag-list")
 # ======================================================================================================================
 # ==================================== خدمات ====================================
 class AdminServiceListView(AdminRequiredMixin, ListView):
     model = ServiceModel
-    template_name = "dashboard/admin/services/service-list.html"
+    template_name = "dashboard/admin/services/services/service-list.html"
     context_object_name = "services"
     paginate_by = 15
+
+    def get_queryset(self):
+        queryset = ServiceModel.objects.all()
+        q = self.request.GET.get("q")
+        if q:
+            queryset = queryset.filter(title__icontains=q)
+        return queryset
 # ======================================================================================================================
 class AdminServiceCreateView(AdminRequiredMixin, CreateView):
     model = ServiceModel
     form_class = ServiceForm
-    template_name = "dashboard/admin/services/service-form.html"
+    template_name = "dashboard/admin/services/services/service-create.html"
     success_url = reverse_lazy("dashboard:admin:service-list")
 
     def form_valid(self, form):
@@ -229,7 +249,7 @@ class AdminServiceCreateView(AdminRequiredMixin, CreateView):
 class AdminServiceUpdateView(AdminRequiredMixin, UpdateView):
     model = ServiceModel
     form_class = ServiceForm
-    template_name = "dashboard/admin/services/service-form.html"
+    template_name = "dashboard/admin/services/services/service-update.html"
     success_url = reverse_lazy("dashboard:admin:service-list")
 
     def form_valid(self, form):
@@ -238,20 +258,24 @@ class AdminServiceUpdateView(AdminRequiredMixin, UpdateView):
 # ======================================================================================================================
 class AdminServiceDeleteView(AdminRequiredMixin, DeleteView):
     model = ServiceModel
-    template_name = "dashboard/admin/services/service-confirm-delete.html"
+    template_name = "dashboard/admin/services/services/service-delete.html"
     success_url = reverse_lazy("dashboard:admin:service-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "خدمت با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 class AdminServiceGalleryCreateView(AdminRequiredMixin, CreateView):
     model = ServiceGalleryModel
     form_class = ServiceGalleryForm
-    template_name = "dashboard/admin/services/service-gallery-form.html"
+    template_name = "dashboard/admin/services/services-gallery/service-gallery-create.html"
 
     def get_success_url(self):
         return reverse_lazy("dashboard:admin:service-update", kwargs={"pk": self.object.service.id})
 # ======================================================================================================================
 class AdminServiceGalleryDeleteView(AdminRequiredMixin, DeleteView):
     model = ServiceGalleryModel
-    template_name = "dashboard/admin/services/service-gallery-confirm-delete.html"
+    template_name = "dashboard/admin/services/services-gallery/service-gallery-delete.html"
 
     def get_success_url(self):
         return reverse_lazy("dashboard:admin:service-update", kwargs={"pk": self.object.service.id})
@@ -315,7 +339,7 @@ class AdminGalleryDeleteView(AdminRequiredMixin, DeleteView):
 # ==================================== بلاگ ====================================
 class AdminBlogListView(AdminRequiredMixin, ListView):
     model = BlogModels
-    template_name = "dashboard/admin/blog/blog-list.html"
+    template_name = "dashboard/admin/blog/blogs/blog-list.html"
     context_object_name = "blogs"
     paginate_by = 15
 
@@ -338,7 +362,7 @@ class AdminBlogListView(AdminRequiredMixin, ListView):
 class AdminBlogCreateView(AdminRequiredMixin, CreateView):
     model = BlogModels
     form_class = BlogForm
-    template_name = "dashboard/admin/blog/blog-form.html"
+    template_name = "dashboard/admin/blog/blogs/blog-create.html"
     success_url = reverse_lazy("dashboard:admin:blog-list")
 
     def form_valid(self, form):
@@ -348,7 +372,7 @@ class AdminBlogCreateView(AdminRequiredMixin, CreateView):
 class AdminBlogUpdateView(AdminRequiredMixin, UpdateView):
     model = BlogModels
     form_class = BlogForm
-    template_name = "dashboard/admin/blog/blog-form.html"
+    template_name = "dashboard/admin/blog/blogs/blog-update.html"
     success_url = reverse_lazy("dashboard:admin:blog-list")
 
     def form_valid(self, form):
@@ -357,58 +381,62 @@ class AdminBlogUpdateView(AdminRequiredMixin, UpdateView):
 # ======================================================================================================================
 class AdminBlogDeleteView(AdminRequiredMixin, DeleteView):
     model = BlogModels
-    template_name = "dashboard/admin/blog/blog-confirm-delete.html"
+    template_name = "dashboard/admin/blog/blogs/blog-delete.html"
     success_url = reverse_lazy("dashboard:admin:blog-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "مقاله با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================
 # ---------------------------- دسته‌بندی و برچسب بلاگ ----------------------------
 class AdminBlogCategoryListView(AdminRequiredMixin, ListView):
     model = BlogCategoryModels
-    template_name = "dashboard/admin/blog/blog-category-list.html"
+    template_name = "dashboard/admin/blog/categories/blog-category-list.html"
     context_object_name = "categories"
 # ======================================================================================================================
 class AdminBlogCategoryCreateView(AdminRequiredMixin, CreateView):
     model = BlogCategoryModels
     form_class = BlogCategoryForm
-    template_name = "dashboard/admin/blog/blog-category-form.html"
+    template_name = "dashboard/admin/blog/categories/blog-category-create.html"
     success_url = reverse_lazy("dashboard:admin:blog-category-list")
 # ======================================================================================================================
 class AdminBlogCategoryUpdateView(AdminRequiredMixin, UpdateView):
     model = BlogCategoryModels
     form_class = BlogCategoryForm
-    template_name = "dashboard/admin/blog/blog-category-form.html"
+    template_name = "dashboard/admin/blog/categories/blog-category-update.html"
     success_url = reverse_lazy("dashboard:admin:blog-category-list")
 # ======================================================================================================================
 class AdminBlogCategoryDeleteView(AdminRequiredMixin, DeleteView):
     model = BlogCategoryModels
-    template_name = "dashboard/admin/blog/blog-category-confirm-delete.html"
+    template_name = "dashboard/admin/blog/categories/blog-category-delete.html"
     success_url = reverse_lazy("dashboard:admin:blog-category-list")
 # ======================================================================================================================
 class AdminBlogTagListView(AdminRequiredMixin, ListView):
     model = BlogTagModel
-    template_name = "dashboard/admin/blog/blog-tag-list.html"
+    template_name = "dashboard/admin/blog/tags/blog-tag-list.html"
     context_object_name = "tags"
 # ======================================================================================================================
 class AdminBlogTagCreateView(AdminRequiredMixin, CreateView):
     model = BlogTagModel
     form_class = BlogTagForm
-    template_name = "dashboard/admin/blog/blog-tag-form.html"
+    template_name = "dashboard/admin/blog/tags/blog-tag-create.html"
     success_url = reverse_lazy("dashboard:admin:blog-tag-list")
 # ======================================================================================================================
 class AdminBlogTagUpdateView(AdminRequiredMixin, UpdateView):
     model = BlogTagModel
     form_class = BlogTagForm
-    template_name = "dashboard/admin/blog/blog-tag-form.html"
+    template_name = "dashboard/admin/blog/tags/blog-tag-update.html"
     success_url = reverse_lazy("dashboard:admin:blog-tag-list")
 # ======================================================================================================================
 class AdminBlogTagDeleteView(AdminRequiredMixin, DeleteView):
     model = BlogTagModel
-    template_name = "dashboard/admin/blog/blog-tag-confirm-delete.html"
+    template_name = "dashboard/admin/blog/tags/blog-tag-delete.html"
     success_url = reverse_lazy("dashboard:admin:blog-tag-list")
 # ======================================================================================================================
 # ---------------------------- نظرات بلاگ ----------------------------
 class AdminCommentListView(AdminRequiredMixin, ListView):
     model = CommentModel
-    template_name = "dashboard/admin/blog/comment-list.html"
+    template_name = "dashboard/admin/blog/comments/comment-list.html"
     context_object_name = "comments"
     paginate_by = 20
 
@@ -420,6 +448,11 @@ class AdminCommentListView(AdminRequiredMixin, ListView):
         elif status == "pending":
             queryset = queryset.filter(is_approved=False)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["current_status"] = self.request.GET.get("status", "")
+        return context
 # ======================================================================================================================
 class AdminCommentApproveView(AdminRequiredMixin, View):
 
@@ -432,6 +465,10 @@ class AdminCommentApproveView(AdminRequiredMixin, View):
 # ======================================================================================================================
 class AdminCommentDeleteView(AdminRequiredMixin, DeleteView):
     model = CommentModel
-    template_name = "dashboard/admin/blog/comment-confirm-delete.html"
+    template_name = "dashboard/admin/blog/comments/comment-delete.html"
     success_url = reverse_lazy("dashboard:admin:comment-list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "نظر با موفقیت حذف شد.")
+        return super().form_valid(form)
 # ======================================================================================================================

@@ -29,7 +29,7 @@ class ProductListView(ListView):
         queryset = ProductModels.objects.filter(is_available=True)
 
         # فیلتر بر اساس دسته‌بندی (پشتیبانی از چند دسته هم‌زمان)
-        categories = self.request.GET.getlist("category")
+        categories = self.request.GET.getlist("categories")
         if categories:
             queryset = queryset.filter(category__slug__in=categories)
 
@@ -78,7 +78,7 @@ class ProductListView(ListView):
         ).order_by("-views")[:4]
 
         # حفظ مقادیر فیلتر فعلی برای نمایش در فرم
-        context["selected_categories"] = self.request.GET.getlist("category")
+        context["selected_categories"] = self.request.GET.getlist("categories")
         context["current_search"] = self.request.GET.get("q", "")
         context["current_sort"] = self.request.GET.get("sort", "")
 

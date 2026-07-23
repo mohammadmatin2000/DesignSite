@@ -1,0 +1,117 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}{% if object %}ویرایش خدمت{% else %}افزودن خدمت{% endif %}{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>{% if object %}ویرایش خدمت: {{ object.title }}{% else %}افزودن خدمت جدید{% endif %}</h3>
+        <a href="{% url 'dashboard:admin:service-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت به لیست
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% if object and object.image %}
+            <img class="dash-form-img-preview" src="{{ object.image.url }}" alt="{{ object.title }}"/>
+            {% endif %}
+
+            <div class="dash-form-group">
+                <label>عنوان خدمت</label>
+                {{ form.title }}
+                {% if form.title.errors %}<div class="dash-form-errors">{{ form.title.errors|striptags }}</div>{% endif %}
+            </div>
+
+            <div class="dash-form-group">
+                <label>تصویر شاخص</label>
+                {{ form.image }}
+                {% if form.image.errors %}<div class="dash-form-errors">{{ form.image.errors|striptags }}</div>{% endif %}
+            </div>
+
+            <div class="dash-form-group">
+                <label>توضیح کوتاه (کارت لیست)</label>
+                {{ form.description }}
+            </div>
+
+            <div class="dash-form-group">
+                <label>در مورد خدمات</label>
+                {{ form.about_service }}
+            </div>
+
+            <div class="dash-form-group">
+                <label>انواع فضاها</label>
+                {{ form.spaces_description }}
+            </div>
+
+            <div class="dash-form-group">
+                <label>عناصر کلیدی</label>
+                {{ form.key_elements_description }}
+            </div>
+
+            <div class="dash-form-row">
+                <div class="dash-form-group">
+                    <label>ترتیب نمایش</label>
+                    {{ form.order }}
+                </div>
+                <div class="dash-form-group dash-form-check" style="align-self:center;margin-top:24px;">
+                    {{ form.is_active }}
+                    <label style="margin:0;">نمایش در سایت</label>
+                </div>
+            </div>
+
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    {% if object %}ذخیره تغییرات{% else %}افزودن خدمت{% endif %}
+                </button>
+                <a href="{% url 'dashboard:admin:service-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if object %}
+<div class="dash-card" style="margin-top:22px;">
+    <div class="dash-card-header">
+        <h3>گالری تصاویر این خدمت</h3>
+    </div>
+    <div class="dash-card-body">
+        <div class="row gy-3" style="margin-bottom:20px;">
+            {% for img in object.gallery.all %}
+            <div class="col-lg-2 col-md-3 col-4">
+                <div style="position:relative;border:1px solid var(--dash-border);border-radius:10px;overflow:hidden;">
+                    <img src="{{ img.image.url }}" alt="" style="width:100%;height:90px;object-fit:cover;display:block;"/>
+                    <form method="post" action="{% url 'dashboard:admin:service-gallery-delete' img.id %}" style="position:absolute;top:6px;left:6px;">
+                        {% csrf_token %}
+                        <button type="submit" style="width:26px;height:26px;border-radius:50%;border:none;background:#b3413a;color:#fff;cursor:pointer;font-size:11px;">
+                            <i class="fa-regular fa-xmark"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p style="color:var(--dash-muted);font-size:13px;">هنوز تصویری به گالری اضافه نشده است.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'dashboard:admin:service-gallery-create' %}" style="display:flex;gap:10px;align-items:flex-end;">
+            {% csrf_token %}
+            <input type="hidden" name="service" value="{{ object.id }}"/>
+            <div class="dash-form-group" style="flex:1;margin:0;">
+                <label>افزودن تصویر جدید به گالری</label>
+                <input type="file" name="image" accept="image/*" required/>
+            </div>
+            <button type="submit" class="dash-btn dash-btn-primary">
+                <i class="fa-regular fa-plus"></i>
+                افزودن
+            </button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

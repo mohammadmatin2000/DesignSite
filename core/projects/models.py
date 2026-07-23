@@ -31,7 +31,7 @@ class ProjectModel(models.Model):
     )
 
     # دسته‌بندی‌های اضافه (اختیاری - برای چند تگ روی هر کارت)
-    extra_categories = models.ManyToManyField(
+    extra_category = models.ManyToManyField(
         ProjectCategoryModel,
         related_name="projects_extra",
         blank=True,

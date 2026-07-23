@@ -1,0 +1,100 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}مقالات وبلاگ{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست مقالات ({{ blogs.paginator.count|default:blogs|length }})</h3>
+        <div style="display:flex;gap:10px;align-items:center;">
+            <form method="get" style="position:relative;">
+                <input type="text" name="q" value="{{ request.GET.q }}" placeholder="کلمات کلیدی را اینجا تایپ کنید..."
+                       style="border:1px solid var(--dash-border);border-radius:9px;padding:9px 44px 9px 14px;font-size:13px;width:260px;background:var(--dash-bg);color:var(--dash-dark);"/>
+                <button type="submit"
+                        style="position:absolute;top:50%;inset-inline-end:12px;transform:translateY(-50%);border:none;background:transparent;color:var(--dash-muted);cursor:pointer;padding:0;">
+                    <i class="fa-regular fa-magnifying-glass"></i>
+                </button>
+            </form>
+            <select onchange="location.href='?status='+this.value" style="border:1px solid var(--dash-border);border-radius:9px;padding:9px 14px;font-size:13px;">
+                <option value="">همه وضعیت‌ها</option>
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <a href="{% url 'dashboard:admin:blog-create' %}" class="dash-btn dash-btn-primary dash-btn-sm">
+                <i class="fa-regular fa-plus"></i>
+                مقاله جدید
+            </a>
+        </div>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if blogs %}
+        <div style="overflow-x:auto;">
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>تصویر</th>
+                    <th>عنوان</th>
+                    <th>دسته‌بندی</th>
+                    <th>بازدید</th>
+                    <th>وضعیت</th>
+                    <th>تاریخ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td><img class="dash-table-img" src="{{ blog.image.url }}" alt="{{ blog.title }}"/></td>
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.category.title|default:"—" }}</td>
+                    <td>{{ blog.views }}</td>
+                    <td>
+                        {% if blog.status == "published" %}
+                        <span class="dash-badge dash-badge-green">منتشر شده</span>
+                        {% else %}
+                        <span class="dash-badge dash-badge-gray">پیش‌نویس</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ blog.created_date|date:"Y/m/d" }}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'dashboard:admin:blog-update' blog.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                                <i class="fa-regular fa-pen"></i>
+                            </a>
+                            <a href="{% url 'dashboard:admin:blog-delete' blog.id %}" class="dash-btn dash-btn-danger dash-btn-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+        {% if is_paginated %}
+        <div style="padding:22px;">
+            <ul class="dash-pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="fa-regular fa-arrow-right"></i></a></li>
+                {% endif %}
+                {% for num in paginator.page_range %}
+                <li><a class="{% if num == page_obj.number %}active{% endif %}" href="?page={{ num }}">{{ num }}</a></li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}"><i class="fa-regular fa-arrow-left"></i></a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-newspaper"></i>
+            هنوز مقاله‌ای ثبت نشده است.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

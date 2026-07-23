@@ -1,0 +1,32 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}{% if object %}ویرایش برچسب{% else %}برچسب جدید{% endif %}{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card" style="max-width:520px;">
+    <div class="dash-card-header">
+        <h3>{% if object %}ویرایش برچسب: {{ object.title }}{% else %}افزودن برچسب جدید{% endif %}</h3>
+        <a href="{% url 'dashboard:admin:tag-list' %}" class="dash-btn dash-btn-outline dash-btn-sm">
+            <i class="fa-regular fa-arrow-right"></i>
+            بازگشت
+        </a>
+    </div>
+    <div class="dash-card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="dash-form-group">
+                <label>عنوان برچسب</label>
+                {{ form.title }}
+                {% if form.title.errors %}<div class="dash-form-errors">{{ form.title.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="dash-form-actions">
+                <button type="submit" class="dash-btn dash-btn-primary">
+                    <i class="fa-regular fa-check"></i>
+                    {% if object %}ذخیره تغییرات{% else %}افزودن{% endif %}
+                </button>
+                <a href="{% url 'dashboard:admin:tag-list' %}" class="dash-btn dash-btn-outline">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

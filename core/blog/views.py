@@ -28,7 +28,7 @@ class BlogListView(ListView):
         query = self.request.GET.get("q")
 
         # دریافت پارامتر دسته‌بندی
-        category_id = self.request.GET.get("category")
+        category_id = self.request.GET.get("categories")
 
         # دریافت پارامتر برچسب
         tag_slug = self.request.GET.get("tag")

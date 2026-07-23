@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ("year", models.CharField(max_length=20, verbose_name="سال")),
                 ("title", models.CharField(max_length=255, verbose_name="عنوان جایزه")),
                 (
-                    "category",
+                    "categories",
                     models.CharField(max_length=255, verbose_name="دسته\u200cبندی"),
                 ),
                 (

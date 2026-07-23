@@ -1,0 +1,53 @@
+{% extends 'dashboard/admin/base.html' %}
+{% block page_title %}برچسب‌های محصولات{% endblock %}
+{% block dashboard_content %}
+
+<div class="dash-card">
+    <div class="dash-card-header">
+        <h3>لیست برچسب‌ها ({{ tags|length }})</h3>
+        <a href="{% url 'dashboard:admin:tag-create' %}" class="dash-btn dash-btn-primary dash-btn-sm">
+            <i class="fa-regular fa-plus"></i>
+            برچسب جدید
+        </a>
+    </div>
+    <div class="dash-card-body" style="padding:0;">
+        {% if tags %}
+        <table class="dash-table">
+            <thead>
+                <tr>
+                    <th>عنوان</th>
+                    <th>آدرس (Slug)</th>
+                    <th>تعداد محصولات</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tag in tags %}
+                <tr>
+                    <td>{{ tag.title }}</td>
+                    <td dir="ltr" style="text-align:right;">{{ tag.slug }}</td>
+                    <td>{{ tag.products.count }}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'dashboard:admin:tag-update' tag.id %}" class="dash-btn dash-btn-outline dash-btn-sm">
+                                <i class="fa-regular fa-pen"></i>
+                            </a>
+                            <a href="{% url 'dashboard:admin:tag-delete' tag.id %}" class="dash-btn dash-btn-danger dash-btn-sm">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="dash-empty">
+            <i class="fa-regular fa-tag"></i>
+            هنوز برچسبی ثبت نشده است.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

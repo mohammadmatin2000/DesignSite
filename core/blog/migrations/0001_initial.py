@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
                     models.DateTimeField(auto_now=True, verbose_name="آخرین بروزرسانی"),
                 ),
                 (
-                    "category",
+                    "categories",
                     models.ForeignKey(
                         blank=True,
                         null=True,

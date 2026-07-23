@@ -55,7 +55,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
     # انتخاب راحت‌تر دسته‌بندی‌های اضافه (چندتایی)
     filter_horizontal = (
-        "extra_categories",
+        "extra_category",
     )
 
     # مرتب‌سازی
@@ -66,7 +66,7 @@ class ProjectAdmin(admin.ModelAdmin):
     # گروه‌بندی فیلدها در فرم ادمین برای خوانایی بهتر
     fieldsets = (
         ("اطلاعات اصلی", {
-            "fields": ("title", "slug", "category", "extra_categories", "image")
+            "fields": ("title", "slug", "category", "extra_category", "image")
         }),
         ("اطلاعات نمایش در لیست", {
             "fields": ("location", "year", "description")

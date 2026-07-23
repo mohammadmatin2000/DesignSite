@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ("created_date", models.DateTimeField(auto_now_add=True)),
                 ("updated_date", models.DateTimeField(auto_now=True)),
                 (
-                    "category",
+                    "categories",
                     models.ForeignKey(
                         blank=True,
                         null=True,
